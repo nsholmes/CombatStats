@@ -1,6 +1,8 @@
 .trackerRow {
   display: flex;
   /* width: 50%; */
+  flex-direction: column;
+  gap: 10px;
   justify-content: space-evenly;
 }
 .trackerRow div {
