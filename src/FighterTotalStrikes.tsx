@@ -1,11 +1,19 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
-
+import Stack from '@mui/material/Stack';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
 const blueCornerStats = {
   landed: 0,
   thrown: 0
 }
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  height: '30vh',
+  lineHeight: '60px',
+}));
 
 
 function FighterTotalStrikes() {
@@ -16,40 +24,26 @@ function FighterTotalStrikes() {
   }
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "space-around", gap: "10px", backgroundColor: "#ddd" }}>
-        <Box sx={{ margin: "10px 0px" }}>
-          <Box className="trackerRow trkRowLayout">
-            <Typography variant="h6" color="steelblue">
-              Blue Corner - John Jones
-            </Typography>
-            <Box
-              className="trackerBtn"
-              onClick={() => {
-                trackerClicked("blue", "thrown");
-              }}
-            >
-              <Typography variant="h6">Thrown</Typography>
-            </Box>
-            <Box
-              className="trackerBtn"
-              onClick={() => {
-                trackerClicked("blue", "landed");
-              }}
-            >
-              <Typography variant="h6">Landed</Typography>
-            </Box>
-          </Box>
+      <Stack spacing={1}>
+        <Box sx={{ height: '10vh' }}>
+          <Typography variant="h5">Standup Fight Series</Typography>
+          <Typography variant="h6" color="steelblue">
+            Blue Corner - John Jones
+          </Typography>
+          <Typography variant="body2"> Bout: 2 - Round: 2</Typography>
         </Box>
-      </Box >
-
-      <Box className="statsContainer">
+        <Item elevation={10}
+          onClick={() => {
+            trackerClicked("blue", "thrown");
+          }}>Thrown</Item>
+        <Item elevation={10}
+          onClick={() => {
+            trackerClicked("blue", "landed");
+          }}>Landed</Item>
         <Box>
-          <Typography variant="h5" color="steelblue">Blue Corner</Typography>
-          <Typography variant="h6">Landed: {blueStats.landed}</Typography>
-          <Typography variant="h6">Thrown: {blueStats.thrown}</Typography>
-          <Typography variant="h6">Percent: {(((blueStats.landed) / (blueStats.thrown) * 100)).toFixed(2)}%</Typography>
+          <Typography variant="body2">Landed: {blueStats.landed} - Thrown: {blueStats.thrown} - Percent: {(((blueStats.landed) / (blueStats.thrown) * 100)).toFixed(2)}%</Typography>
         </Box>
-      </Box>
+      </Stack>
     </>
   );
 }
