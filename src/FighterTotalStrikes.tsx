@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import Stack from '@mui/material/Stack';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 const blueCornerStats = {
   landed: 0,
@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 function FighterTotalStrikes() {
   const [blueStats, setBlueStats] = useState(blueCornerStats);
   const trackerClicked = (corner: string, target: string) => {
-    console.log("Blue Clicked");
+    console.log("Blue Clicked: ", corner);
     setBlueStats(target === "landed" ? { landed: blueStats.landed + 1, thrown: blueStats.thrown + 1 } : { ...blueStats, thrown: blueStats.thrown + 1 });
   }
   return (

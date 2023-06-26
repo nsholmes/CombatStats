@@ -15,10 +15,17 @@ function TargetedStrikes() {
   const [fighterStats, setFighterStats] = useState(stats);
 
   const trackerClicked = (target: string) => {
-    // ts-ignore
+
     console.log()
     console.log(`target: ${target}`);
-    setFighterStats({ ...fighterStats, [target]: fighterStats[target] + 1 });
+    setFighterStats({
+      headkick: 0,
+      bodykick: 0,
+      legkick: 0,
+      headpunch: 0,
+      bodypunch: 0,
+      sweep: 0,
+    });
 
   };
 

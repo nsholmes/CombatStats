@@ -1,10 +1,10 @@
 import "./App.css";
 
-import { useState } from "react";
+// import { useState } from "react";
 
-import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
-import TargetedStrikes from "./TargetedStrikes";
-import TotalStrikes from "./TotalStrikes";
+import { Box, } from "@mui/material";
+// import TargetedStrikes from "./TargetedStrikes";
+// import TotalStrikes from "./TotalStrikes";
 import FighterTotalStrikes from "./FighterTotalStrikes";
 
 function App() {
