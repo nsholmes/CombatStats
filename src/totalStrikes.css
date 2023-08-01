@@ -1,5 +1,6 @@
 .statsContainer{
   display: flex;
   justify-content: space-around;
-  background-color:azure;
+  background-color:#212121;
+  color: #fafafa;
 }

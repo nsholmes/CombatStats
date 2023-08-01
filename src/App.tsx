@@ -12,7 +12,7 @@ function App() {
 
 
   return (
-    <Box sx={{ height: '100%', padding: '5px', backgroundColor: 'azure' }}>
+    <Box sx={{ height: '100%', padding: '5px' }}>
       {/* <StatsBox /> */}
       {/* <FighterTotalStrikes /> */}
       <TotalStrikes />

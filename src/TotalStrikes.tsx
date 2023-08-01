@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import './totalStrikes.css';
+import StatsBox from "./components/StatsBox";
 
 function TotalStrikes() {
 
@@ -42,7 +43,7 @@ function TotalStrikes() {
     const setStats = corner === "red" ? setRedStats : setBlueStats;
     switch (target) {
       case "kickLanded":
-        setStats({ ...cornerStats, kickLanded: cornerStats.kickLanded + 1, kickThrown: cornerStats.kickLanded + 1 });
+        setStats({ ...cornerStats, kickLanded: cornerStats.kickLanded + 1, kickThrown: cornerStats.kickThrown + 1 });
         break;
       case "kickThrown":
         setStats({ ...cornerStats, kickThrown: cornerStats.kickThrown + 1 });
@@ -65,7 +66,7 @@ function TotalStrikes() {
   };
 
   const keyupHandler = (ev: any) => {
-    console.log(ev.key)
+    console.log(ev.target.value)
     switch (ev.key) {
       case "1":
         updateStats("red", "takeDownAttempted");
@@ -127,48 +128,93 @@ function TotalStrikes() {
   }
 
   return (
-    <div>
+    <Box sx={{ backgroundColor: "#0A0A0A" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography sx={{ color: "#FAFAFA" }} variant="h3">Event Name</Typography>
+        <Typography sx={{ color: "#FAFAFA" }} variant="h5">Fight: 1</Typography>
+        <Typography sx={{ color: "#FAFAFA" }} variant="h5">Round: 1</Typography>
+        <Box>
+          <input type="text" onKeyUp={keyupHandler} />
+          <Box>
+            <Button>End Bout</Button>
+            <Button>Next Round</Button>
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "space-around", backgroundColor: "#212121", color: "#fafafa;" }}>
+        <Box>
+          <Box sx={{ color: "#00468b", textAlign: "left" }}>
+            <Typography variant="h2">John Jones</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Punch Thrown: </Typography>
+            <Typography>{blueStats.punchThrown}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">punch Landed: </Typography>
+            <Typography>{blueStats.punchLanded}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Kick Thrown: </Typography>
+            <Typography>{blueStats.kickThrown}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Kick Landed: </Typography>
+            <Typography>{blueStats.kickLanded}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Takedown Attempted: </Typography>
+            <Typography>{blueStats.takeDownAttempted}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Takedown Landed: </Typography>
+            <Typography>{blueStats.takeDownLanded}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Accuracy: </Typography>
+            <Typography>{(((blueStats.punchLanded) / (blueStats.punchThrown) * 100)).toFixed(2)}%</Typography>
+          </Box>
+        </Box>
+        <Box>
+          <Box sx={{ color: "#be0000", textAlign: "left" }}>
+            <Typography variant="h2">Stipe Miocic</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Punch Thrown: </Typography>
+            <Typography>{redStats.punchThrown}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Punch Landed: </Typography>
+            <Typography>{redStats.punchLanded}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Kick Thrown: </Typography>
+            <Typography>{redStats.kickThrown}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Kick Landed: </Typography>
+            <Typography>{redStats.kickLanded}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Takedown Thrown: </Typography>
+            <Typography>{redStats.takeDownAttempted}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Takedown Landed: </Typography>
+            <Typography>{redStats.takeDownLanded}</Typography>
+          </Box>
+          <Box sx={{ fontSize: "1em", display: "flex" }}>
+            <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Accuracy: </Typography>
+            <Typography>{(((redStats.punchLanded) / (redStats.punchThrown) * 100)).toFixed(2)}%</Typography>
+          </Box>
+        </Box>
+      </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "space-around", gap: "10px", backgroundColor: "#ddd" }}>
-        <Box sx={{ margin: "10px 0px" }}>
-          <Box className="trackerRow trkRowLayout">
-            <Typography variant="h6" color="steelblue">
-              Blue Corner - John Jones
-            </Typography>
-          </Box>
-        </Box>
-        <Box sx={{ margin: "10px 0px" }}>
-          <Box className="trackerRow trkRowLayout">
-            <Typography variant="h6" color="red">
-              Red Corner - John Jones
-            </Typography>
-          </Box>
-        </Box>
+      <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
+        <StatsBox />
+        <StatsBox />
       </Box>
-      <Box className="statsContainer">
-        <Box>
-          <Typography variant="h5" color="steelblue">Blue Corner</Typography>
-          <Typography variant="h6">punch Landed: {blueStats.punchLanded}</Typography>
-          <Typography variant="h6">Punch Thrown: {blueStats.punchThrown}</Typography>
-          <Typography variant="h6">Kick Landed: {blueStats.kickLanded}</Typography>
-          <Typography variant="h6">Kick Thrown: {blueStats.kickThrown}</Typography>
-          <Typography variant="h6">Takedown Landed: {blueStats.takeDownLanded}</Typography>
-          <Typography variant="h6">Takedown Attempted: {blueStats.takeDownAttempted}</Typography>
-          <Typography variant="h6">Accuracy: {(((blueStats.punchLanded) / (blueStats.punchThrown) * 100)).toFixed(2)}%</Typography>
-        </Box>
-        <Box>
-          <Typography variant="h5" color="red">Red Corner</Typography>
-          <Typography variant="h6">Punch Landed: {redStats.punchLanded}</Typography>
-          <Typography variant="h6">Punch Thrown: {redStats.punchThrown}</Typography>
-          <Typography variant="h6">Kick Landed: {redStats.kickLanded}</Typography>
-          <Typography variant="h6">Kick Thrown: {redStats.kickThrown}</Typography>
-          <Typography variant="h6">Takedown Landed: {redStats.takeDownLanded}</Typography>
-          <Typography variant="h6">Takedown Thrown: {redStats.takeDownAttempted}</Typography>
-          <Typography variant="h6">Accuracy: {(((redStats.punchLanded) / (redStats.punchThrown) * 100)).toFixed(2)}%</Typography>
-        </Box>
-      </Box>
-      <input type="text" onKeyUp={keyupHandler} />
-    </div>
+    </Box>
   );
 }
 export default TotalStrikes;
