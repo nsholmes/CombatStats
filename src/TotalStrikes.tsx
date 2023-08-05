@@ -134,11 +134,8 @@ function TotalStrikes() {
         <Typography sx={{ color: "#FAFAFA" }} variant="h5">Fight: 1</Typography>
         <Typography sx={{ color: "#FAFAFA" }} variant="h5">Round: 1</Typography>
         <Box>
-          <input type="text" onKeyUp={keyupHandler} />
-          <Box>
-            <Button>End Bout</Button>
-            <Button>Next Round</Button>
-          </Box>
+          <Button>Next Round</Button>
+          <Button>End Bout</Button>
         </Box>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-around", backgroundColor: "#212121", color: "#fafafa;" }}>
@@ -213,6 +210,9 @@ function TotalStrikes() {
       <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
         <StatsBox />
         <StatsBox />
+      </Box>
+      <Box sx={{ backgroundColor: "#212121", height: "200px" }}>
+        <textarea cols={150} rows={10} onKeyUp={keyupHandler} />
       </Box>
     </Box>
   );

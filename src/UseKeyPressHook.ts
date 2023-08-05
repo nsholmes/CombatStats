@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-function useKeyPress() {
-  const [keyPressed, setKeyPressed] = useState();
+// function useKeyPress() {
+//   const [keyPressed, setKeyPressed] = useState();
 
-  const keyPressedHandler = () => { }
+const keyPressedHandler = () => { }
 
-  useEffect(() => {
-    window.addEventListener('keypress', keyPressedHandler)
-  }, [])
-}
+useEffect(() => {
+  window.addEventListener('keypress', keyPressedHandler)
+}, []);

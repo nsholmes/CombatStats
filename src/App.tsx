@@ -5,8 +5,8 @@ import "./App.css";
 import { Box, } from "@mui/material";
 // import TargetedStrikes from "./TargetedStrikes";
 import TotalStrikes from "./TotalStrikes";
-import FighterTotalStrikes from "./FighterTotalStrikes";
-import StatsBox from "./components/StatsBox";
+// import FighterTotalStrikes from "./FighterTotalStrikes";
+// import StatsBox from "./components/StatsBox";
 
 function App() {
 
