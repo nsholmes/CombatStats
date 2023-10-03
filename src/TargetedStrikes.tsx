@@ -39,7 +39,7 @@ function TargetedStrikes() {
               trackerClicked("headpunch");
             }}
           >
-            <Typography variant="h6">Head Punch</Typography>
+            <Typography variant="h6">Head Punched</Typography>
           </Box>
           <Box
             className="trackerBtn"

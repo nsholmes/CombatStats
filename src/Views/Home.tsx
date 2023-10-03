@@ -1,7 +1,11 @@
+import Box from "@mui/material/Box";
+
 function Home() {
   return (
     <>
-      <div></div>
+      <Box>
+        COMBAT STATS
+      </Box>
     </>
   );
 }
