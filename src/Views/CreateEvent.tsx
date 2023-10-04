@@ -2,10 +2,12 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useEffect, useState } from "react";
-import { Fighter, Bout } from "../Models/event.model";
+import { Fighter, Bout, CombatEvent } from "../Models/event.model";
 import { connect } from "react-redux";
 import { SelectAllBouts, SelectCombatEventName, addNewBout, setEventName } from "../Features/combatEvent.slice";
 import { CreateEventProps } from "../Models/props.model";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../FirebaseConfig";
 
 
 function mapStateToProps(state: any) {
@@ -32,8 +34,19 @@ function CreateEvent(props: CreateEventProps) {
   /**
    * Event Handlers
    */
-  const doneButtonClicked = () => {
-    console.log("doneButtonClicked: ", "Done Button Clicked")
+  const doneButtonClicked = async () => {
+    console.log("doneButtonClicked: ", "Done Button Clicked");
+    try {
+      await addDoc(collection(db, 'CombatEvents'), {
+        eventName: 'Test Event 1',
+        bouts: [{
+          blueCorner: { firstName: "Blue corner1 First Name", lastName: "Blue corner1 Last Name" },
+          redCorner: { firstName: "Red corner1 First Name", lastName: "Red corner1 Last Name" },
+        }]
+      })
+    } catch (err) {
+      alert(err);
+    }
   }
   const saveBoutClicked = () => {
     console.log('button clicked:', blueCorner.firstName)
