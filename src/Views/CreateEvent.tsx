@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch: any) {
 
 function CreateEvent(props: CreateEventProps) {
   const defaultFighter = { firstName: "", lastName: "" };
-  // const [eventName, setEventName] = useState("");
+  const [eventName, setEventName] = useState("");
   const [blueCorner, setBlueCorner] = useState<Fighter>(defaultFighter);
   const [redCorner, setRedCorner] = useState<Fighter>(defaultFighter);
   // const [bouts, setBouts] = useState<Bout[]>([]);
@@ -36,16 +36,20 @@ function CreateEvent(props: CreateEventProps) {
    */
   const doneButtonClicked = async () => {
     console.log("doneButtonClicked: ", "Done Button Clicked");
-    try {
-      await addDoc(collection(db, 'CombatEvents'), {
-        eventName: 'Test Event 1',
-        bouts: [{
-          blueCorner: { firstName: "Blue corner1 First Name", lastName: "Blue corner1 Last Name" },
-          redCorner: { firstName: "Red corner1 First Name", lastName: "Red corner1 Last Name" },
-        }]
-      })
-    } catch (err) {
-      alert(err);
+    if (blueCorner.firstName.length > 0 && blueCorner.lastName.length > 0 && redCorner.firstName.length > 0 && redCorner.lastName.length > 0) {
+      try {
+        await addDoc(collection(db, 'CombatEvents'), {
+          eventName: eventName,
+          bouts: [{
+            blueCorner: { firstName: blueCorner.firstName, lastName: blueCorner.lastName },
+            redCorner: { firstName: redCorner.firstName, lastName: redCorner.lastName },
+          }]
+        });
+        setBlueCorner(defaultFighter);
+        setRedCorner(defaultFighter);
+      } catch (err) {
+        alert(err);
+      }
     }
   }
   const saveBoutClicked = () => {
@@ -58,12 +62,16 @@ function CreateEvent(props: CreateEventProps) {
     }
   }
 
+  const eventNameChanged = (evtName: string) => {
+    setEventName(evtName);
+  }
+
 
   return (
     <>
       <div>
         <Typography variant="h2">Create Event</Typography>
-        <TextField onChange={(ev) => { props.setEventName(ev.target.value) }} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Event Name" />
+        <TextField onChange={(ev) => { eventNameChanged(ev.target.value) }} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Event Name" />
         <Box>
           <Typography variant="h2">Add Bout</Typography>
           <Typography variant="h4">Blue Corner</Typography>
