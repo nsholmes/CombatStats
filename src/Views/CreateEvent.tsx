@@ -1,8 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useEffect, useState } from "react";
-import { Fighter, Bout, CombatEvent } from "../Models/event.model";
+
+import { useState } from "react";
+import { Fighter, Bout } from "../Models/event.model";
 import { connect } from "react-redux";
 import { SelectAllBouts, SelectCombatEventName, addNewBout, setEventName } from "../Features/combatEvent.slice";
 import { CreateEventProps } from "../Models/props.model";

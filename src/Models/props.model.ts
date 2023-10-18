@@ -6,3 +6,7 @@ export type CreateEventProps = {
   addBout: (bout: Bout) => void;
   getAllBouts: Bout[];
 }
+
+export type FileUploadProps = {
+  uploadIKFEventFile: (file: File) => void;
+}

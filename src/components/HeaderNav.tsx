@@ -14,7 +14,10 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 
-const pages = [{ linkText: "Create Event", url: "/createevent" }, { linkText: "Upload IKF Event", url: "/uploadEvent" }];
+
+
+const pages = [{ linkText: "Create Event", url: "/createevent" },
+{ linkText: "Upload IKF Event", url: "uploadEvent" }];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function HeaderNav() {
@@ -99,7 +102,7 @@ function HeaderNav() {
             >
               {pages.map((page) => (
                 <MenuItem key={page.linkText} onClick={() => handleCloseNavMenu(page.url)}>
-                  <Typography textAlign="center">{page.linkText}</Typography>
+                  {<Typography textAlign="center">{page.linkText}</Typography>}
                 </MenuItem>
               ))}
             </Menu>
@@ -130,7 +133,7 @@ function HeaderNav() {
                 onClick={() => handleCloseNavMenu(page.url)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page.linkText}
+                {<>{page.linkText}</>}
               </Button>
             ))}
           </Box>
