@@ -42,7 +42,7 @@ function UploadEvent(props: FileUploadProps) {
   }
   return (
     <>
-      <Typography variant="h2">Upload Event</Typography>
+      <Typography variant="h6">Upload New Event File</Typography>
       <Button component="label" variant="contained" onClick={handleUploadClicked} startIcon={<CloudUploadIcon />}>
         Upload file
       </Button>

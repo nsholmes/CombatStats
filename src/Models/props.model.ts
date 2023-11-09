@@ -1,10 +1,15 @@
-import { Bout } from "./event.model";
+import { Bout, CSBracket } from "./event.model";
 
 export type CreateEventProps = {
-  getCombatEventName: string;
   setEventName: (eventName: string) => void;
   addBout: (bout: Bout) => void;
+  getAllCSBrackets: CSBracket[];
+  getCombatEventName: string;
   getAllBouts: Bout[];
+}
+
+export type EventBracketsProps = {
+  getAllCSBrackets: CSBracket[];
 }
 
 export type FileUploadProps = {

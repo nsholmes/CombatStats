@@ -16,8 +16,11 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const pages = [{ linkText: "Create Event", url: "/createevent" },
-{ linkText: "Upload IKF Event", url: "uploadEvent" }];
+const pages = [
+  { linkText: "Events", url: "events" },
+  { linkText: "Create Event", url: "/createevent" },
+  { linkText: "Upload IKF Event", url: "uploadEvent" },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function HeaderNav() {

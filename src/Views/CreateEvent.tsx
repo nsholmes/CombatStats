@@ -1,18 +1,23 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
 import { useState } from "react";
-import { Fighter, Bout } from "../Models/event.model";
+import { Fighter, Bout, CSBracket } from "../Models/event.model";
 import { connect } from "react-redux";
 import { SelectAllBouts, SelectCombatEventName, addNewBout, setEventName } from "../Features/combatEvent.slice";
 import { CreateEventProps } from "../Models/props.model";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
+import UploadEvent from "./UploadEvent";
+import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
+import EventBrackets from "./EventBrackets";
+import EventBouts from "./EventBouts";
 
 
 function mapStateToProps(state: any) {
   return {
     getCombatEventName: SelectCombatEventName(state),
-    getAllBouts: SelectAllBouts(state)
+    getAllBouts: SelectAllBouts(state),
+    getAllCSBrackets: SelectAllCSBrackets(state)
   }
 }
 
@@ -25,10 +30,31 @@ function mapDispatchToProps(dispatch: any) {
 
 function CreateEvent(props: CreateEventProps) {
   const defaultFighter = { firstName: "", lastName: "" };
-  const [eventName, setEventName] = useState("");
+  const [eventName, setEventNameProp] = useState("");
   const [blueCorner, setBlueCorner] = useState<Fighter>(defaultFighter);
   const [redCorner, setRedCorner] = useState<Fighter>(defaultFighter);
   // const [bouts, setBouts] = useState<Bout[]>([]);
+
+  const getRingGroupings = () => {
+    const rings: number[] = [];
+    // const bracketGroupings: CSBracket[][] = [];
+    // let tempBracketArr: CSBracket[] = [];
+
+    props.getAllCSBrackets.map((bracket, idx) => {
+      const tempRing = bracket.ringNumber;
+      if (rings.length === 0) {
+        rings.push(tempRing);
+      } else {
+        if (tempRing !== rings[rings.length - 1] && tempRing > rings[rings.length - 1]) {
+          rings.push(tempRing);
+        }
+      }
+    });
+    // console.log("bracketGroupings: ", bracketGroupings);
+    return rings;
+  }
+
+
 
   /**
    * Event Handlers
@@ -62,7 +88,11 @@ function CreateEvent(props: CreateEventProps) {
   }
 
   const eventNameChanged = (evtName: string) => {
+    setEventNameProp(evtName);
     setEventName(evtName);
+  }
+  const eventDateChanged = (evtDate: string) => {
+
   }
 
 
@@ -70,35 +100,13 @@ function CreateEvent(props: CreateEventProps) {
     <>
       <div>
         <Typography variant="h2">Create Event</Typography>
-        <TextField onChange={(ev) => { eventNameChanged(ev.target.value) }} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Event Name" />
-        <Box>
-          <Typography variant="h2">Add Bout</Typography>
-          <Typography variant="h4">Blue Corner</Typography>
-          <TextField value={blueCorner.firstName} onChange={(ev) => setBlueCorner({ ...blueCorner, firstName: ev.target.value })} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="First Name" />
-          <TextField value={blueCorner.lastName} onChange={(ev) => setBlueCorner({ ...blueCorner, lastName: ev.target.value })} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Last Name" />
-        </Box>
-        <Box>
-          <Typography variant="h5" color="steelblue"> vs.</Typography>
-          <Typography variant="h4">Red Corner</Typography>
-          <TextField value={redCorner.firstName} onChange={(ev) => setRedCorner({ ...redCorner, firstName: ev.target.value })} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Last Name" />
-          <TextField value={redCorner.lastName} onChange={(ev) => setRedCorner({ ...redCorner, lastName: ev.target.value })} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="First Name" />
-        </Box>
-        <Button size="large" variant="outlined" onClick={saveBoutClicked}>Save Bout</Button>
-        <Button size="large" variant="contained" onClick={doneButtonClicked}>Done</Button>
+        <TextField onChange={(ev) => {
+          eventNameChanged(ev.target.value)
+        }} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Event Name" />
+        <UploadEvent />
       </div >
-      <Box>
-        <Typography variant="h2">{props.getCombatEventName}</Typography>
-        {
-          props.getAllBouts.map((bout) => {
-            console.log(`BOUT: ${bout.blueCorner.firstName} ${bout.blueCorner.lastName} vs. ${bout.redCorner.firstName} ${bout.redCorner.lastName}`)
-            return (
-              <Box>
-                <Typography variant="body2">{`* ${bout.blueCorner.firstName} ${bout.blueCorner.lastName} vs. ${bout.redCorner.firstName} ${bout.redCorner.lastName}`} </Typography>
-              </Box>
-            )
-          })
-        }
-      </Box>
+      <EventBouts />
+      <EventBrackets />
     </>
   );
 }
