@@ -8,6 +8,10 @@ export type CreateEventProps = {
   getAllBouts: Bout[];
 }
 
+export type BracketLayoutProps = {
+  getAllCSBrackets: CSBracket[];
+}
+
 export type EventBracketsProps = {
   getAllCSBrackets: CSBracket[];
 }

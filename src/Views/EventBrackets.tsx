@@ -47,7 +47,9 @@ function EventBrackets(props: EventBracketsProps) {
                   props.getAllCSBrackets.map((bracket) => {
                     return bracket.ringNumber == ring ? (
                       <Box sx={{ margin: "5px 0px" }}>
-                        <Typography sx={{ width: "100%", color: "#1976d2", textDecoration: "underline", fontWeight: "bold" }} variant="subtitle1">{bracket.divisionName}</Typography>
+                        <Typography sx={{ width: "100%", color: "#1976d2", textDecoration: "underline", fontWeight: "bold" }} variant="subtitle1">
+                          {bracket.divisionName}
+                        </Typography>
                         <Typography sx={{ backgroundColor: "#000", color: "#D68113", padding: "5px", borderRadius: "10px 10px 0px 0px" }} variant="body1">
                           {`${bracket.discipline}`}
                         </Typography>

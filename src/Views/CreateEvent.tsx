@@ -10,7 +10,7 @@ import { db } from "../FirebaseConfig";
 import UploadEvent from "./UploadEvent";
 import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
 import EventBrackets from "./EventBrackets";
-import EventBouts from "./EventBouts";
+import BracketLayout from "../components/BracketLayout";
 
 
 function mapStateToProps(state: any) {
@@ -33,28 +33,6 @@ function CreateEvent(props: CreateEventProps) {
   const [eventName, setEventNameProp] = useState("");
   const [blueCorner, setBlueCorner] = useState<Fighter>(defaultFighter);
   const [redCorner, setRedCorner] = useState<Fighter>(defaultFighter);
-  // const [bouts, setBouts] = useState<Bout[]>([]);
-
-  const getRingGroupings = () => {
-    const rings: number[] = [];
-    // const bracketGroupings: CSBracket[][] = [];
-    // let tempBracketArr: CSBracket[] = [];
-
-    props.getAllCSBrackets.map((bracket, idx) => {
-      const tempRing = bracket.ringNumber;
-      if (rings.length === 0) {
-        rings.push(tempRing);
-      } else {
-        if (tempRing !== rings[rings.length - 1] && tempRing > rings[rings.length - 1]) {
-          rings.push(tempRing);
-        }
-      }
-    });
-    // console.log("bracketGroupings: ", bracketGroupings);
-    return rings;
-  }
-
-
 
   /**
    * Event Handlers
@@ -105,7 +83,7 @@ function CreateEvent(props: CreateEventProps) {
         }} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Event Name" />
         <UploadEvent />
       </div >
-      <EventBouts />
+      <BracketLayout />
       <EventBrackets />
     </>
   );
