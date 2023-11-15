@@ -1,4 +1,4 @@
-import { Bout, CSBracket } from "./event.model";
+import { Bout, BracketCompetitor, CSBracket } from "./event.model";
 
 export type CreateEventProps = {
   setEventName: (eventName: string) => void;
@@ -8,6 +8,12 @@ export type CreateEventProps = {
   getAllBouts: Bout[];
 }
 
+export type BracketSetupProps = {
+  getBracketCompetitors: BracketCompetitor[]
+}
+export type BracketListProps = {
+  getAllCSBrackets: CSBracket[];
+}
 export type BracketLayoutProps = {
   getAllCSBrackets: CSBracket[];
 }

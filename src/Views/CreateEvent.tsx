@@ -11,6 +11,7 @@ import UploadEvent from "./UploadEvent";
 import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
 import EventBrackets from "./EventBrackets";
 import BracketLayout from "../components/BracketLayout";
+import BracketList from "../components/BracketList";
 
 
 function mapStateToProps(state: any) {
@@ -83,6 +84,7 @@ function CreateEvent(props: CreateEventProps) {
         }} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Event Name" />
         <UploadEvent />
       </div >
+      {/* <BracketList /> */}
       <BracketLayout />
       <EventBrackets />
     </>

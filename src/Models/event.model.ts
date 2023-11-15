@@ -15,8 +15,39 @@ export type CSBracket = {
   ringName: string;
   ringNumber: number;
   bracketGender: string;
-  competitors: any[];
+  competitors: BracketCompetitor[];
 }
+export type BracketCompetitor = {
+  bracket: competitorBracket;
+  competitiveexperienceString: string | null;
+  competitiveexperiences: string | null;
+  competitor: {
+    full_name: string;
+    id: number;
+    is_final_weight: number;
+    weight: number;
+  }
+  fighterAffiliations: any[];
+  gym_name: string;
+  id: number;
+  person: {
+    ageAtEvent: number;
+    calculated_age: number;
+    first_name: string;
+    full_name: string;
+    id: number;
+    last_name: string;
+  }
+  profile_name: string;
+  seed: number;
+  wlrString: string;
+  wlr_string: string;
+}
+
+export type competitorBracket = {
+  id: number;
+}
+
 export type IKFBracket = {
   bracketClassName: string;
   bracketGender: string;

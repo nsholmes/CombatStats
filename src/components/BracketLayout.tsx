@@ -16,6 +16,10 @@ function mapDispatchToProps(dispatch: any) {
 
 function BracketLayout(props: BracketLayoutProps) {
 
+  const dragBracket = (ev: any) => {
+    console.log(ev);
+  }
+
   const getRingGroupings = () => {
     const rings: number[] = [];
     // const bracketGroupings: CSBracket[][] = [];
@@ -63,7 +67,7 @@ function BracketLayout(props: BracketLayoutProps) {
     }
     if (fightCount === 4) {
       return (
-        <Box className="bracket4">
+        <Box draggable={true} onDragStart={dragBracket} className="bracket4">
           <Box className="round round1">
             <Box className="bout">
               <Box className="seat seat1">{competitors.find((comp) => comp.seed === 1).person.full_name}</Box>
