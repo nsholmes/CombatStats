@@ -57,6 +57,44 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
     props.setMenuIsVisible(false)
   }
 
+  const competitorClicked = (ev: MouseEvent<HTMLDivElement>, competitor: BracketCompetitor) => {
+    const clickCount = ev.detail;
+    switch (clickCount) {
+      case 1:
+        console.log('SINGLE CLICK: IF selectedCompetitor is set do nothing ELSE set SelectedCompetitor');
+        break;
+      case 2:
+        console.log(`DOUBLE CLICK: If competitorId == selectedCompetitor.id set selectedCompetitor = null | {}`);
+        break;
+      case 3:
+        console.log('TRIPLE CLICK: set selectedCompetitor = null | {}');
+        break;
+      default:
+
+        break;
+    }
+    // console.log(`clicks: ${ev.detail} bracketId: ${competitor.bracket.id} competitor: ${competitor.person.full_name}`);
+  }
+
+  const emptyBracketClicked = (ev: MouseEvent<HTMLDivElement>, bracketId: number) => {
+    const clickCount = ev.detail;
+    switch (clickCount) {
+      case 1:
+        console.log('SINGLE CLICK: ');
+        break;
+      case 2:
+        console.log('DOUBLE CLICK: Do Nothing');
+        break;
+      case 3:
+        console.log('TRIPLE CLICK: ');
+        break;
+      default:
+
+        break;
+    }
+    console.log(`clicks: ${ev.detail} bracketId: ${bracketId}`);
+  }
+
   return (
     <>
       {
@@ -67,18 +105,23 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
               <Box>
                 <Box key={index} className="bracket4">
                   <Box className="round round1">
+                    {/* Round 1: 2 or more Fighters */}
                     {bracket.competitors.length > 2 ?
                       (<>
                         <Box className="bout">
-                          <Box id={`${bracket.bracketId}|${bracket.competitors[0].id.toString()}`} className={`seat ${props.bracketEditState != "off" ? 'editSeat' : 'seat1'}`}
+                          <Box
+                            id={`${bracket.bracketId}|${bracket.competitors[0].id.toString()}`}
+                            className={`seat ${props.bracketEditState != "off" ? 'editSeat' : 'seat1'}`}
                             draggable={true}
                             onContextMenu={showContextMenu}
+                            onClick={(ev) => { competitorClicked(ev, bracket.competitors[0]) }}
                             onDragStart={dragBracket}>
                             {bracket.competitors[0] ?
                               bracket.competitors[0].person.full_name : ". "}</Box>
                           <Box className={`seat ${props.bracketEditState != "off" ? 'editSeat' : 'seat2'}`}
                             draggable={true}
                             onContextMenu={showContextMenu}
+                            onClick={(ev) => { competitorClicked(ev, bracket.competitors[1]) }}
                             onDragStart={dragBracket}>
                             {bracket.competitors[1] ?
                               bracket.competitors[1].person.full_name : ". "}</Box>
@@ -88,26 +131,40 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                             (<><Box className={`seat ${props.bracketEditState != "off" ? 'editSeat' : 'seat3'}`}
                               draggable={true}
                               onContextMenu={showContextMenu}
+                              onClick={(ev) => { competitorClicked(ev, bracket.competitors[3]) }}
                               onDragStart={dragBracket}>
                               {bracket.competitors[2].person.full_name}</Box>
                               <Box className={`seat ${props.bracketEditState != "off" ? 'editSeat' : 'seat2'}`}
                                 draggable={true}
                                 onContextMenu={showContextMenu}
+                                onClick={(ev) => { competitorClicked(ev, bracket.competitors[3]) }}
                                 onDragStart={dragBracket}>
                                 {bracket.competitors[3].person.full_name}</Box></>) :
-                            (<><Box className="seat seatSpace">{" "}</Box>
-                              <Box className="seat seatSpace">{" "}</Box></>)
+                            (<><Box className="seat seatSpace"
+                              onClick={(ev) => { emptyBracketClicked(ev, bracket.bracketId) }}
+                            >{" "}</Box>
+                              <Box className="seat seatSpace"
+                                onClick={(ev) => { emptyBracketClicked(ev, bracket.bracketId) }}
+                              >{" "}</Box></>)
                           }
                         </Box>
                       </>) :
                       (<>
                         <Box className="bout">
-                          <Box className="seat seatSpace">{" "}</Box>
-                          <Box className="seat seatSpace">{" "}</Box>
+                          <Box
+                            onClick={(ev) => { emptyBracketClicked(ev, bracket.bracketId) }}
+                            className="seat seatSpace">{" "}</Box>
+                          <Box
+                            onClick={(ev) => { emptyBracketClicked(ev, bracket.bracketId) }}
+                            className="seat seatSpace">{" "}</Box>
                         </Box>
                         <Box className="bout">
-                          <Box className="seat seatSpace">{" "}</Box>
-                          <Box className="seat seatSpace">{" "}</Box>
+                          <Box
+                            onClick={(ev) => { emptyBracketClicked(ev, bracket.bracketId) }}
+                            className="seat seatSpace">{" "}</Box>
+                          <Box
+                            onClick={(ev) => { emptyBracketClicked(ev, bracket.bracketId) }}
+                            className="seat seatSpace">{" "}</Box>
                         </Box>
                       </>)
                     }

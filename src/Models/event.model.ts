@@ -4,8 +4,12 @@ export type CombatEvent = {
 }
 export type Fighter = { firstName: string; lastName: string }
 export type Bout = { blueCorner: Fighter, redCorner: Fighter }
+export type BracketEditState = "moveFighter" | "duplicateAndMoveFighter" | "removeFighter" | "addFighter" | "off";
+
 export type CSBrackets = {
   brackets: CSBracket[];
+  editState: BracketEditState;
+  selectedCompetitor: BracketCompetitor | null;
 }
 export type CSBracket = {
   bracketId: number;

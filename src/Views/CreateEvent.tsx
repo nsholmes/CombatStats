@@ -1,17 +1,19 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
 import { useState } from "react";
-import { Fighter, Bout, CSBracket } from "../Models/event.model";
+import { Fighter, Bout, CSBracket, BracketEditState } from "../Models/event.model";
 import { connect } from "react-redux";
 import { SelectAllBouts, SelectCombatEventName, addNewBout, setEventName } from "../Features/combatEvent.slice";
 import { CreateEventProps } from "../Models/props.model";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
 import UploadEvent from "./UploadEvent";
-import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
+import { SelectAllCSBrackets, setBracketEditState } from "../Features/cbBracket.slice";
 import EventBrackets from "./EventBrackets";
 import BracketLayout from "../components/BracketLayout";
 import BracketList from "../components/BracketList";
+import BracketSetup from "../components/BracketSetup";
+import BracketSetupv2 from "../components/BracketSetupv2";
 
 
 function mapStateToProps(state: any) {
@@ -26,6 +28,7 @@ function mapDispatchToProps(dispatch: any) {
   return {
     setEventName: (eventName: string) => dispatch(setEventName(eventName)),
     addBout: (bout: Bout) => dispatch(addNewBout(bout)),
+    setEditState: (editState: BracketEditState) => dispatch(setBracketEditState(editState))
   }
 }
 
@@ -35,58 +38,23 @@ function CreateEvent(props: CreateEventProps) {
   const [blueCorner, setBlueCorner] = useState<Fighter>(defaultFighter);
   const [redCorner, setRedCorner] = useState<Fighter>(defaultFighter);
 
-  /**
-   * Event Handlers
-   */
-  const doneButtonClicked = async () => {
-    console.log("doneButtonClicked: ", "Done Button Clicked");
-    if (blueCorner.firstName.length > 0 && blueCorner.lastName.length > 0 && redCorner.firstName.length > 0 && redCorner.lastName.length > 0) {
-      try {
-        await addDoc(collection(db, 'CombatEvents'), {
-          eventName: eventName,
-          bouts: [{
-            blueCorner: { firstName: blueCorner.firstName, lastName: blueCorner.lastName },
-            redCorner: { firstName: redCorner.firstName, lastName: redCorner.lastName },
-          }]
-        });
-        setBlueCorner(defaultFighter);
-        setRedCorner(defaultFighter);
-      } catch (err) {
-        alert(err);
-      }
-    }
-  }
-  const saveBoutClicked = () => {
-    console.log('button clicked:', blueCorner.firstName)
-    if (blueCorner.firstName.length > 0 && blueCorner.lastName.length > 0 && redCorner.firstName.length > 0 && redCorner.lastName.length > 0) {
-
-      setBlueCorner(defaultFighter);
-      setRedCorner(defaultFighter);
-      props.addBout({ blueCorner, redCorner });
-    }
-  }
 
   const eventNameChanged = (evtName: string) => {
     setEventNameProp(evtName);
     setEventName(evtName);
-  }
-  const eventDateChanged = (evtDate: string) => {
-
   }
 
 
   return (
     <>
       <div>
-        <Typography variant="h2">Create Event</Typography>
-        <TextField onChange={(ev) => {
-          eventNameChanged(ev.target.value)
-        }} sx={{ backgroundColor: "#fafafa", outlineColor: "#212121" }} label="Event Name" />
+        <Typography variant="h2">Load Event</Typography>
         <UploadEvent />
       </div >
-      {/* <BracketList /> */}
-      <BracketLayout />
-      <EventBrackets />
+      {/* <BracketSetup /> */}
+      <BracketSetupv2 />
+      {/* <BracketLayout />
+      <EventBrackets /> */}
     </>
   );
 }

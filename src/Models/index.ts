@@ -1,5 +1,6 @@
 export * from './event.model';
 export * from './props.model';
+export * from './contextMenu.model'
 
 export const getOptions: RequestInit = {
   method: "GET",

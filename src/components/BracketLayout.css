@@ -10,6 +10,10 @@
   height: 120px;
 }
 .seat { padding-left: 20px;}
+.round > .bout > .editSeat {
+  border: 1px dashed #f88;
+  border-width: 1px;
+}
 .seatSpace{
   margin-top: 2px;
   height: 24px;
