@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
-import "./App.css";
+import './App.css';
+
+import { Outlet } from 'react-router-dom';
 
 // import { useState } from "react";
-
 // import { Box, } from "@mui/material";
 // // import TargetedStrikes from "./TargetedStrikes";
 // import TotalStrikes from "./TotalStrikes";
@@ -10,13 +10,12 @@ import "./App.css";
 // import FighterTotalStrikes from "./FighterTotalStrikes";
 // import StatsBox from "./components/StatsBox";
 // import CreateEvent from "./Views/CreateEvent";
-import HeaderNav from "./components/HeaderNav";
+import HeaderNav from './Components/HeaderNav';
+
 // import FighterTotalStrikes from "./FighterTotalStrikes";
 // import StatsBox from "./components/StatsBox";
 
 function App() {
-
-
   return (
     <>
       <HeaderNav />
