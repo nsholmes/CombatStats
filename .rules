@@ -1,0 +1,8 @@
+service cloud.firestore {
+  match /database/events/documents {
+    // True if the user issigned in or the requested data is public
+    function signedInOrPublic() {
+      return request.auth.uid != null || resource.data.visibility == 'public';
+    }
+  }
+}

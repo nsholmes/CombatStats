@@ -20,7 +20,7 @@ export const CombatEventSlice = createSlice({
   },
 });
 export const SelectAllBouts = (state: any) => state.combatEvent.bouts;
-export const SelectCombatEventName = (state: any) => {
+export const SelectCombatEventName = (state: any): string => {
   console.log("SelectCombatEventName: ", state.combatEvent)
   return state.combatEvent.eventName;
 }
