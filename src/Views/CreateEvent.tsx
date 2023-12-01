@@ -8,7 +8,7 @@ import { CreateEventProps } from "../Models/props.model";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
 import UploadEvent from "./UploadEvent";
-import { SelectAllCSBrackets, setBracketEditState } from "../Features/cbBracket.slice";
+import { SelectAllCSBrackets, moveSelectedCompetitor, setBracketEditState } from "../Features/cbBracket.slice";
 import EventBrackets from "./EventBrackets";
 import BracketLayout from "../components/BracketLayout";
 import BracketList from "../components/BracketList";
@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch: any) {
   return {
     setEventName: (eventName: string) => dispatch(setEventName(eventName)),
     addBout: (bout: Bout) => dispatch(addNewBout(bout)),
-    setEditState: (editState: BracketEditState) => dispatch(setBracketEditState(editState))
+    setEditState: (editState: BracketEditState) => dispatch(setBracketEditState(editState)),
   }
 }
 

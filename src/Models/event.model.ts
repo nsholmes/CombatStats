@@ -9,7 +9,7 @@ export type BracketEditState = "moveFighter" | "duplicateAndMoveFighter" | "remo
 export type CSBrackets = {
   brackets: CSBracket[];
   editState: BracketEditState;
-  selectedCompetitor: BracketCompetitor | null;
+  selectedCompetitor: string | null;
 }
 export type CSBracket = {
   bracketId: number;

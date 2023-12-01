@@ -13,6 +13,8 @@ export type CreateEventProps = {
 export type BracketSetupProps = {
   getAllCSBrackets: CSBracket[];
   bracketEditState: BracketEditState;
+  getSelectedCompetitor: string | null;
+  moveSelectedCompetitor: (competitorId: string | null) => void;
   setCurrentContextMenu: (menuName: ContextMenuType) => void;
   setMenuIsVisible: (isVisible: boolean) => void;
   setMenuPosition: (coords: PositionCoords) => void;

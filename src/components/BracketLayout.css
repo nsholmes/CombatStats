@@ -6,7 +6,7 @@
   width: 660px;
 }
 .round {
-  width: 200px;
+  width: 350px;
   height: 120px;
 }
 .seat { padding-left: 20px;}
@@ -24,6 +24,16 @@
 .round1 > .bout {
   margin-bottom: 10px;
   margin-right: 3px;
+}
+.round1 > .bout > .seat1,
+.round1 > .bout > .seat2,
+.round1 > .bout > .seat3,
+.round1 > .bout > .seat4{
+  font-size: 12px;
+  margin-bottom: 3px;
+  height: 24px;
+  display: flex;
+  align-items: center;
 }
 .round1 > .bout > .seat1{
   border: 1px solid #fff;
@@ -47,11 +57,13 @@
   border-radius: 0px 0px 0px 8px;
   background-color: #a20;
 }
-
+.round2 > .bout > .seat5, .round2 > .bout > .seat6{
+  font-size: 14px;
+}
 .round2 > .bout > .seat5{
   border: 2px solid #fff;
   padding-top: 15px;
-  padding-bottom: 12px;
+  padding-bottom: 16px;
   border-radius: 0px 8px 0px 0px;
   background-color: #1976d2;
 }
@@ -73,6 +85,12 @@
   height: 18px;
   width: 150px;
   font-weight: bold;
+}
+.round1 > .bout > .selectedCompetitor {
+  background-color: #161;
+}
+.round2 > .bout > .selectedCompetitor {
+  background-color: #161;
 }
 /*
 .round2 > .bout {
