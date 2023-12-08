@@ -1,19 +1,13 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import { useState } from "react";
-import { Fighter, Bout, CSBracket, BracketEditState } from "../Models/event.model";
 import { connect } from "react-redux";
+import { SelectAllCSBrackets, setBracketEditState } from "../Features/cbBracket.slice";
 import { SelectAllBouts, SelectCombatEventName, addNewBout, setEventName } from "../Features/combatEvent.slice";
+import { Bout, BracketEditState, Fighter } from "../Models/event.model";
 import { CreateEventProps } from "../Models/props.model";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
-import UploadEvent from "./UploadEvent";
-import { SelectAllCSBrackets, moveSelectedCompetitor, setBracketEditState } from "../Features/cbBracket.slice";
-import EventBrackets from "./EventBrackets";
-import BracketLayout from "../components/BracketLayout";
-import BracketList from "../components/BracketList";
-import BracketSetup from "../components/BracketSetup";
 import BracketSetupv2 from "../components/BracketSetupv2";
+import UploadEvent from "./UploadEvent";
 
 
 function mapStateToProps(state: any) {

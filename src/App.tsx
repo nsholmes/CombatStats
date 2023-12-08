@@ -12,11 +12,12 @@ import "./App.css";
 // import CreateEvent from "./Views/CreateEvent";
 import HeaderNav from "./components/HeaderNav";
 import ContextMenu from "./components/contextMenus/ContextMenu";
-import { useEffect } from "react";
+import EventData from "./data/eventBrackets.json";
 // import FighterTotalStrikes from "./FighterTotalStrikes";
 // import StatsBox from "./components/StatsBox";
 
 function App() {
+  console.log(EventData);
   return (
     <>
       <HeaderNav />
