@@ -1,20 +1,18 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 
-
+import AdbIcon from "@mui/icons-material/Adb";
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 const pages = [
   { linkText: "Events", url: "events" },
@@ -40,7 +38,7 @@ function HeaderNav() {
   };
 
   const handleCloseNavMenu = (dest?: string) => {
-    console.log('handleCloseNavMenu: ', dest);
+    console.log("handleCloseNavMenu: ", dest);
     if (dest) {
       navigator(dest);
     }
@@ -68,7 +66,7 @@ function HeaderNav() {
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
-              textDecoration: "none"
+              textDecoration: "none",
             }}
           >
             CombatStats
@@ -82,29 +80,32 @@ function HeaderNav() {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
+            ></IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: "bottom",
-                horizontal: "left"
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
                 vertical: "top",
-                horizontal: "left"
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
-              onClose={() => { handleCloseNavMenu() }}
+              onClose={() => {
+                handleCloseNavMenu();
+              }}
               sx={{
-                display: { xs: "block", md: "none" }
+                display: { xs: "block", md: "none" },
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.linkText} onClick={() => handleCloseNavMenu(page.url)}>
+                <MenuItem
+                  key={page.linkText}
+                  onClick={() => handleCloseNavMenu(page.url)}
+                >
                   {<Typography textAlign="center">{page.linkText}</Typography>}
                 </MenuItem>
               ))}
@@ -124,7 +125,7 @@ function HeaderNav() {
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
-              textDecoration: "none"
+              textDecoration: "none",
             }}
           >
             CombatStats
@@ -153,12 +154,12 @@ function HeaderNav() {
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
-                horizontal: "right"
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
                 vertical: "top",
-                horizontal: "right"
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
