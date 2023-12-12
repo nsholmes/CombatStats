@@ -2,9 +2,12 @@
   "name": "stikecounter",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "main": "./out/main/main.js",
   "scripts": {
     "fbStart": "firebase serve --host 0.0.0.0",
+    "ePreview": "electron-vite preview",
+    "eDev": "electron-vite dev -w",
+    "eBuild": "electron-vite build",
     "dev": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

@@ -1,20 +1,39 @@
-.bracket2, .bracket3, .bracket4{
+.bracketsWrapper {
+  height: 75vh;
+  width: 760px;
+  overflow-y: scroll;
+  border-top: 4px solid #000;
+  /* border-left: 4px solid #000;
+  border-bottom: 4px solid #000;
+  border-right: 1px solid #000; */
+  border-radius: 8px;
+  padding: 5px;
+}
+.bracket2,
+.bracket3,
+.bracket4 {
   padding: 18px;
   display: flex;
   background-color: #333;
   border-radius: 8px;
-  width: 660px;
+  width: 700px;
 }
 .round {
-  width: 200px;
+  width: 220px;
   height: 120px;
 }
-.seat { padding-left: 20px;}
+.seat {
+  padding-left: 20px;
+  user-select: none;
+}
+.seat {
+  cursor: pointer;
+}
 .round > .bout > .editSeat {
   border: 1px dashed #f88;
   border-width: 1px;
 }
-.seatSpace{
+.seatSpace {
   margin-top: 2px;
   height: 24px;
   background-color: #000;
@@ -25,37 +44,38 @@
   margin-bottom: 10px;
   margin-right: 3px;
 }
-.round1 > .bout > .seat1{
+.round1 > .bout > .seat1 {
   border: 1px solid #fff;
   border-radius: 8px 0px 0px 0px;
   background-color: #1976d2;
 }
-.round1 > .bout > .seat2{
+
+.round1 > .bout > .seat2 {
   border: 1px solid #fff;
   margin-top: 3px;
   border-radius: 0px 0px 0px 8px;
   background-color: #a20;
 }
-.round1 > .bout > .seat3{
+.round1 > .bout > .seat3 {
   border: 1px solid #fff;
   border-radius: 8px 0px 0px 0px;
   background-color: #1976d2;
 }
-.round1 > .bout > .seat4{
+.round1 > .bout > .seat4 {
   border: 1px solid #fff;
   margin-top: 3px;
   border-radius: 0px 0px 0px 8px;
   background-color: #a20;
 }
 
-.round2 > .bout > .seat5{
+.round2 > .bout > .seat5 {
   border: 2px solid #fff;
   padding-top: 15px;
   padding-bottom: 12px;
   border-radius: 0px 8px 0px 0px;
   background-color: #1976d2;
 }
-.round2 > .bout > .seat6{
+.round2 > .bout > .seat6 {
   border: 2px solid #fff;
   margin-top: 9px;
   border-radius: 0px 0px 8px 0px;
@@ -64,7 +84,7 @@
   padding-bottom: 15px;
 }
 
-.round3 > .seat7{
+.round3 > .seat7 {
   margin-left: 5px;
   padding: 50px;
   border: 3px solid #fff;
@@ -73,6 +93,12 @@
   height: 18px;
   width: 150px;
   font-weight: bold;
+}
+.round1 > .bout > .selectedCompetitor {
+  background-color: #161;
+}
+.round2 > .bout > .selectedCompetitor {
+  background-color: #161;
 }
 /*
 .round2 > .bout {
