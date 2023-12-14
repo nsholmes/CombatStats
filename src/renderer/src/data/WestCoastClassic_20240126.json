@@ -1,0 +1,4590 @@
+{
+  "adInfo": {
+    "bracketAdFrequency": 9,
+    "bracketAds": [
+      {
+        "ad_type": {
+          "create_date": "2023/08/28 18:10:00",
+          "description": "320x50 Mobile Leaderboard",
+          "height": 50,
+          "id": 1,
+          "width": 320
+        },
+        "ad_type_id": 1,
+        "alt_text": "IKF Premium Fighter Profile",
+        "background_color": "white",
+        "client_url": "/upgrade",
+        "create_date": "2023/08/28 18:10:01",
+        "description": "IKF Premium Fighter Profile",
+        "external_url": null,
+        "id": 1,
+        "image_url": "https://ifs-featurefiles-production.s3.us-west-1.amazonaws.com/ads_sponsors/inhouse/ikfpremiumfighterprofile2.jpg",
+        "is_active": true,
+        "is_clickable": true,
+        "is_house": true,
+        "owner_org": {
+          "abbreviation": "CT",
+          "id": 138,
+          "name": "Competition Technology"
+        },
+        "owner_org_id": 138,
+        "uid": "premiumFighterProfile_320x50_v1"
+      },
+      {
+        "ad_type": {
+          "create_date": "2023/08/28 18:10:00",
+          "description": "320x50 Mobile Leaderboard",
+          "height": 50,
+          "id": 1,
+          "width": 320
+        },
+        "ad_type_id": 1,
+        "alt_text": "Competition Technology",
+        "background_color": "white",
+        "client_url": null,
+        "create_date": "2023/08/28 18:10:01",
+        "description": "Competition Technology",
+        "external_url": null,
+        "id": 2,
+        "image_url": "https://ifs-featurefiles-production.s3.us-west-1.amazonaws.com/ads_sponsors/inhouse/competitiontechnologylogo.jpg",
+        "is_active": true,
+        "is_clickable": false,
+        "is_house": true,
+        "owner_org": {
+          "abbreviation": "CT",
+          "id": 138,
+          "name": "Competition Technology"
+        },
+        "owner_org_id": 138,
+        "uid": "competitionTechnology_320x50_v1"
+      },
+      {
+        "ad_type": {
+          "create_date": "2023/08/28 18:10:00",
+          "description": "320x50 Mobile Leaderboard",
+          "height": 50,
+          "id": 1,
+          "width": 320
+        },
+        "ad_type_id": 1,
+        "alt_text": "IKF Premium Fighter Profile",
+        "background_color": "white",
+        "client_url": "/upgrade",
+        "create_date": "2023/08/28 18:10:01",
+        "description": "IKF Premium Fighter Profile",
+        "external_url": null,
+        "id": 1,
+        "image_url": "https://ifs-featurefiles-production.s3.us-west-1.amazonaws.com/ads_sponsors/inhouse/ikfpremiumfighterprofile2.jpg",
+        "is_active": true,
+        "is_clickable": true,
+        "is_house": true,
+        "owner_org": {
+          "abbreviation": "CT",
+          "id": 138,
+          "name": "Competition Technology"
+        },
+        "owner_org_id": 138,
+        "uid": "premiumFighterProfile_320x50_v1"
+      }
+    ],
+    "bracketAdsEnabled": true
+  },
+  "brackets": [
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 726,
+        "name": "Girls",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 830,
+        "max": 60.0,
+        "min": 55.1,
+        "name": "Junior Flyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/25/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 4,
+        "name": "Modified",
+        "sport": {
+          "id": 3
+        }
+      },
+      "group": null,
+      "id": 3743,
+      "name": "Girls' Novice 55.1LBS - 60.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3743
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Ava Cano",
+            "id": 23571,
+            "is_final_weight": null,
+            "weight": 60.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/25/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Elite Muay Thai academy ",
+          "id": 12902,
+          "person": {
+            "ageAtEvent": 8,
+            "calculated_age": 8,
+            "dob": "04/11/2015",
+            "email": "markcano5@gmail.com",
+            "first_name": "Ava",
+            "full_name": "Ava Cano",
+            "gender": {
+              "name": "F"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7618,
+            "last_name": "Cano",
+            "primary_address": {
+              "city_state_province": "San Luis Obispo , CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "3960 s Higuera st  #202, San Luis Obispo , CA, USA",
+              "id": 7503,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Female",
+        "id": 3,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 726,
+        "name": "Girls",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 835,
+        "max": 85.0,
+        "min": 80.1,
+        "name": "Junior Middleweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/21/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 4,
+        "name": "Modified",
+        "sport": {
+          "id": 3
+        }
+      },
+      "group": null,
+      "id": 3725,
+      "name": "Girls' Novice 80.1LBS - 85.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3725
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "GiGi Mae Puma",
+            "id": 23499,
+            "is_final_weight": null,
+            "weight": 85.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/21/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Audacious ",
+          "id": 12861,
+          "person": {
+            "ageAtEvent": 10,
+            "calculated_age": 10,
+            "dob": "11/12/2013",
+            "email": "philpuma3@gmail.com",
+            "first_name": "GiGi Mae",
+            "full_name": "GiGi Mae Puma",
+            "gender": {
+              "name": "F"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7600,
+            "last_name": "Puma",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Female",
+        "id": 3,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 726,
+        "name": "Girls",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 837,
+        "max": 95.0,
+        "min": 90.1,
+        "name": "Junior Cruiserweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/12/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 4,
+        "name": "Modified",
+        "sport": {
+          "id": 3
+        }
+      },
+      "group": null,
+      "id": 3999,
+      "name": "Girls' Novice 90.1LBS - 95.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [],
+      "sport": {
+        "gender_name": "Female",
+        "id": 3,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 803,
+        "max": 75.0,
+        "min": 70.1,
+        "name": "Junior Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/20/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 3,
+        "name": "Modified",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3721,
+      "name": "Boys' Novice 70.1LBS - 75.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3721
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Xavier Madu",
+            "id": 23486,
+            "is_final_weight": null,
+            "weight": 75.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/20/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Audacious muay thai ",
+          "id": 12855,
+          "person": {
+            "ageAtEvent": 7,
+            "calculated_age": 7,
+            "dob": "03/10/2016",
+            "email": "batistesl@gmail.com",
+            "first_name": "Xavier",
+            "full_name": "Xavier Madu",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7592,
+            "last_name": "Madu",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 803,
+        "max": 75.0,
+        "min": 70.1,
+        "name": "Junior Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/05/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 27,
+        "name": "IKF Unified Rules",
+        "sport": {
+          "id": 4
+        }
+      },
+      "group": null,
+      "id": 3871,
+      "name": "Boys' Novice 70.1LBS - 75.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3871
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Jesse Moua",
+            "id": 24197,
+            "is_final_weight": null,
+            "weight": 75.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/05/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Triunfo jiu jitsu and mma",
+          "id": 13240,
+          "person": {
+            "ageAtEvent": 12,
+            "calculated_age": 12,
+            "dob": "09/27/2011",
+            "email": "tlmuas@yahoo.com",
+            "first_name": "Jesse",
+            "full_name": "Jesse Moua",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7808,
+            "last_name": "Moua",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 4,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 804,
+        "max": 80.0,
+        "min": 75.1,
+        "name": "Junior Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/20/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 3,
+        "name": "Modified",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3720,
+      "name": "Boys' Novice Class- Modified Muay Thai 75.1LBS - 80.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3720
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Elijah Madu",
+            "id": 23483,
+            "is_final_weight": null,
+            "weight": 70.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/20/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Audacious muay thai ",
+          "id": 12853,
+          "person": {
+            "ageAtEvent": 10,
+            "calculated_age": 10,
+            "dob": "06/14/2013",
+            "email": "batistesl@yahoo.com",
+            "first_name": "Elijah",
+            "full_name": "Elijah Madu",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7591,
+            "last_name": "Madu",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 809,
+        "max": 104.0,
+        "min": 100.1,
+        "name": "Pinweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/12/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 11,
+        "name": "International Rules",
+        "sport": {
+          "id": 4
+        }
+      },
+      "group": null,
+      "id": 3992,
+      "name": "Boys' Novice 100.1LBS - 104.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3992
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Arya Sabeti",
+            "id": 24730,
+            "is_final_weight": null,
+            "weight": 104.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/12/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Golden Glory ",
+          "id": 13564,
+          "person": {
+            "ageAtEvent": 11,
+            "calculated_age": 11,
+            "dob": "05/04/2012",
+            "email": "mostafasabeti@yahoo.com",
+            "first_name": "Arya",
+            "full_name": "Arya Sabeti",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7980,
+            "last_name": "Sabeti",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 4,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 815,
+        "max": 132.0,
+        "min": 127.1,
+        "name": "Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/04/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3853,
+      "name": "Boys' Novice 127.1LBS - 132.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3853
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Caiden Marsalek",
+            "id": 24135,
+            "is_final_weight": null,
+            "weight": 132.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/04/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Elite Muay Thai ",
+          "id": 13207,
+          "person": {
+            "ageAtEvent": 15,
+            "calculated_age": 15,
+            "dob": "02/09/2008",
+            "email": "marsalekcaiden@gmail.com",
+            "first_name": "Caiden",
+            "full_name": "Caiden Marsalek",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7780,
+            "last_name": "Marsalek",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 817,
+        "max": 142.0,
+        "min": 137.1,
+        "name": "Light Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/09/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 11,
+        "name": "International Rules",
+        "sport": {
+          "id": 4
+        }
+      },
+      "group": null,
+      "id": 3941,
+      "name": "Boys' Novice 137.1LBS - 142.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3941
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Akashdeep Dhesi",
+            "id": 24708,
+            "is_final_weight": null,
+            "weight": 142.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/11/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Golden Glory",
+          "id": 13552,
+          "person": {
+            "ageAtEvent": 15,
+            "calculated_age": 15,
+            "dob": "04/01/2008",
+            "email": "dilpreetdhesi10@gmail.com",
+            "first_name": "Akashdeep",
+            "full_name": "Akashdeep Dhesi",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7917,
+            "last_name": "Dhesi",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 4,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 822,
+        "max": 172.0,
+        "min": 165.1,
+        "name": "Super Middleweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/06/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3889,
+      "name": "Boys' Novice 165.1LBS - 172.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3889
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Nursultan Zhumashaliev",
+            "id": 24264,
+            "is_final_weight": null,
+            "weight": 172.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/06/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Fit and fight",
+          "id": 13262,
+          "person": {
+            "ageAtEvent": 15,
+            "calculated_age": 15,
+            "dob": "06/29/2008",
+            "email": "nursultanzhumashaliev@gmail.com",
+            "first_name": "Nursultan",
+            "full_name": "Nursultan Zhumashaliev",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7837,
+            "last_name": "Zhumashaliev",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 823,
+        "max": 179.0,
+        "min": 172.1,
+        "name": "Light Heavyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/04/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 27,
+        "name": "IKF Unified Rules",
+        "sport": {
+          "id": 4
+        }
+      },
+      "group": null,
+      "id": 3864,
+      "name": "Boys' Novice 172.1LBS - 179.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3864
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Calvin Taumua",
+            "id": 24159,
+            "is_final_weight": null,
+            "weight": 179.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/04/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Revelation Kickboxing",
+          "id": 13221,
+          "person": {
+            "ageAtEvent": 17,
+            "calculated_age": 17,
+            "dob": "01/31/2006",
+            "email": "Calboyee@icloud.com",
+            "first_name": "Calvin",
+            "full_name": "Calvin Taumua",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7793,
+            "last_name": "Taumua",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 4,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 800,
+        "max": 60.0,
+        "min": 55.1,
+        "name": "Junior Flyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/11/2023",
+      "criteria": "Open A-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3989,
+      "name": "Boys' Open A-Class 55.1LBS - 60.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3989
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Maksim Gasparian",
+            "id": 24718,
+            "is_final_weight": null,
+            "weight": 60.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/11/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Left Hand Muay Thai",
+          "id": 13558,
+          "person": {
+            "ageAtEvent": 8,
+            "calculated_age": 8,
+            "dob": "09/03/2015",
+            "email": "info@lefthandmuaythai.com",
+            "first_name": "Maksim",
+            "full_name": "Maksim Gasparian",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7973,
+            "last_name": "Gasparian",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 808,
+        "max": 100.0,
+        "min": 95.1,
+        "name": "Junior Heavyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/10/2023",
+      "criteria": "Open A-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3980,
+      "name": "Boys' Open A-Class 95.1LBS - 100.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3980
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Vahe Gasparyan",
+            "id": 24706,
+            "is_final_weight": null,
+            "weight": 100.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/11/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Left Hand Muay Thai",
+          "id": 13548,
+          "person": {
+            "ageAtEvent": 12,
+            "calculated_age": 12,
+            "dob": "08/15/2011",
+            "email": "nathan@lefthandmuaythai.com",
+            "first_name": "Vahe",
+            "full_name": "Vahe Gasparyan",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7678,
+            "last_name": "Gasparyan",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "18-3-5",
+          "wlr_string": "18-3-5"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 726,
+        "name": "Girls",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 833,
+        "max": 75.0,
+        "min": 70.1,
+        "name": "Junior Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/20/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 12,
+        "name": "International Rules",
+        "sport": {
+          "id": 5
+        }
+      },
+      "group": null,
+      "id": 3299,
+      "name": "Girls' Open B-Class 70.1LBS - 75.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3299
+          },
+          "competitiveexperienceString": "1.9 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Aubrey 'Heartbreaker' Howell",
+            "id": 21809,
+            "is_final_weight": null,
+            "weight": 75.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/21/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Controlled Force ",
+          "id": 11684,
+          "person": {
+            "ageAtEvent": 12,
+            "calculated_age": 12,
+            "dob": "09/21/2011",
+            "email": "christopher.howell1990@gmail.com",
+            "first_name": "Aubrey",
+            "full_name": "Aubrey 'Heartbreaker' Howell",
+            "gender": {
+              "name": "F"
+            },
+            "hasActiveSuspensions": false,
+            "id": 2325,
+            "last_name": "Howell",
+            "primary_address": {
+              "city_state_province": "Gaffney, SC, USA",
+              "country_abbr": "USA",
+              "friendly_address": "Gaffney, SC, USA",
+              "id": 2399,
+              "state_province_abbr": "SC"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "4-0-0, Sparring: 11 Fights",
+          "wlr_string": "4-0-0, Sparring: 11 Fights"
+        }
+      ],
+      "sport": {
+        "gender_name": "Female",
+        "id": 5,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 801,
+        "max": 65.0,
+        "min": 60.1,
+        "name": "Junior Bantamweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/11/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3988,
+      "name": "Boys' Open B-Class 60.1LBS - 65.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3988
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Vladimir Gasparian",
+            "id": 24716,
+            "is_final_weight": null,
+            "weight": 65.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/11/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Left Hand Muay Thai",
+          "id": 13556,
+          "person": {
+            "ageAtEvent": 8,
+            "calculated_age": 8,
+            "dob": "09/03/2015",
+            "email": "melissa@lefthandmuaythai.com",
+            "first_name": "Vladimir",
+            "full_name": "Vladimir Gasparian",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7972,
+            "last_name": "Gasparian",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 804,
+        "max": 80.0,
+        "min": 75.1,
+        "name": "Junior Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/02/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 3,
+        "name": "Modified",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3442,
+      "name": "Boys' Open B-Class 75.1LBS - 80.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3442
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Ryker Pickard",
+            "id": 22331,
+            "is_final_weight": null,
+            "weight": 80.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/02/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Warrior Martial Arts Academy West Plano",
+          "id": 12031,
+          "person": {
+            "ageAtEvent": 10,
+            "calculated_age": 10,
+            "dob": "11/22/2013",
+            "email": "sapick71@gmail.com",
+            "first_name": "Ryker",
+            "full_name": "Ryker Pickard",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 5016,
+            "last_name": "Pickard",
+            "primary_address": {
+              "city_state_province": "Dallas, TX, USA",
+              "country_abbr": "USA",
+              "friendly_address": "Dallas, TX, USA",
+              "id": 5103,
+              "state_province_abbr": "TX"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "14-5-0",
+          "wlr_string": "14-5-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 809,
+        "max": 104.0,
+        "min": 100.1,
+        "name": "Pinweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/27/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 3,
+        "name": "Modified",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3363,
+      "name": "Boys' Open B-Class 100.1LBS - 104.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3363
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Alejandro Hidalgo",
+            "id": 22013,
+            "is_final_weight": null,
+            "weight": 104.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/27/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Elite mma",
+          "id": 11825,
+          "person": {
+            "ageAtEvent": 13,
+            "calculated_age": 13,
+            "dob": "11/15/2010",
+            "email": "alexnathanllc@gmail.com",
+            "first_name": "Alejandro",
+            "full_name": "Alejandro Hidalgo",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 2667,
+            "last_name": "Hidalgo",
+            "primary_address": {
+              "city_state_province": "Los Banos, CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "Los Banos, CA, USA",
+              "id": 2453,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "8-1-0, Sparring: 4 Fights",
+          "wlr_string": "8-1-0, Sparring: 4 Fights"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 810,
+        "max": 108.0,
+        "min": 104.1,
+        "name": "Strawweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/24/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 3,
+        "name": "Modified",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3339,
+      "name": "Boys' Open B-Class 104.1LBS - 108.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3339
+          },
+          "competitiveexperienceString": "5.2 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Ace Hernandez",
+            "id": 21909,
+            "is_final_weight": null,
+            "weight": 108.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/24/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Ingram Muay Academy",
+          "id": 11756,
+          "person": {
+            "ageAtEvent": 15,
+            "calculated_age": 15,
+            "dob": "09/30/2008",
+            "email": "juliaw2626@yahoo.com",
+            "first_name": "Ace",
+            "full_name": "Ace Hernandez",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 2757,
+            "last_name": "Hernandez",
+            "primary_address": {
+              "city_state_province": "Perris, CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "Perris, CA, USA",
+              "id": 2454,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "5-1-0",
+          "wlr_string": "5-1-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 815,
+        "max": 132.0,
+        "min": 127.1,
+        "name": "Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/27/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 3,
+        "name": "Modified",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3362,
+      "name": "Boys' Open B-Class 127.1LBS - 132.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3362
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Abel 'SAVAGE' Reyes",
+            "id": 22007,
+            "is_final_weight": null,
+            "weight": 132.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/27/2023",
+          "fighterAffiliations": [],
+          "gym_name": "EliteMMA ",
+          "id": 11822,
+          "person": {
+            "ageAtEvent": 17,
+            "calculated_age": 17,
+            "dob": "04/25/2006",
+            "email": "abelreyes0323@gmail.com",
+            "first_name": "Abel",
+            "full_name": "Abel 'SAVAGE' Reyes",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3244,
+            "last_name": "Reyes",
+            "primary_address": {
+              "city_state_province": "Moreno Valley, CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "Moreno Valley, CA, USA",
+              "id": 2456,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "3-1-0",
+          "wlr_string": "3-1-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 813,
+        "max": 122.0,
+        "min": 117.1,
+        "name": "Bantamweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/28/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 3,
+        "name": "Modified",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3390,
+      "name": "Boys' Open C Class 117.1LBS - 122.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3390
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Christian Garcia",
+            "id": 22183,
+            "is_final_weight": null,
+            "weight": 122.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/28/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Elite MMA",
+          "id": 11932,
+          "person": {
+            "ageAtEvent": 15,
+            "calculated_age": 14,
+            "dob": "12/21/2008",
+            "email": "erikagblanco87@gmail.com",
+            "first_name": "Christian",
+            "full_name": "Christian Garcia",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3926,
+            "last_name": "Garcia",
+            "primary_address": {
+              "city_state_province": "Moreno Valley, CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "24785 Carolyn Ave, Moreno Valley, CA, USA",
+              "id": 4030,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "6-3-0",
+          "wlr_string": "6-3-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 725,
+        "name": "Boys",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 820,
+        "max": 159.0,
+        "min": 153.1,
+        "name": "Light Middleweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/03/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3850,
+      "name": "Boys' Open C-Class 153.1LBS - 159.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3850
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Abdulmelik J Obic",
+            "id": 24122,
+            "is_final_weight": null,
+            "weight": 159.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/03/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Fit and fight gym",
+          "id": 13197,
+          "person": {
+            "ageAtEvent": 17,
+            "calculated_age": 17,
+            "dob": "07/21/2006",
+            "email": "obicabdulmelik@gmail.com",
+            "first_name": "Abdulmelik",
+            "full_name": "Abdulmelik J Obic",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 4440,
+            "last_name": "Obic",
+            "primary_address": {
+              "city_state_province": "Morton Grove, IL, USA",
+              "country_abbr": "USA",
+              "friendly_address": "8543 Mango Ave, Morton Grove, IL, USA",
+              "id": 4532,
+              "state_province_abbr": "IL"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "4-0-0, Sparring: 3 Fights",
+          "wlr_string": "4-0-0, Sparring: 3 Fights"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 723,
+        "name": "Women",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 773,
+        "max": 147.0,
+        "min": 142.1,
+        "name": "Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/01/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 2,
+        "name": "Full Rules",
+        "sport": {
+          "id": 3
+        }
+      },
+      "group": null,
+      "id": 3813,
+      "name": "Women's Novice 142.1LBS - 147.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3813
+          },
+          "competitiveexperienceString": "2 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Maria Leon",
+            "id": 24105,
+            "is_final_weight": null,
+            "weight": 147.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/02/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Saint Michael’s Athletic Club",
+          "id": 13183,
+          "person": {
+            "ageAtEvent": 20,
+            "calculated_age": 20,
+            "dob": "10/23/2003",
+            "email": "marialeon1023@gmail.com",
+            "first_name": "Maria",
+            "full_name": "Maria Leon",
+            "gender": {
+              "name": "F"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3682,
+            "last_name": "Leon",
+            "primary_address": {
+              "city_state_province": "",
+              "country_abbr": null,
+              "friendly_address": "",
+              "id": 3791,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "2-0-0, Sparring: 4 Fights",
+          "wlr_string": "2-0-0, Sparring: 4 Fights"
+        }
+      ],
+      "sport": {
+        "gender_name": "Female",
+        "id": 3,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 732,
+        "max": 132.0,
+        "min": 127.1,
+        "name": "Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/08/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3929,
+      "name": "Men's Novice 127.1LBS - 132.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3929
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Erik Ferro",
+            "id": 24489,
+            "is_final_weight": null,
+            "weight": 132.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/09/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Vital Force",
+          "id": 13386,
+          "person": {
+            "ageAtEvent": 23,
+            "calculated_age": 22,
+            "dob": "01/14/2001",
+            "email": "erikferro8@gmail.com",
+            "first_name": "Erik",
+            "full_name": "Erik Ferro",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7898,
+            "last_name": "Ferro",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 733,
+        "max": 137.0,
+        "min": 132.1,
+        "name": "Super Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/03/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3455,
+      "name": "Men's Novice 132.1LBS - 137.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3455
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "John Miller",
+            "id": 22373,
+            "is_final_weight": null,
+            "weight": 137.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/03/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Steel Mma",
+          "id": 12059,
+          "person": {
+            "ageAtEvent": 31,
+            "calculated_age": 31,
+            "dob": "11/11/1992",
+            "email": "jamiller011@gmail.com",
+            "first_name": "John",
+            "full_name": "John Miller",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7226,
+            "last_name": "Miller",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 734,
+        "max": 142.0,
+        "min": 137.1,
+        "name": "Light Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/17/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3679,
+      "name": "Men's Novice 137.1LBS - 142.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3679
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "David Levinson",
+            "id": 23240,
+            "is_final_weight": null,
+            "weight": 142.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/17/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Steel MMA",
+          "id": 12680,
+          "person": {
+            "ageAtEvent": 25,
+            "calculated_age": 25,
+            "dob": "04/10/1998",
+            "email": "djl@levinsonapc.com",
+            "first_name": "David",
+            "full_name": "David Levinson",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7497,
+            "last_name": "Levinson",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 737,
+        "max": 159.0,
+        "min": 153.1,
+        "name": "Light Middleweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/11/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3983,
+      "name": "Men's Novice 153.1LBS - 159.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3983
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Miguel Aguirre",
+            "id": 24710,
+            "is_final_weight": null,
+            "weight": 159.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/11/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Left Hand Muay Thai",
+          "id": 13554,
+          "person": {
+            "ageAtEvent": 20,
+            "calculated_age": 20,
+            "dob": "07/02/2003",
+            "email": "miguelaaguirre2003@gmail.com",
+            "first_name": "Miguel",
+            "full_name": "Miguel Aguirre",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7841,
+            "last_name": "Aguirre",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 738,
+        "max": 165.0,
+        "min": 159.1,
+        "name": "Middleweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/26/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3357,
+      "name": "Men's Novice 159.1LBS - 165.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3357
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Gabriel \"Thunder\" Reyes",
+            "id": 22005,
+            "is_final_weight": null,
+            "weight": 165.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/26/2023",
+          "fighterAffiliations": [],
+          "gym_name": "EliteMMA ",
+          "id": 11820,
+          "person": {
+            "ageAtEvent": 19,
+            "calculated_age": 19,
+            "dob": "05/14/2004",
+            "email": "gabrielreyes0323@gmail.com",
+            "first_name": "Gabriel \"Thunder\"",
+            "full_name": "Gabriel \"Thunder\" Reyes",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3925,
+            "last_name": "Reyes",
+            "primary_address": {
+              "city_state_province": "Moreno Valley, CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "Moreno Valley, CA, USA",
+              "id": 2417,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "2-0-0",
+          "wlr_string": "2-0-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 741,
+        "max": 186.0,
+        "min": 179.1,
+        "name": "Light Cruiserweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/02/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3816,
+      "name": "Men's Novice 179.1LBS - 186.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3816
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Aiden Fitu",
+            "id": 24031,
+            "is_final_weight": null,
+            "weight": 186.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/02/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Saint Michael athletic club ",
+          "id": 13125,
+          "person": {
+            "ageAtEvent": 20,
+            "calculated_age": 20,
+            "dob": "08/15/2003",
+            "email": "aiden.siuloa@icloud.com",
+            "first_name": "Aiden",
+            "full_name": "Aiden Fitu",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 6644,
+            "last_name": "Fitu",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "3-0-0, Sparring: 1 Fight",
+          "wlr_string": "3-0-0, Sparring: 1 Fight"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 742,
+        "max": 195.0,
+        "min": 186.1,
+        "name": "Cruiserweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/12/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 27,
+        "name": "IKF Unified Rules",
+        "sport": {
+          "id": 4
+        }
+      },
+      "group": null,
+      "id": 3991,
+      "name": "Men's Novice 186.1LBS - 195.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3991
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Cameron Bullinger",
+            "id": 24727,
+            "is_final_weight": null,
+            "weight": 195.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/12/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Golden Glory Martial Arts",
+          "id": 13562,
+          "person": {
+            "ageAtEvent": 23,
+            "calculated_age": 23,
+            "dob": "05/15/2000",
+            "email": "CameronBullinger@gmail.com",
+            "first_name": "Cameron",
+            "full_name": "Cameron Bullinger",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7894,
+            "last_name": "Bullinger",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 4,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 738,
+        "max": 165.0,
+        "min": 159.1,
+        "name": "Middleweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/16/2023",
+      "criteria": "Open A-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3671,
+      "name": "Men's Open A-Class 159.1LBS - 165.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3671
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Brandon Nieffenegger",
+            "id": 23463,
+            "is_final_weight": null,
+            "weight": 165.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/19/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Fusion mma",
+          "id": 12839,
+          "person": {
+            "ageAtEvent": 28,
+            "calculated_age": 28,
+            "dob": "12/07/1995",
+            "email": "napalmstrikemuaythai@gmail.com",
+            "first_name": "Brandon",
+            "full_name": "Brandon Nieffenegger",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3783,
+            "last_name": "Nieffenegger",
+            "primary_address": {
+              "city_state_province": "Washington , UT, USA",
+              "country_abbr": "USA",
+              "friendly_address": "489 Dry springs Lane, Washington , UT, USA",
+              "id": 3893,
+              "state_province_abbr": "UT"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "11-5-0",
+          "wlr_string": "11-5-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 729,
+        "max": 117.0,
+        "min": 112.1,
+        "name": "Flyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/28/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3374,
+      "name": "Men's Open B-Class 112.1LBS - 117.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3374
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Joshua Moon",
+            "id": 22115,
+            "is_final_weight": null,
+            "weight": 117.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/28/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Steel MMA",
+          "id": 11881,
+          "person": {
+            "ageAtEvent": 20,
+            "calculated_age": 19,
+            "dob": "01/15/2004",
+            "email": "joshua.moon.a@gmail.com",
+            "first_name": "Joshua",
+            "full_name": "Joshua Moon",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 4327,
+            "last_name": "Moon",
+            "primary_address": {
+              "city_state_province": "San Diego, CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "12718 adolphia ct, San Diego, CA, USA",
+              "id": 4416,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "6-4-0",
+          "wlr_string": "6-4-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 733,
+        "max": 137.0,
+        "min": 132.1,
+        "name": "Super Lightweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "10/20/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 11,
+        "name": "International Rules",
+        "sport": {
+          "id": 4
+        }
+      },
+      "group": null,
+      "id": 3296,
+      "name": "Men's Open B-Class 132.1LBS - 137.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3296
+          },
+          "competitiveexperienceString": "5 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Kosi Anderson",
+            "id": 21785,
+            "is_final_weight": null,
+            "weight": 137.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "10/20/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Nyquist Roundhouse Martial Arts",
+          "id": 11659,
+          "person": {
+            "ageAtEvent": 23,
+            "calculated_age": 23,
+            "dob": "03/14/2000",
+            "email": "yinanderson14@gmail.com",
+            "first_name": "Kosi",
+            "full_name": "Kosi Anderson",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 2292,
+            "last_name": "Anderson",
+            "primary_address": {
+              "city_state_province": "Davenport, IA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "1923 W Locust Street, Davenport, IA, USA",
+              "id": 2366,
+              "state_province_abbr": "IA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "4-0-0, Sparring: 8 Fights",
+          "wlr_string": "4-0-0, Sparring: 8 Fights"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 4,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 736,
+        "max": 153.0,
+        "min": 147.1,
+        "name": "Super Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/13/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 4000,
+      "name": "Men's Open B-Class 147.1LBS - 153.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 4000
+          },
+          "competitiveexperienceString": "4 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Kasen Matsch",
+            "id": 24741,
+            "is_final_weight": null,
+            "weight": 153.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/13/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Vital Force",
+          "id": 13572,
+          "person": {
+            "ageAtEvent": 25,
+            "calculated_age": 25,
+            "dob": "09/03/1998",
+            "email": "krispymma@gmail.com",
+            "first_name": "Kasen",
+            "full_name": "Kasen Matsch",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3433,
+            "last_name": "Matsch",
+            "primary_address": {
+              "city_state_province": "",
+              "country_abbr": null,
+              "friendly_address": "",
+              "id": 3555,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "Point Sparring: 4 Fights",
+          "wlr_string": "Point Sparring: 4 Fights"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 742,
+        "max": 195.0,
+        "min": 186.1,
+        "name": "Cruiserweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/22/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3730,
+      "name": "Men's Open B-Class 186.1LBS - 195.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3730
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Tanner Fujii",
+            "id": 23514,
+            "is_final_weight": null,
+            "weight": 195.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/22/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Fuji",
+          "id": 12869,
+          "person": {
+            "ageAtEvent": 29,
+            "calculated_age": 29,
+            "dob": "03/05/1994",
+            "email": "tannerfujii@gmail.com",
+            "first_name": "Tanner",
+            "full_name": "Tanner Fujii",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7484,
+            "last_name": "Fujii",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 745,
+        "max": 999.0,
+        "min": 235.1,
+        "name": "Super Heavyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/09/2023",
+      "criteria": "Open B-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3944,
+      "name": "Men's Open B-Class 235.1LBS - 999.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3944
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Jorge Aquino",
+            "id": 24550,
+            "is_final_weight": null,
+            "weight": 999.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/09/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Vital Force Muay Thai ",
+          "id": 13423,
+          "person": {
+            "ageAtEvent": 31,
+            "calculated_age": 31,
+            "dob": "10/10/1992",
+            "email": "j.mej101092@gmail.com",
+            "first_name": "Jorge",
+            "full_name": "Jorge Aquino",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": true,
+            "id": 3539,
+            "last_name": "Aquino",
+            "primary_address": {
+              "city_state_province": "Chino, CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "5162 Lincoln Ave, Chino, CA, USA",
+              "id": 3657,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "5-4-0, Sparring: 1 Fight",
+          "wlr_string": "5-4-0, Sparring: 1 Fight"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 723,
+        "name": "Women",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 769,
+        "max": 127.0,
+        "min": 122.1,
+        "name": "Featherweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/08/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 2,
+        "name": "Full Rules",
+        "sport": {
+          "id": 3
+        }
+      },
+      "group": null,
+      "id": 3927,
+      "name": "Women's Open C- Class - 122.1LBS - 127.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3927
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Connie Gonzalez",
+            "id": 24444,
+            "is_final_weight": null,
+            "weight": 127.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/08/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Vital Force Muay Thai",
+          "id": 13362,
+          "person": {
+            "ageAtEvent": 22,
+            "calculated_age": 22,
+            "dob": "08/07/2001",
+            "email": "g.connie657@gmail.com",
+            "first_name": "Connie",
+            "full_name": "Connie Gonzalez",
+            "gender": {
+              "name": "F"
+            },
+            "hasActiveSuspensions": false,
+            "id": 4332,
+            "last_name": "Gonzalez",
+            "primary_address": {
+              "city_state_province": "Riverside , CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "10224 Hedrick ave , Riverside , CA, USA",
+              "id": 4421,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "3-0-0",
+          "wlr_string": "3-0-0"
+        },
+        {
+          "bracket": {
+            "id": 3927
+          },
+          "competitiveexperienceString": "3 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Emily Ward",
+            "id": 22334,
+            "is_final_weight": null,
+            "weight": 127.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/02/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Left Hand Muay Thai",
+          "id": 12033,
+          "person": {
+            "ageAtEvent": 29,
+            "calculated_age": 29,
+            "dob": "08/31/1994",
+            "email": "emilyaward94@gmail.com",
+            "first_name": "Emily",
+            "full_name": "Emily Ward",
+            "gender": {
+              "name": "F"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7250,
+            "last_name": "Ward",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 2,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Female",
+        "id": 3,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 729,
+        "max": 117.0,
+        "min": 112.1,
+        "name": "Flyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/04/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3861,
+      "name": "Men's Open C-Class 112.1LBS - 117.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3861
+          },
+          "competitiveexperienceString": "",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Luke-Anthony Angus",
+            "id": 24151,
+            "is_final_weight": null,
+            "weight": 117.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/04/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Hardknocks Muay Thai",
+          "id": 13217,
+          "person": {
+            "ageAtEvent": 18,
+            "calculated_age": 18,
+            "dob": "03/10/2005",
+            "email": "tony2203angus@gmail.com",
+            "first_name": "Luke-Anthony",
+            "full_name": "Luke-Anthony Angus",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 4584,
+            "last_name": "Angus",
+            "primary_address": {
+              "city_state_province": "Las Vegas, NV, USA",
+              "country_abbr": "USA",
+              "friendly_address": "PO Box 80122, Las Vegas, NV, USA",
+              "id": 4673,
+              "state_province_abbr": "NV"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "5-4-0",
+          "wlr_string": "5-4-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 731,
+        "max": 127.0,
+        "min": 122.1,
+        "name": "Featherweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/26/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3748,
+      "name": "Men's Open C-Class 122.1LBS - 127.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3748
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "KEVIN Aggrey",
+            "id": 23644,
+            "is_final_weight": null,
+            "weight": 127.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/26/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Collesium gym",
+          "id": 12914,
+          "person": {
+            "ageAtEvent": 26,
+            "calculated_age": 26,
+            "dob": "04/18/1997",
+            "email": "kevinaggrey12@gmail.com",
+            "first_name": "KEVIN",
+            "full_name": "KEVIN Aggrey",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 6622,
+            "last_name": "Aggrey",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 734,
+        "max": 142.0,
+        "min": 137.1,
+        "name": "Light Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/08/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3926,
+      "name": "Men's Open C-Class 137.1LBS - 142.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3926
+          },
+          "competitiveexperienceString": "3 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Alec J Stowe",
+            "id": 24441,
+            "is_final_weight": null,
+            "weight": 142.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/08/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Vital Force Muay Thai ",
+          "id": 13360,
+          "person": {
+            "ageAtEvent": 27,
+            "calculated_age": 27,
+            "dob": "10/14/1996",
+            "email": "alec14stowe@gmail.com",
+            "first_name": "Alec",
+            "full_name": "Alec J Stowe",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3711,
+            "last_name": "Stowe",
+            "primary_address": {
+              "city_state_province": "Riverside , CA, USA",
+              "country_abbr": "USA",
+              "friendly_address": "10224 Hedrick Ave, Riverside , CA, USA",
+              "id": 3821,
+              "state_province_abbr": "CA"
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "3-1-0",
+          "wlr_string": "3-1-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 735,
+        "max": 147.0,
+        "min": 142.1,
+        "name": "Welterweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "11/22/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3728,
+      "name": "Men's Open C-Class 142.1LBS - 147.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3728
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Danny Thammavong",
+            "id": 23508,
+            "is_final_weight": null,
+            "weight": 147.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "11/22/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Sasiprapa USA",
+          "id": 12865,
+          "person": {
+            "ageAtEvent": 31,
+            "calculated_age": 30,
+            "dob": "01/18/1993",
+            "email": "danthemanvanna@gmail.com",
+            "first_name": "Danny",
+            "full_name": "Danny Thammavong",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7606,
+            "last_name": "Thammavong",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 721,
+        "name": "Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 744,
+        "max": 235.0,
+        "min": 215.1,
+        "name": "Heavyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/10/2023",
+      "criteria": "Open C-Class",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3979,
+      "name": "Men's Open C-Class 215.1LBS - 235.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3979
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Vinesh Singh",
+            "id": 24703,
+            "is_final_weight": null,
+            "weight": 235.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/10/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Pely Ferrer",
+          "id": 13546,
+          "person": {
+            "ageAtEvent": 36,
+            "calculated_age": 36,
+            "dob": "03/24/1987",
+            "email": "vineshkumarsingh@yahoo.com",
+            "first_name": "Vinesh",
+            "full_name": "Vinesh Singh",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 6246,
+            "last_name": "Singh",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "1-3-0",
+          "wlr_string": "1-3-0"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 916,
+        "name": "Senior Women",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 946,
+        "max": 159.0,
+        "min": 153.1,
+        "name": "Light Middleweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/08/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 12,
+        "name": "International Rules",
+        "sport": {
+          "id": 5
+        }
+      },
+      "group": null,
+      "id": 3915,
+      "name": "Women's Novice 153.1LBS - 159.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3915
+          },
+          "competitiveexperienceString": "1.8 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Christina Chambers",
+            "id": 24381,
+            "is_final_weight": null,
+            "weight": 159.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/08/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Golden Glory Martial Arts Academy ",
+          "id": 13331,
+          "person": {
+            "ageAtEvent": 49,
+            "calculated_age": 49,
+            "dob": "02/10/1974",
+            "email": "chambers_cd@live.ca",
+            "first_name": "Christina",
+            "full_name": "Christina Chambers",
+            "gender": {
+              "name": "F"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7870,
+            "last_name": "Chambers",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Female",
+        "id": 5,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 915,
+        "name": "Senior Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 934,
+        "max": 235.0,
+        "min": 215.1,
+        "name": "Heavyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/07/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 1,
+        "name": "Full Rules",
+        "sport": {
+          "id": 2
+        }
+      },
+      "group": null,
+      "id": 3901,
+      "name": "Men's Novice 215.1LBS - 235.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3901
+          },
+          "competitiveexperienceString": "0.5 years exp",
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "John Lucero",
+            "id": 24337,
+            "is_final_weight": null,
+            "weight": 235.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/07/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Vital Force Muay Thai",
+          "id": 13305,
+          "person": {
+            "ageAtEvent": 47,
+            "calculated_age": 46,
+            "dob": "12/20/1976",
+            "email": "district2921@yahoo.com",
+            "first_name": "John",
+            "full_name": "John Lucero",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 3417,
+            "last_name": "Lucero",
+            "primary_address": {
+              "city_state_province": "",
+              "country_abbr": null,
+              "friendly_address": "",
+              "id": 3539,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": "2-0-0, Sparring: 3 Fights",
+          "wlr_string": "2-0-0, Sparring: 3 Fights"
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 2,
+        "name": "Muay Thai"
+      },
+      "starts_on_event_day": null
+    },
+    {
+      "bouts": null,
+      "bouts_in_progress": null,
+      "bracketrule": {
+        "description": "Single elimination following the unusual IKF model where a bracket can have up to 4 competitors, with 1 vs 2 right away; or 1 gets bye with 2vs3; or 1vs2 and 3vs4",
+        "friendly_name": "IKF Single Elimination",
+        "id": 2,
+        "name": "ikf-modified-single-elim"
+      },
+      "bracketstatus": {
+        "friendly_name": "Open",
+        "id": 3,
+        "name": "Open"
+      },
+      "compete_class_age": {
+        "id": 915,
+        "name": "Senior Men",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "compete_class_weight": {
+        "id": 935,
+        "max": 999.0,
+        "min": 235.1,
+        "name": "Super Heavyweight",
+        "pro_classification": {
+          "id": 1,
+          "name": "Amateur"
+        }
+      },
+      "create_date": "12/12/2023",
+      "criteria": "Novice",
+      "discipline": {
+        "id": 27,
+        "name": "IKF Unified Rules",
+        "sport": {
+          "id": 4
+        }
+      },
+      "group": null,
+      "id": 3990,
+      "name": "Men's Novice 235.1LBS - 999.0LBS",
+      "number": null,
+      "ring_name": null,
+      "ring_number": null,
+      "seps": [
+        {
+          "bracket": {
+            "id": 3990
+          },
+          "competitiveexperienceString": null,
+          "competitiveexperiences": null,
+          "competitor": {
+            "full_name": "Robert Walker",
+            "id": 24725,
+            "is_final_weight": null,
+            "weight": 999.0,
+            "weight_units": {
+              "id": 1,
+              "name": "LBS"
+            }
+          },
+          "create_date": "12/12/2023",
+          "fighterAffiliations": [],
+          "gym_name": "Elite Martial Arts Academy ",
+          "id": 13560,
+          "person": {
+            "ageAtEvent": 41,
+            "calculated_age": 41,
+            "dob": "07/31/1982",
+            "email": "walkersgt1982@hotmail.com",
+            "first_name": "Robert",
+            "full_name": "Robert Walker",
+            "gender": {
+              "name": "M"
+            },
+            "hasActiveSuspensions": false,
+            "id": 7979,
+            "last_name": "Walker",
+            "primary_address": {
+              "city_state_province": null,
+              "country_abbr": null,
+              "friendly_address": null,
+              "id": null,
+              "state_province_abbr": null
+            }
+          },
+          "profile_name": "Competitor",
+          "seed": 1,
+          "wlrString": null,
+          "wlr_string": null
+        }
+      ],
+      "sport": {
+        "gender_name": "Male",
+        "id": 4,
+        "name": "Kickboxing"
+      },
+      "starts_on_event_day": null
+    }
+  ],
+  "editingData": null,
+  "fighterAffiliations": [],
+  "ring_numbers": [],
+  "sporting_event": {
+    "event_date": "01/26/2024",
+    "id": 301,
+    "name": "IKF West Coast Muay Thai / Kickboxing Classic Full Contact"
+  },
+  "starts_on_event_days": null
+}

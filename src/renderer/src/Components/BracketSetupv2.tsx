@@ -299,7 +299,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
 
 
   return (
-    <>
+    <Box>
       <Box sx={{ border: "2px solid #666", borderRadius: "8px", marginBottom: "10px", backgroundColor: "#333", width: "660px", padding: '10px' }}>
         <Typography variant='body2'><strong>Bracket Count:</strong> {brackets.length} <strong>Competitor Count:</strong> {competitorCount()}</Typography>
         <TextField variant='standard'
@@ -336,7 +336,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
           })
         }
       </Box>
-    </>
+    </Box>
   )
 });
 

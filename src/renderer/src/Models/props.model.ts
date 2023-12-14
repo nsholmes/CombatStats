@@ -1,5 +1,5 @@
 import { ContextMenuType, PositionCoords } from './';
-import { Bout, BracketEditState, CSBracket } from './event.model';
+import { Bout, BracketCompetitor, BracketEditState, CSBracket } from './event.model';
 
 export type CreateEventProps = {
   setEventName: (eventName: string) => void;
@@ -20,6 +20,12 @@ export type BracketSetupProps = {
   setMenuIsVisible: (isVisible: boolean) => void;
   setMenuPosition: (coords: PositionCoords) => void;
   setSelectedCompetitor: (competitorId: string | null) => void;
+}
+export type WeighInCompetitorProps = {
+  competitor: BracketCompetitor;
+}
+export type EventWeighInProps = {
+  bracketCompetitors: BracketCompetitor[]
 }
 export type BracketListProps = {
   getAllCSBrackets: CSBracket[];

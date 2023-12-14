@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import BracketSetupv2 from '../Components/BracketSetupv2';
+import EventWeighIns from '../Components/EventWeighIns';
 import BracketData from '../data/MarionBrackets_20231210.json';
 import {
-  SelectAllCSBrackets, setBracketEditState, setCBBrackets
+    SelectAllCSBrackets, setBracketEditState, setCBBrackets
 } from '../Features/cbBracket.slice';
 import {
-  addNewBout, SelectAllBouts, SelectCombatEventName, setEventName
+    addNewBout, SelectAllBouts, SelectCombatEventName, setEventName
 } from '../Features/combatEvent.slice';
 import { Bout, BracketEditState, CSBracket, Fighter } from '../Models/event.model';
 import { CreateEventProps } from '../Models/props.model';
@@ -70,7 +71,10 @@ function CreateEvent(props: CreateEventProps) {
         {BracketData.sporting_event.name}
       </Typography>
       {/* <BracketSetup /> */}
-      <BracketSetupv2 />
+      <Box sx={{ display: "flex", gap: '20px' }}>
+        <BracketSetupv2 />
+        <EventWeighIns />
+      </Box>
       {/* <BracketLayout />
       <EventBrackets /> */}
     </>

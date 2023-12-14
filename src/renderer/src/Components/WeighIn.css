@@ -1,0 +1,26 @@
+.weighInCompetitorWrapper {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+.weighInFighterName {
+  width: 300px;
+}
+
+.weighInWeight {
+  width: 130px;
+}
+
+.weighInExperience {
+  width: 200px;
+}
+
+.weighInIcons {
+  width: 100px;
+}
+.weighInIconWrapper {
+  display: flex;
+  gap: 10px;
+}

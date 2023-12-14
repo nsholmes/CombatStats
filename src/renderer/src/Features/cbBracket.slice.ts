@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { BracketEditState, CSBracket, CSBrackets } from '../Models';
+import { BracketCompetitor, BracketEditState, CSBracket, CSBrackets } from '../Models';
 
 const initialState: CSBrackets = { brackets: [], editState: "off", selectedCompetitor: null };
 
@@ -90,7 +90,7 @@ export const CSBracketSlice = createSlice({
 });
 
 export const SelectAllCSBrackets = (state: any) => state.CSBracket.brackets;
-export const SelectBracketCompetitors = (state: any) => {
+export const SelectBracketCompetitors = (state: any): BracketCompetitor[] => {
   const competitors = state.CSBracket.brackets.map((bracket: CSBracket) => bracket.competitors);
   return competitors.flat();
 }
