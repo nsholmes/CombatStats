@@ -14,6 +14,27 @@ export const CSBracketSlice = createSlice({
     setBracketEditState(state, action: PayloadAction<BracketEditState>) {
       state.editState = action.payload;
     },
+    updateCompetitor(state, action: PayloadAction<BracketCompetitor>) {
+      const { competitor, bracket, person, competitiveexperienceString, competitiveexperiences } = action.payload;
+
+      console.log(competitor.full_name);
+      console.log(competitor.weight);
+      console.log("competitor id: ", competitor.id);
+      state.brackets.find((_bracket, idx) => {
+        if (_bracket.bracketId == bracket.id) {
+          _bracket.competitors.find((compet) => {
+            if (compet.competitor.id == competitor.id) {
+              console.log("fighter found", compet.competitor.full_name);
+              compet.competitor.full_name = competitor.full_name;
+              compet.competitor.weight = competitor.weight;
+              compet.person.full_name = competitor.full_name;
+              compet.person.first_name = person.first_name;
+              compet.person.last_name = person.last_name;
+            }
+          })
+        }
+      });
+    },
     setSelectedBracketCompetitor(state, action: PayloadAction<string | null>) {
       state.selectedCompetitor = action.payload;
       // if (typeof (action.payload) === "string") {
@@ -112,6 +133,11 @@ export const SelectBracketsByRing = (state: any) => {
   })
 }
 
-export const { setCBBrackets, setBracketEditState, setSelectedBracketCompetitor, moveSelectedCompetitor } = CSBracketSlice.actions;
+export const {
+  setCBBrackets,
+  setBracketEditState,
+  setSelectedBracketCompetitor,
+  moveSelectedCompetitor,
+  updateCompetitor } = CSBracketSlice.actions;
 
 export const { reducer } = CSBracketSlice;

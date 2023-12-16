@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import { Box, Button, TextField, Typography } from '@mui/material';
 
 import {
-    moveSelectedCompetitor, SelectAllCSBrackets, SelectBracketEditState, SelectedCompetitorSelector,
-    setSelectedBracketCompetitor
+  moveSelectedCompetitor, SelectAllCSBrackets, SelectBracketEditState, SelectedCompetitorSelector,
+  setSelectedBracketCompetitor
 } from '../Features/cbBracket.slice';
 import { setCurrentMenu, setIsVisible, setMenuCoords } from '../Features/contextMenu.slice';
 import {
-    BracketCompetitor, BracketSetupProps, ContextMenuType, CSBracket, PositionCoords
+  BracketCompetitor, BracketSetupProps, ContextMenuType, CSBracket, PositionCoords
 } from '../Models';
 
 function mapStateToProps(state: any) {
@@ -37,9 +37,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
 
   useEffect(() => {
     props.setCurrentContextMenu("bracketSetup")
-  }, [])
-
-
+  }, []);
   const brackets = props.getAllCSBrackets;
 
   const competitorCount = () => {

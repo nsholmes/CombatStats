@@ -1,36 +1,71 @@
 import './WeighIn.css';
 
 import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import EditSharpIcon from '@mui/icons-material/EditSharp';
 import { Box, TextField } from '@mui/material';
 
-import { WeighInCompetitorProps } from '../Models';
+import { updateCompetitor } from '../Features/cbBracket.slice';
+import { BracketCompetitor, WeighInCompetitorProps } from '../Models';
+
+function mapStateToProps(state: any) { }
+function mapDispatchToProps(dispatch: any) {
+    return {
+        updateCompetitor: (competitor: BracketCompetitor) => { dispatch(updateCompetitor(competitor)) }
+    }
+}
 
 function WeighInCompetitor(props: WeighInCompetitorProps) {
     const [isEditMode, setIsEditMode] = useState(false);
     const [competitorExprience, setCompetitorExprience] = useState(props.competitor.competitiveexperienceString);
+    const [competitorFullName, setCompetitorFullName] = useState(props.competitor.person.full_name);
+    const [competitorFirstName, setCompetitorFirstName] = useState(props.competitor.person.first_name);
+    const [competitorLastName, setCompetitorLastName] = useState(props.competitor.person.last_name);
+    const [competitorWeight, setCompetitorWeight] = useState(props.competitor.competitor.weight);
+
 
     useEffect(() => {
         setCompetitorExprience(!competitorExprience ? "" : competitorExprience)
     }, [competitorExprience]);
+
+    const checkmarkClicked = () => {
+        setIsEditMode(false);
+        props.updateCompetitor({
+            ...props.competitor,
+            person: {
+                ...props.competitor.person,
+                first_name: competitorFirstName,
+                last_name: competitorLastName,
+            },
+            competitor: {
+                full_name: `${competitorFirstName} ${competitorLastName}`,
+                weight: competitorWeight,
+                id: props.competitor.competitor.id,
+                is_final_weight: props.competitor.competitor.is_final_weight
+            }
+        });
+    }
+
     return (
         <Box className="weighInCompetitorWrapper" sx={{}}>
             <Box className='weighInFighterName' sx={{}}>
                 <strong><u>Fighter</u>: </strong>
                 {
-                    isEditMode ? <>
-                        <TextField variant='standard' defaultValue={props.competitor.person.full_name}></TextField>
-                    </> : <>{`${props.competitor.person.full_name}`}</>
+                    <>{`${competitorFullName}`}</>
                 }
             </Box>
             <Box className='weighInWeight'>
                 <strong><u>Weight</u>: </strong>
                 {
                     isEditMode ? <>
-                        <TextField sx={{ width: '30px' }} variant='standard' defaultValue={props.competitor.competitor.weight} />
+                        <TextField
+                            sx={{ width: '30px' }}
+                            variant='standard'
+                            defaultValue={props.competitor.competitor.weight}
+                            onChange={(ev) => { setCompetitorWeight(parseFloat(ev.target.value)) }} />
                     </> : <>{`${props.competitor.competitor.weight} lbs.`}</>
                 }
             </Box>
@@ -42,7 +77,8 @@ function WeighInCompetitor(props: WeighInCompetitorProps) {
                             <TextField
                                 sx={{ width: '30px' }}
                                 variant='standard'
-                                defaultValue={competitorExprience} />
+                                defaultValue={competitorExprience}
+                                onChange={(ev) => { setCompetitorExprience(ev.target.value) }} />
                         </> :
                         <>
                             {`${competitorExprience}`}
@@ -54,7 +90,7 @@ function WeighInCompetitor(props: WeighInCompetitorProps) {
                     isEditMode ?
                         <Box className='weighInIconWrapper'>
                             <Box>
-                                <CheckSharpIcon onClick={() => setIsEditMode(false)} />
+                                <CheckSharpIcon onClick={() => checkmarkClicked()} />
                             </Box>
                             <Box>
                                 <DeleteSharpIcon />
@@ -73,4 +109,4 @@ function WeighInCompetitor(props: WeighInCompetitorProps) {
         </Box>
     );
 }
-export default WeighInCompetitor;
+export default connect(mapStateToProps, mapDispatchToProps)(WeighInCompetitor);

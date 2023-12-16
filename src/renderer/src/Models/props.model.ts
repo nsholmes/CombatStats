@@ -23,6 +23,7 @@ export type BracketSetupProps = {
 }
 export type WeighInCompetitorProps = {
   competitor: BracketCompetitor;
+  updateCompetitor: (competitor: BracketCompetitor) => void;
 }
 export type EventWeighInProps = {
   bracketCompetitors: BracketCompetitor[]
