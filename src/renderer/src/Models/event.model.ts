@@ -5,7 +5,7 @@ export type CombatEvent = {
 export type Fighter = { firstName: string; lastName: string }
 export type Bout = { blueCorner: Fighter, redCorner: Fighter }
 export type BracketEditState = "moveFighter" | "duplicateAndMoveFighter" | "removeFighter" | "addFighter" | "off";
-
+export type BracketFilterType = "all" | "girls" | "women" | "boys" | "men";
 export type CSBrackets = {
   brackets: CSBracket[];
   editState: BracketEditState;

@@ -1,22 +1,23 @@
-import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import AdbIcon from "@mui/icons-material/Adb";
-import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+import AdbIcon from '@mui/icons-material/Adb';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
 const pages = [
   { linkText: "Events", url: "events" },
-  { linkText: "Create Event", url: "/createevent" },
+  { linkText: "New Event", url: "/new-event" },
+  { linkText: "New Tournament", url: "/new-tournament" },
   { linkText: "Upload IKF Event", url: "uploadEvent" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];

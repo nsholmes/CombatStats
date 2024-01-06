@@ -11,7 +11,7 @@ import { Box, TextField } from '@mui/material';
 import { updateCompetitor } from '../Features/cbBracket.slice';
 import { BracketCompetitor, WeighInCompetitorProps } from '../Models';
 
-function mapStateToProps(state: any) { }
+function mapStateToProps(state: any) { return {} }
 function mapDispatchToProps(dispatch: any) {
     return {
         updateCompetitor: (competitor: BracketCompetitor) => { dispatch(updateCompetitor(competitor)) }

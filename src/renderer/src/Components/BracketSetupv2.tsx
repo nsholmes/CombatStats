@@ -1,9 +1,10 @@
 import './BracketLayout.css';
 
-import { DragEvent, memo, MouseEvent, useEffect } from 'react';
+import { DragEvent, memo, MouseEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { Box, Button, TextField, Typography } from '@mui/material';
+import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
+import { Box, Button, Tab, Tabs, Typography } from '@mui/material';
 
 import {
   moveSelectedCompetitor, SelectAllCSBrackets, SelectBracketEditState, SelectedCompetitorSelector,
@@ -11,8 +12,10 @@ import {
 } from '../Features/cbBracket.slice';
 import { setCurrentMenu, setIsVisible, setMenuCoords } from '../Features/contextMenu.slice';
 import {
-  BracketCompetitor, BracketSetupProps, ContextMenuType, CSBracket, PositionCoords
+  BracketCompetitor, BracketFilterType, BracketSetupProps, ContextMenuType, CSBracket,
+  PositionCoords
 } from '../Models';
+import { filterBrackets } from './utils/filterbracket';
 
 function mapStateToProps(state: any) {
   return {
@@ -35,10 +38,13 @@ function mapDispatchToProps(dispatch: any) {
 
 const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
 
+  const [searchValue, setSearchValue] = useState("");
+  const [bracketFilter, setBracketFilter] = useState<BracketFilterType>("all");
+
   useEffect(() => {
     props.setCurrentContextMenu("bracketSetup")
   }, []);
-  const brackets = props.getAllCSBrackets;
+  const filteredBrackets = props.getAllCSBrackets;
 
   const competitorCount = () => {
     let count = 0;
@@ -294,43 +300,81 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
     console.log(`clicks: ${ev.detail} bracketId: ${bracketId}`);
   }
 
+  const filterChanged = (event: SyntheticEvent, filterValue: BracketFilterType) => {
+    setBracketFilter(filterValue);
+    // if (filterValue === 'all') {
+    //   setFilteredBrackets(props.getAllCSBrackets);
+    // }
+    const newFilteredBrackets = filterBrackets(filteredBrackets, filterValue);
+  }
 
 
   return (
     <Box>
-      <Box sx={{ border: "2px solid #666", borderRadius: "8px", marginBottom: "10px", backgroundColor: "#333", width: "660px", padding: '10px' }}>
-        <Typography variant='body2'><strong>Bracket Count:</strong> {brackets.length} <strong>Competitor Count:</strong> {competitorCount()}</Typography>
-        <TextField variant='standard'
-          label="Find Competitor"
-          sx={{ borderRadius: "4px", padding: "5px", backgroundColor: "#fff" }} />
-        <Button>Find</Button>
-        <Button>Add Bracket</Button>
-        <Button>Start Brackets</Button>
+      {/* <AddBracketDialog open={true} /> */}
+      <Box sx={{
+        border: "2px solid #666",
+        borderRadius: "8px",
+        marginBottom: "10px",
+        backgroundColor: "#333",
+        width: "745px",
+        padding: '10px'
+      }}>
+        <Box sx={{ display: 'flex', justifyContent: "space-between", marginBottom: '10px' }}>
+          <Typography variant='body2'>
+            <strong>Bracket Count:</strong> {filteredBrackets.length}
+          </Typography>
+          <Typography variant='body2'>
+            <strong>Competitor Count:</strong> {competitorCount()}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <Tabs
+            textColor='primary'
+            value={bracketFilter}
+            onChange={filterChanged}>
+            <Tab sx={{ color: '#fff' }} value='all' label='All' />
+            <Tab sx={{ color: '#fff' }} value='girls' label='Girls' />
+            <Tab sx={{ color: '#fff' }} value='boys' label='Boys' />
+            <Tab sx={{ color: '#fff' }} value='women' label='Women' />
+            <Tab sx={{ color: '#fff' }} value='men' label='Men' />
+          </Tabs>
 
+          <Box>
+            <Button variant='contained' size='small'> Add New Bracket</Button>
+            <Button variant='text' size='small'>
+              <PlayCircleOutlineOutlinedIcon fontSize='large' />
+            </Button>
+          </Box>
+        </Box>
       </Box>
       <Box className="bracketsWrapper">
         {
-          brackets.map((bracket, index) => {
-            return (
-              <Box>
-                <Typography variant="h6">{`${bracket.divisionName}`}</Typography>
-                {bracket.competitors.length > 0 ?
-                  <Box>
-                    <Box key={index} className="bracket4">
-                      <Box className="round round1">
-                        {/* Round 1: 2 or more Fighters */}
-                        {setupRound1(bracket)}
+          filteredBrackets.map((bracket, index) => {
+            if (bracket.divisionName.toLocaleLowerCase().indexOf(bracketFilter) === 0 || bracketFilter === 'all') {
+              return (
+                <Box key={`${bracket.bracketId}_${index}`} id={`${bracket.bracketId}_${index}`}>
+                  <Typography variant="h6">{`${bracket.divisionName}`}</Typography>
+                  {bracket.competitors.length > 0 ?
+                    <Box>
+                      <Box key={index} className="bracket4">
+                        <Box className="round round1">
+                          {/* Round 1: 2 or more Fighters */}
+                          {setupRound1(bracket)}
+                        </Box>
+                        <Box className="round round2">
+                          {setupRound2(bracket)}
+                        </Box>
+                        <Box className="round round3">
+                          <Box className="seat seat7">Bracket Winner</Box>
+                        </Box>
                       </Box>
-                      <Box className="round round2">
-                        {setupRound2(bracket)}
-                      </Box>
-                      <Box className="round round3">
-                        <Box className="seat seat7">Bracket Winner</Box>
-                      </Box>
-                    </Box>
-                  </Box> : <></>}
-              </Box>
-            )
+                    </Box> : <></>}
+                </Box>
+              )
+            } else {
+              return <></>;
+            }
           })
         }
       </Box>
