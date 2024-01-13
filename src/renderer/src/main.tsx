@@ -1,10 +1,13 @@
+import './index.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './Router.tsx';
-import { StyledEngineProvider } from '@mui/material';
 import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
+
+import { StyledEngineProvider } from '@mui/material';
+
+import { router } from './Router.tsx';
 import { store } from './store.ts';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

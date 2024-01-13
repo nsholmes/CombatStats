@@ -1,0 +1,32 @@
+{
+  "overview": {
+    "eventID": 1,
+    "eventName": "Fight Show 14",
+    "date": "1/27/2024",
+    "location": "MACC Activity Center",
+    "address": "101 College Ave",
+    "city": "Moberly",
+    "state": "MO",
+    "zip": 65270
+  },
+  "bouts": [
+    {
+      "boutNumber": 1,
+      "redCorner": {
+        "firstName": "Brandon",
+        "lastName": "Murphy",
+        "age": 23,
+        "weight": 170.0,
+        "gymName": "Maryland Heights, MO"
+      },
+      "blueCorner": {
+        "firstName": "Caleb",
+        "lastName": "Tracy",
+        "weight": "",
+        "gymName": ""
+      },
+      "results": {}
+    },
+    {}
+  ]
+}

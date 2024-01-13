@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 
 const pages = [
   { linkText: "Events", url: "events" },
-  { linkText: "New Event", url: "/new-event" },
+  { linkText: "New Event", url: "/events/create" },
   { linkText: "New Tournament", url: "/new-tournament" },
   { linkText: "Upload IKF Event", url: "uploadEvent" },
 ];

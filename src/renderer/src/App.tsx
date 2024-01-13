@@ -2,6 +2,8 @@ import './App.css';
 
 import { Outlet } from 'react-router-dom';
 
+import { Box } from '@mui/material';
+
 import ContextMenu from './Components/contextMenus/ContextMenu';
 // import { useState } from "react";
 // import { Box, } from "@mui/material";
@@ -18,11 +20,11 @@ import HeaderNav from './Components/HeaderNav';
 
 function App() {
   return (
-    <>
+    <Box sx={{}}>
       <HeaderNav />
       <ContextMenu />
       <Outlet />
-    </>
+    </Box>
     // <Box sx={{ height: '100%', padding: '0px 5px 5px 5px' }}>
     //   <HeaderNav />
     //   <CreateEvent />
