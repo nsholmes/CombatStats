@@ -1,10 +1,10 @@
-import { Box, Paper, Typography, } from "@mui/material";
-import BracketSetup from "./BracketSetup";
-import { memo, DragEvent } from "react";
-import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
-import { connect } from "react-redux";
-import { BracketListProps } from "../Models";
-import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragEvent, memo } from 'react';
+import { connect } from 'react-redux';
+
+import { Typography } from '@mui/material';
+
+import { SelectAllCSBrackets } from '../Features/cbBracket.slice';
+import { BracketListProps } from '../Models';
 
 function mapStateToProps(state: any) {
   return {
@@ -30,7 +30,7 @@ const BracketList = memo(function BracketList(props: BracketListProps) {
       <Typography sx={{ textAlign: "center" }} variant="h4">
         Bracket List
       </Typography>
-      <BracketSetup />
+      {/* <BracketSetup /> */}
     </>
   );
 })

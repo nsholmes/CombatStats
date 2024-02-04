@@ -28,7 +28,6 @@ function EventRow(props: { row: CSEvent }) {
         <TableCell component="th" scope="row">{row.overview.date}</TableCell>
         <TableCell>{row.overview.eventName}</TableCell>
         <TableCell>{row.overview.promoter}</TableCell>
-        <TableCell>{row.overview.promoter}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -72,6 +71,7 @@ function Events(props: EventsProps) {
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
+              <TableCell> - </TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Event</TableCell>
               <TableCell>Promoter</TableCell>
@@ -79,7 +79,12 @@ function Events(props: EventsProps) {
           </TableHead>
           <TableBody>
             {
-              props.getCSEvents.map((row, idx) => (<EventRow key={`evtRow${idx}`} row={row} />))
+              props.getCSEvents.length > 0 ?
+                props.getCSEvents.map((row, idx) => {
+                  return (
+                    <EventRow key={`evtRow${idx}`} row={row} />
+                  )
+                }) : <></>
             }
           </TableBody>
         </Table>

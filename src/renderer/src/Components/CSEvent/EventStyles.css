@@ -4,8 +4,20 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  justify-content: center;
 }
 
 .addEventTextField {
+}
+
+.currentBoutWrapper {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ddd;
+}
+
+.redStats {
+  background-color: #a20;
+}
+.blueStats {
+  background-color: #1976d2;
 }

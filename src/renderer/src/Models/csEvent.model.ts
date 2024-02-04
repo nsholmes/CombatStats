@@ -18,32 +18,49 @@ export type EventOverview = {
 export type Bout = {
     redCorner: Fighter;
     blueCorner: Fighter;
-    results: {
+    roundCount: number;
+    maxWeight: number;
+    boutType: string;
+    results?: {
         type: Decision | Finish;
         winner: number; //fighterId
         loser: number; //fighterId
     },
-    stats: {
+    stats?: {
         redStats: FighterStats;
         blueStats: FighterStats;
     }
+    sigStrikes?: {
+        redSigStrikes: SignificantStrikes;
+        blueSigStrikes: SignificantStrikes;
+    }
+}
+
+export type SignificantStrikes = {
+    punches: number;
+    kicks: number;
 }
 
 export type Fighter = {
-    id: number;
+    id?: number;
     firstName: string;
     lastName: string;
-    age: number;
+    age?: number;
     dob: string
     weight: number;
-    homeTown: string;
-    gym: string;
+    city: string;
+    state: string;
+    gym?: string;
     record: FighterRecord;
 }
 
 export type FighterStats = {
-    attempted: Strikes;
-    landed: Strikes;
+    punchLanded: number;
+    punchThrown: number;
+    kickLanded: number;
+    kickThrown: number;
+    takeDownLanded: number;
+    takeDownAttempted: number;
 }
 
 export type Strikes = {

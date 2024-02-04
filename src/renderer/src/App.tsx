@@ -19,6 +19,11 @@ import HeaderNav from './Components/HeaderNav';
 // import StatsBox from "./components/StatsBox";
 
 function App() {
+  // const db = new Datastore({ filename: './data/dataFile' });
+
+  // db.loadDatabase((err) => {
+  //   console.log(`error: ${err}`)
+  // })
   return (
     <Box sx={{}}>
       <HeaderNav />

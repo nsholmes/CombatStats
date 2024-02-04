@@ -1,12 +1,16 @@
-import { Box, Button, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import './totalStrikes.css';
-import StatsBox from "./components/StatsBox";
+
+import { useEffect, useState } from 'react';
+
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
+
+import StatsBox from './Components/StatsBox';
+import { FighterStats } from './Models/csEvent.model';
 
 function TotalStrikes() {
 
   type strikeTarget = "punchLanded" | "punchThrown" | "kickLanded" | "kickThrown" | "takeDownLanded" | "takeDownAttempted";
-  const blueCornerStats = {
+  const blueCornerStats: FighterStats = {
     punchLanded: 0,
     punchThrown: 0,
     kickLanded: 0,
@@ -15,7 +19,7 @@ function TotalStrikes() {
     takeDownAttempted: 0
   }
 
-  const redCornerStats = {
+  const redCornerStats: FighterStats = {
     punchLanded: 0,
     punchThrown: 0,
     kickLanded: 0,
@@ -26,6 +30,8 @@ function TotalStrikes() {
 
   const [blueStats, setBlueStats] = useState(blueCornerStats);
   const [redStats, setRedStats] = useState(redCornerStats);
+  const [currentRound, setCurrentRound] = useState(1);
+  const [currentBout, setCurrentBout] = useState(1);
 
   useEffect(() => {
     console.log("HIT HERE!!!")
@@ -36,6 +42,7 @@ function TotalStrikes() {
     console.log("redStats changed: ", redStats.kickLanded)
   }, [redStats])
 
+  const outerTheme = useTheme();
 
   const updateStats = (corner: string, target: strikeTarget) => {
     console.log(target)
@@ -127,21 +134,30 @@ function TotalStrikes() {
     }
   }
 
+  const nextRoundClicked = () => {
+    setCurrentRound(currentRound + 1);
+  }
+  const endBoutClicked = () => {
+    setCurrentBout(currentBout + 1);
+    setCurrentRound(1);
+  }
+
   return (
     <Box sx={{ backgroundColor: "#0A0A0A" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography sx={{ color: "#FAFAFA" }} variant="h3">Event Name</Typography>
-        <Typography sx={{ color: "#FAFAFA" }} variant="h5">Fight: 1</Typography>
-        <Typography sx={{ color: "#FAFAFA" }} variant="h5">Round: 1</Typography>
+        <Typography sx={{ color: "#FAFAFA" }} variant="h5">Bout: {currentBout}</Typography>
+        <Typography sx={{ color: "#FAFAFA" }} variant="h5">Round: {currentRound}</Typography>
         <Box>
-          <Button>Next Round</Button>
-          <Button>End Bout</Button>
+          <Button onClick={nextRoundClicked}>Next Round</Button>
+          <Button onClick={endBoutClicked}>End Bout</Button>
         </Box>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-around", backgroundColor: "#212121", color: "#fafafa;" }}>
         <Box>
           <Box sx={{ color: "#00468b", textAlign: "left" }}>
-            <Typography variant="h2">John Jones</Typography>
+            <TextField sx={{ fontSize: '20px' }} label='Blue Fighter' variant='standard'
+              InputLabelProps={{ style: { color: '#00468b', fontSize: '30px' } }}
+              InputProps={{ style: { fontSize: '30px', color: '#00468b', borderBottomColor: '#00468b' } }} />
           </Box>
           <Box sx={{ fontSize: "1em", display: "flex" }}>
             <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Punch Thrown: </Typography>
@@ -174,7 +190,9 @@ function TotalStrikes() {
         </Box>
         <Box>
           <Box sx={{ color: "#be0000", textAlign: "left" }}>
-            <Typography variant="h2">Stipe Miocic</Typography>
+            <TextField sx={{ fontSize: '20px' }}
+              InputLabelProps={{ style: { color: '#be0000', fontSize: '30px' } }}
+              InputProps={{ style: { fontSize: '30px', color: '#be0000' } }} label='Red Fighter' />
           </Box>
           <Box sx={{ fontSize: "1em", display: "flex" }}>
             <Typography sx={{ width: "200px", textAlign: "right", marginRight: "10px" }} variant="body1">Punch Thrown: </Typography>
