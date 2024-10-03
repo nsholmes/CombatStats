@@ -1,35 +1,32 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
-import AdbIcon from '@mui/icons-material/Adb';
-import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
+import AdbIcon from "@mui/icons-material/Adb";
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 const pages = [
   { linkText: "Events", url: "events" },
   { linkText: "New Event", url: "/events/create" },
   { linkText: "New Tournament", url: "/new-tournament" },
   { linkText: "Upload IKF Event", url: "uploadEvent" },
+  { linkText: "Settle Up", url: "/settleup" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function HeaderNav() {
   const navigator = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -68,20 +65,12 @@ function HeaderNav() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-            }}
-          >
+            }}>
             CombatStats
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            ></IconButton>
+            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit"></IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -100,13 +89,9 @@ function HeaderNav() {
               }}
               sx={{
                 display: { xs: "block", md: "none" },
-              }}
-            >
+              }}>
               {pages.map((page) => (
-                <MenuItem
-                  key={page.linkText}
-                  onClick={() => handleCloseNavMenu(page.url)}
-                >
+                <MenuItem key={page.linkText} onClick={() => handleCloseNavMenu(page.url)}>
                   {<Typography textAlign="center">{page.linkText}</Typography>}
                 </MenuItem>
               ))}
@@ -127,17 +112,12 @@ function HeaderNav() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-            }}
-          >
+            }}>
             CombatStats
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
-                key={page.linkText}
-                onClick={() => handleCloseNavMenu(page.url)}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
+              <Button key={page.linkText} onClick={() => handleCloseNavMenu(page.url)} sx={{ my: 2, color: "white", display: "block" }}>
                 {<>{page.linkText}</>}
               </Button>
             ))}
@@ -163,8 +143,7 @@ function HeaderNav() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+              onClose={handleCloseUserMenu}>
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
