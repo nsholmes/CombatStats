@@ -8,11 +8,13 @@ type PlatformTransactions = {
   trainerCount: number;
   spectatorCost: number;
   spectatorCount: number;
+  platformTotal: number;
 };
 
-type EventDayTransactions = {
+type DoorTransactions = {
   creditCardTotal: number;
   cashTotal: number;
+  doorTotal: number;
 };
 
 const intiPlatformTransactions: PlatformTransactions = {
@@ -22,26 +24,34 @@ const intiPlatformTransactions: PlatformTransactions = {
   trainerCount: 0,
   spectatorCost: 0,
   spectatorCount: 0,
+  platformTotal: 0,
 };
 
-const initEventDayTransactions: EventDayTransactions = {
+const initDoorTransactions: DoorTransactions = {
   creditCardTotal: 0,
   cashTotal: 0,
+  doorTotal: 0,
 };
 
 function CSSettleUp() {
-  const [platformRegistrationTotal, setPlatformRegistrationTotal] = useState(0);
-  useEffect(() => {}, [platformRegistrationTotal]);
+  //   const [platformRegistrationTotal, setPlatformRegistrationTotal] = useState(0);
+  //   useEffect(() => {}, [platformRegistrationTotal]);
 
   const [platformTransactions, setPlatformTransactions] = useState<PlatformTransactions>(intiPlatformTransactions);
-  useEffect(() => {
-    console.log("platformTransactions: ", platformTransactions);
-  }, [platformTransactions]);
+  //   useEffect(() => {
+  //     const { fighterCost, fighterCount, trainerCost, trainerCount, spectatorCost, spectatorCount } = platformTransactions;
+  //     const pTotal = fighterCost * fighterCount + trainerCost * trainerCount + spectatorCost * spectatorCount;
+  //     console.log("Platform Total: ", pTotal);
+  //     setPlatformTransactions({ ...platformTransactions, platformTotal: pTotal });
+  //   }, [platformTransactions]);
 
-  const [eventDayTransactions, setEnventDayTransactions] = useState<EventDayTransactions>(initEventDayTransactions);
-  useEffect(() => {
-    console.log("enventDayTransactions: ", eventDayTransactions);
-  }, [eventDayTransactions]);
+  const [doorTransactions, setDoorTransactions] = useState<DoorTransactions>(initDoorTransactions);
+  //   useEffect(() => {
+  //     const dTotal = +doorTransactions.creditCardTotal + +doorTransactions.cashTotal;
+
+  //     console.log("Cash Total: ", dTotal);
+  //     setDoorTransactions({ ...doorTransactions, doorTotal: dTotal });
+  //   }, [doorTransactions]);
 
   const updatePlatformTransactions = (paramName: string, paramVal: string) => {
     setPlatformTransactions({ ...platformTransactions, [paramName]: paramVal });
@@ -49,7 +59,12 @@ function CSSettleUp() {
 
   const updateEventDayTransactions = (paramName: string, paramVal: string) => {
     console.log(`paramName: ${paramName} paramVal: ${paramVal}`);
-    setEnventDayTransactions({ ...eventDayTransactions, [paramName]: paramVal });
+    setDoorTransactions({ ...doorTransactions, [paramName]: paramVal });
+  };
+  const getPlatformTotal = () => {
+    const { fighterCost, fighterCount, trainerCost, trainerCount, spectatorCost, spectatorCount } = platformTransactions;
+    const pTotal = fighterCost * fighterCount + trainerCost * trainerCount + spectatorCost * spectatorCount;
+    return pTotal;
   };
   return (
     <Box>
@@ -151,9 +166,9 @@ function CSSettleUp() {
       <Paper elevation={10}>
         <Typography variant="h2">Revenue</Typography>
         <Box sx={{ display: "flex", gap: 4 }}>
-          <Box>{`Platform Registration Total: $0.00`}</Box>
-          <Box>{`Event Day Credit Card Total: $0.00`}</Box>
-          <Box>{`Platform Spectator Total: $0.00`}</Box>
+          <Box>{`Platform Total: ${getPlatformTotal()}`}</Box>
+          <Box>{`Door Total: ${+doorTransactions.cashTotal + +doorTransactions.creditCardTotal}`}</Box>
+          <Box>{`Total Revenue:  ${getPlatformTotal() + +doorTransactions.cashTotal + +doorTransactions.creditCardTotal}`}</Box>
         </Box>
       </Paper>
       <Paper elevation={10}>
