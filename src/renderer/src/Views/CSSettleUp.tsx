@@ -92,10 +92,26 @@ function CSSettleUp() {
     setExpenses({ ...expenses, [paramName]: +paramVal });
   };
   const updateCashExpenses = (paramName: string, paramVal: string) => {
-    // setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal - +paramVal });
-    setCashExpenses({ ...cashExpenses, [paramName]: +paramVal });
+    // Make sure to check that judge cost and judge count are greater than 0 before
+    // if (paramName === "judgeCost" && cashExpenses.judgeCount > 0) {
+    //   setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal - cashExpenses.judgeCount * +paramVal });
+    // } else {
+    //   setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal + doorTransactions.creditCardTotal });
+    // }
+    // if (paramName === "judgeCount" && cashExpenses.judgeCost > 0) {
+    //   setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal - cashExpenses.judgeCost * +paramVal });
+    // }
+    // if (paramName === "refCost" && cashExpenses.refCount > 0) {
+    //   setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal - cashExpenses.refCount * +paramVal });
+    // }
+    // if (paramName === "refCount" && cashExpenses.refCost > 0) {
+    //   setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal - cashExpenses.refCost * +paramVal });
+    // }
+    // if (paramName === "medicCost" || paramName === "cashboxStartup") {
+    //   setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal - +paramVal });
+    // }
 
-    console.log(`Cash Expenses: `, cashExpenses);
+    setCashExpenses({ ...cashExpenses, [paramName]: +paramVal });
   };
   const updateAwardExpenses = (paramName: string, paramVal: string) => {
     setExpenses({ ...expenses, awards: { ...expenses.awards, [paramName]: +paramVal } });
@@ -119,7 +135,7 @@ function CSSettleUp() {
     const { refCost, refCount, judgeCost, judgeCount, medicCost, cashboxStartup } = cashExpenses;
     return refCost * refCount + judgeCost * judgeCount + medicCost + cashboxStartup;
   };
-  const getDoorCashTotal = () => {
+  const getDoorTransactionTotal = () => {
     return doorTransactions.cashTotal - getCashExpenses();
   };
 
