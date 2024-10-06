@@ -17,6 +17,24 @@ type DoorTransactions = {
   doorTotal: number;
 };
 
+type EventExpenses = {
+  venue: number;
+  awards: { trophies: number; medals: number };
+  travel: number;
+  sanctioningFee: number;
+  johnnyTax: number;
+  platformFee: number;
+};
+
+type CashExpenses = {
+  refCost: number;
+  refCount: number;
+  judgeCost: number;
+  judgeCount: number;
+  medicCost: number;
+  cashboxStartup: number;
+};
+
 const intiPlatformTransactions: PlatformTransactions = {
   fighterCost: 0,
   fighterCount: 0,
@@ -33,154 +51,366 @@ const initDoorTransactions: DoorTransactions = {
   doorTotal: 0,
 };
 
+const initEventExpenses: EventExpenses = {
+  venue: 0,
+  awards: { trophies: 0, medals: 0 },
+  travel: 0,
+  sanctioningFee: 365,
+  johnnyTax: 0,
+  platformFee: 0,
+};
+
+const initCashExpenses: CashExpenses = {
+  refCost: 0,
+  refCount: 0,
+  judgeCost: 0,
+  judgeCount: 0,
+  medicCost: 0,
+  cashboxStartup: 0,
+};
+
 function CSSettleUp() {
-  //   const [platformRegistrationTotal, setPlatformRegistrationTotal] = useState(0);
-  //   useEffect(() => {}, [platformRegistrationTotal]);
-
   const [platformTransactions, setPlatformTransactions] = useState<PlatformTransactions>(intiPlatformTransactions);
-  //   useEffect(() => {
-  //     const { fighterCost, fighterCount, trainerCost, trainerCount, spectatorCost, spectatorCount } = platformTransactions;
-  //     const pTotal = fighterCost * fighterCount + trainerCost * trainerCount + spectatorCost * spectatorCount;
-  //     console.log("Platform Total: ", pTotal);
-  //     setPlatformTransactions({ ...platformTransactions, platformTotal: pTotal });
-  //   }, [platformTransactions]);
-
   const [doorTransactions, setDoorTransactions] = useState<DoorTransactions>(initDoorTransactions);
-  //   useEffect(() => {
-  //     const dTotal = +doorTransactions.creditCardTotal + +doorTransactions.cashTotal;
+  const [expenses, setExpenses] = useState<EventExpenses>(initEventExpenses);
+  const [cashExpenses, setCashExpenses] = useState<CashExpenses>(initCashExpenses);
 
-  //     console.log("Cash Total: ", dTotal);
-  //     setDoorTransactions({ ...doorTransactions, doorTotal: dTotal });
-  //   }, [doorTransactions]);
-
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
   const updatePlatformTransactions = (paramName: string, paramVal: string) => {
     setPlatformTransactions({ ...platformTransactions, [paramName]: paramVal });
   };
 
   const updateEventDayTransactions = (paramName: string, paramVal: string) => {
-    console.log(`paramName: ${paramName} paramVal: ${paramVal}`);
     setDoorTransactions({ ...doorTransactions, [paramName]: paramVal });
+  };
+
+  const updateExpenses = (paramName: string, paramVal: string) => {
+    console.log(`${paramName}: ${paramVal}`);
+    setExpenses({ ...expenses, [paramName]: +paramVal });
+  };
+  const updateCashExpenses = (paramName: string, paramVal: string) => {
+    // setDoorTransactions({ ...doorTransactions, cashTotal: doorTransactions.cashTotal - +paramVal });
+    setCashExpenses({ ...cashExpenses, [paramName]: +paramVal });
+
+    console.log(`Cash Expenses: `, cashExpenses);
+  };
+  const updateAwardExpenses = (paramName: string, paramVal: string) => {
+    setExpenses({ ...expenses, awards: { ...expenses.awards, [paramName]: +paramVal } });
+    console.log(expenses);
+  };
+
+  const getTotalRevenue = () => {
+    return getPlatformTotal() + +doorTransactions.cashTotal + +doorTransactions.creditCardTotal;
+  };
+  const getTotalExpenses = () => {
+    const { venue, awards, travel, sanctioningFee, johnnyTax, platformFee } = expenses;
+    const { fighterCount } = platformTransactions;
+    return venue + awards.trophies + awards.medals + travel + sanctioningFee + johnnyTax * fighterCount + platformFee * fighterCount;
   };
   const getPlatformTotal = () => {
     const { fighterCost, fighterCount, trainerCost, trainerCount, spectatorCost, spectatorCount } = platformTransactions;
     const pTotal = fighterCost * fighterCount + trainerCost * trainerCount + spectatorCost * spectatorCount;
     return pTotal;
   };
+  const getCashExpenses = () => {
+    const { refCost, refCount, judgeCost, judgeCount, medicCost, cashboxStartup } = cashExpenses;
+    return refCost * refCount + judgeCost * judgeCount + medicCost + cashboxStartup;
+  };
+  const getDoorCashTotal = () => {
+    return doorTransactions.cashTotal - getCashExpenses();
+  };
+
   return (
     <Box>
-      <Paper elevation={10}>
-        <Typography variant="h2">Event Information</Typography>
-        <Typography variant="h5">Platform Transactions</Typography>
-        <Box sx={{ display: "flex", gap: 4 }}>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-            <TextField
-              label="Fighter Cost"
-              defaultValue="55.00"
-              variant="filled"
-              color="info"
-              sx={{ backgroundColor: "#ffffff" }}
-              onChange={(ev) => {
-                updatePlatformTransactions("fighterCost", ev.target.value);
-              }}
-            />
-            <TextField
-              label="Fighter Count"
-              defaultValue="0"
-              variant="filled"
-              color="info"
-              sx={{ backgroundColor: "#ffffff" }}
-              onChange={(ev) => {
-                updatePlatformTransactions("fighterCount", ev.target.value);
-              }}
-            />
+      <Paper sx={{ margin: "5px", padding: "5px" }} elevation={10}>
+        <Typography variant="h3">Transactions</Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          <Box>
+            <Typography variant="h4">{`Platform Transactions: ${formatter.format(getPlatformTotal())}`}</Typography>
+            <Box sx={{ display: "flex", gap: 4 }}>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                <TextField
+                  label="Fighter Cost"
+                  defaultValue="55.00"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updatePlatformTransactions("fighterCost", ev.target.value);
+                  }}
+                />
+                <TextField
+                  label="Fighter Count"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updatePlatformTransactions("fighterCount", ev.target.value);
+                  }}
+                />
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                <TextField
+                  label="Trainer Cost"
+                  defaultValue="30.000"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updatePlatformTransactions("trainerCost", ev.target.value);
+                  }}
+                />
+                <TextField
+                  label="Trainer Count"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updatePlatformTransactions("trainerCount", ev.target.value);
+                  }}
+                />
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                <TextField
+                  label="Spectator Cost"
+                  defaultValue="20.00"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updatePlatformTransactions("spectatorCost", ev.target.value);
+                  }}
+                />
+                <TextField
+                  label="Spectator Count"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updatePlatformTransactions("spectatorCount", ev.target.value);
+                  }}
+                />
+              </Box>
+            </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-            <TextField
-              label="Trainer Cost"
-              defaultValue="30.000"
-              variant="filled"
-              color="info"
-              sx={{ backgroundColor: "#ffffff" }}
-              onChange={(ev) => {
-                updatePlatformTransactions("trainerCost", ev.target.value);
-              }}
-            />
-            <TextField
-              label="Trainer Count"
-              defaultValue="0"
-              variant="filled"
-              color="info"
-              sx={{ backgroundColor: "#ffffff" }}
-              onChange={(ev) => {
-                updatePlatformTransactions("trainerCount", ev.target.value);
-              }}
-            />
+          <Box>
+            <Typography variant="h4">{`Door Transactions: ${formatter.format(+doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}`}</Typography>
+            <Box sx={{ display: "flex", gap: 4 }}>
+              <TextField
+                label="Credit Card Total"
+                defaultValue="0"
+                variant="filled"
+                color="info"
+                sx={{ backgroundColor: "#ffffff" }}
+                onChange={(ev) => {
+                  updateEventDayTransactions("creditCardTotal", ev.target.value);
+                }}
+              />
+              <TextField
+                label="Cash Total"
+                defaultValue="0"
+                variant="filled"
+                color="info"
+                sx={{ backgroundColor: "#ffffff" }}
+                onChange={(ev) => {
+                  updateEventDayTransactions("cashTotal", ev.target.value);
+                }}
+              />
+            </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-            <TextField
-              label="Spectator Cost"
-              defaultValue="20.00"
-              variant="filled"
-              color="info"
-              sx={{ backgroundColor: "#ffffff" }}
-              onChange={(ev) => {
-                updatePlatformTransactions("spectatorCost", ev.target.value);
-              }}
-            />
-            <TextField
-              label="Spectator Count"
-              defaultValue="0"
-              variant="filled"
-              color="info"
-              sx={{ backgroundColor: "#ffffff" }}
-              onChange={(ev) => {
-                updatePlatformTransactions("spectatorCount", ev.target.value);
-              }}
-            />
-          </Box>
-        </Box>
-        <Typography variant="h5">Event Day Transactions</Typography>
-        <Box sx={{ display: "flex", gap: 4 }}>
-          <TextField
-            label="Credit Card Total"
-            defaultValue="0"
-            variant="filled"
-            color="info"
-            sx={{ backgroundColor: "#ffffff" }}
-            onChange={(ev) => {
-              updateEventDayTransactions("creditCardTotal", ev.target.value);
-            }}
-          />
-          <TextField
-            label="Cash Total"
-            defaultValue="0"
-            variant="filled"
-            color="info"
-            sx={{ backgroundColor: "#ffffff" }}
-            onChange={(ev) => {
-              updateEventDayTransactions("cashTotal", ev.target.value);
-            }}
-          />
-        </Box>
-      </Paper>
-      <Paper elevation={10}>
-        <Typography variant="h2">Revenue</Typography>
-        <Box sx={{ display: "flex", gap: 4 }}>
-          <Box>{`Platform Total: ${getPlatformTotal()}`}</Box>
-          <Box>{`Door Total: ${+doorTransactions.cashTotal + +doorTransactions.creditCardTotal}`}</Box>
-          <Box>{`Total Revenue:  ${getPlatformTotal() + +doorTransactions.cashTotal + +doorTransactions.creditCardTotal}`}</Box>
         </Box>
       </Paper>
-      <Paper elevation={10}>
-        <Typography variant="h2">Expenses</Typography>
+      <Paper sx={{ margin: "5px", padding: "5px", display: "flex", gap: 3, alignItems: "center" }} elevation={10}>
+        <Typography variant="h3">Revenue</Typography>
         <Box sx={{ display: "flex", gap: 4 }}>
-          <TextField label="Venue Cost" defaultValue="0" variant="filled" color="info" sx={{ backgroundColor: "#ffffff" }} />
-          <TextField label="Cashbox Starter" defaultValue="0" variant="filled" color="info" sx={{ backgroundColor: "#ffffff" }} />
-          <TextField label="Awards Cost" defaultValue="0" variant="filled" color="info" sx={{ backgroundColor: "#ffffff" }} />
-          <TextField label="Travel Cost" defaultValue="0" variant="filled" color="info" sx={{ backgroundColor: "#ffffff" }} />
-          <TextField label="Sanctioning Fee" defaultValue="$365.00" variant="filled" sx={{ backgroundColor: "#ffffff" }} />
-          <TextField label="Johnny Tax (Fighter x 10)" defaultValue="0" variant="filled" color="info" sx={{ backgroundColor: "#ffffff" }} />
-          <TextField label="Platform Fee (Fighter x 2)" defaultValue="0" variant="filled" color="info" sx={{ backgroundColor: "#ffffff" }} />
+          <Box sx={{ fontSize: "32px" }}>{`Platform Total: ${formatter.format(getPlatformTotal())} +`}</Box>
+          <Box sx={{ fontSize: "32px" }}>{`Door Total: ${formatter.format(+doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}=`}</Box>
+          <Box sx={{ fontSize: "32px" }}>{`Total Revenue:  ${formatter.format(getPlatformTotal() + +doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}`}</Box>
+        </Box>
+      </Paper>
+      <Paper sx={{ margin: "5px", padding: "5px" }} elevation={10}>
+        <Typography variant="h3">{`Expenses`}</Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Typography variant="h4">{`Event Expenses: ${formatter.format(getTotalExpenses())}`}</Typography>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Box>
+                <Typography variant="h5">Location</Typography>
+                <Box>
+                  <TextField
+                    label="Venue Cost"
+                    defaultValue="0"
+                    variant="filled"
+                    color="info"
+                    sx={{ backgroundColor: "#ffffff" }}
+                    onChange={(ev) => {
+                      updateExpenses("venue", ev.target.value);
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Box>
+                <Typography variant="h5">Awards</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <TextField
+                    label="Trophies Cost (count * 17)"
+                    defaultValue="0"
+                    variant="filled"
+                    color="info"
+                    sx={{ backgroundColor: "#ffffff" }}
+                    onChange={(ev) => {
+                      updateAwardExpenses("trophies", ev.target.value);
+                    }}
+                  />
+                  <TextField
+                    label="Medals Cost (count * 5)"
+                    defaultValue="0"
+                    variant="filled"
+                    color="info"
+                    sx={{ backgroundColor: "#ffffff" }}
+                    onChange={(ev) => {
+                      updateAwardExpenses("medals", ev.target.value);
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Box>
+                <Typography variant="h5">Travel</Typography>
+                <Box>
+                  <TextField
+                    label="Travel Cost"
+                    defaultValue="0"
+                    variant="filled"
+                    color="info"
+                    sx={{ backgroundColor: "#ffffff" }}
+                    onChange={(ev) => {
+                      updateExpenses("travel", ev.target.value);
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Box>
+                <Typography variant="h5">IKF Fees</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <TextField
+                    label="Sanctioning Fee"
+                    defaultValue="$365.00"
+                    variant="filled"
+                    sx={{ backgroundColor: "#ffffff" }}
+                    onChange={(ev) => {
+                      updateExpenses("sanctioningFee", ev.target.value);
+                    }}
+                  />
+                  <TextField
+                    label="Johnny Tax (Per Fighter)"
+                    defaultValue="0"
+                    variant="filled"
+                    color="info"
+                    sx={{ backgroundColor: "#ffffff" }}
+                    onChange={(ev) => {
+                      updateExpenses("johnnyTax", ev.target.value);
+                    }}
+                  />
+                  <TextField
+                    label="Platform Fee (Per Fighter)"
+                    defaultValue="0"
+                    variant="filled"
+                    color="info"
+                    sx={{ backgroundColor: "#ffffff" }}
+                    onChange={(ev) => {
+                      updateExpenses("platformFee", ev.target.value);
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+          <Box sx={{ backgroundColor: "#eee", borderLeft: "2px solid #000", paddingLeft: "10px", marginLeft: "10px", maxWidth: "40vw" }}>
+            <Typography variant="h4">{`Cash Expenses: ${formatter.format(getCashExpenses())}`}</Typography>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Box>
+                <TextField
+                  label="Referee Cost"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updateCashExpenses("refCost", ev.target.value);
+                  }}
+                />
+                <TextField
+                  label="Referee Count"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updateCashExpenses("refCount", ev.target.value);
+                  }}
+                />
+              </Box>
+              <Box>
+                <TextField
+                  label="Judges Cost"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updateCashExpenses("judgeCost", ev.target.value);
+                  }}
+                />
+                <TextField
+                  label="Judges Count"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updateCashExpenses("judgeCount", ev.target.value);
+                  }}
+                />
+              </Box>
+              <Box>
+                <TextField
+                  label="Medic Cost"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updateCashExpenses("medicCost", ev.target.value);
+                  }}
+                />
+                <TextField
+                  label="Cashbox Startup"
+                  defaultValue="0"
+                  variant="filled"
+                  color="info"
+                  sx={{ backgroundColor: "#ffffff" }}
+                  onChange={(ev) => {
+                    updateCashExpenses("cashboxStartup", ev.target.value);
+                  }}
+                />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Paper>
+      <Paper sx={{ margin: "5px", padding: "5px", display: "flex", gap: 4, alignItems: "center" }}>
+        <Typography variant="h2">Profit</Typography>
+        <Box>
+          <Box sx={{ fontSize: "32px" }}>(Revenue) - (Expense) = Profit</Box>
+          <Box sx={{ fontSize: "32px" }}>
+            {`${formatter.format(getTotalRevenue())} - ${formatter.format(getTotalExpenses())} = `} <Typography variant="body1" sx={{ display: "inline", fontSize: "32px", color: "green" }}>{`${formatter.format(getTotalRevenue() - getTotalExpenses())}`}</Typography>
+          </Box>
         </Box>
       </Paper>
     </Box>
