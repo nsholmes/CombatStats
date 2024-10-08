@@ -1,3 +1,14 @@
+export type EventDoorTransactions = {
+  doorCreditCardTotal: RevenueItem;
+  doorCashTotal: RevenueItem;
+};
+
+export type EventPlatformTransactions = {
+  fighterRegistration: RevenueItem;
+  trainerRegistration: RevenueItem;
+  spectatorPurchase: RevenueItem;
+};
+
 export type RevenueItem = {
   revenueType: "platform" | "door";
   name: string;
@@ -9,37 +20,6 @@ export type ExpenseItem = {
   name: string;
   amount: number;
   payee?: string;
-};
-
-// --- Revenue Items -- //
-export const fighterRegistration: RevenueItem = {
-  revenueType: "platform",
-  name: "fighterReg",
-  amount: 0,
-};
-
-export const trainerRegistration: RevenueItem = {
-  revenueType: "platform",
-  name: "trainerReg",
-  amount: 0,
-};
-
-export const spectatorPurchase: RevenueItem = {
-  revenueType: "platform",
-  name: "specPurchase",
-  amount: 0,
-};
-
-export const doorCreditCardTotal: RevenueItem = {
-  revenueType: "door",
-  name: "doorCCTotal",
-  amount: 0,
-};
-
-export const doorCashTotal: RevenueItem = {
-  revenueType: "door",
-  name: "doorCashTotal",
-  amount: 0,
 };
 
 //-- Exenpse Itmes --//

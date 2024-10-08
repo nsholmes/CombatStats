@@ -1,5 +1,8 @@
 import { Box, Input, Paper, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import PlatformTransactions from "../Components/settleUp/PlatformTransactions";
+import { Formatter } from "../Components/utils/Formatter";
+import DoorTransactions from "../Components/settleUp/DoorTransactions";
 
 type PlatformTransactions = {
   fighterCost: number;
@@ -75,18 +78,6 @@ function CSSettleUp() {
   const [expenses, setExpenses] = useState<EventExpenses>(initEventExpenses);
   const [cashExpenses, setCashExpenses] = useState<CashExpenses>(initCashExpenses);
 
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-  const updatePlatformTransactions = (paramName: string, paramVal: string) => {
-    setPlatformTransactions({ ...platformTransactions, [paramName]: paramVal });
-  };
-
-  const updateEventDayTransactions = (paramName: string, paramVal: string) => {
-    setDoorTransactions({ ...doorTransactions, [paramName]: paramVal });
-  };
-
   const updateExpenses = (paramName: string, paramVal: string) => {
     console.log(`${paramName}: ${paramVal}`);
     setExpenses({ ...expenses, [paramName]: +paramVal });
@@ -144,117 +135,23 @@ function CSSettleUp() {
       <Paper sx={{ margin: "5px", padding: "5px" }} elevation={10}>
         <Typography variant="h3">Transactions</Typography>
         <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-          <Box>
-            <Typography variant="h4">{`Platform Transactions: ${formatter.format(getPlatformTotal())}`}</Typography>
-            <Box sx={{ display: "flex", gap: 4 }}>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                <TextField
-                  label="Fighter Cost"
-                  defaultValue="55.00"
-                  variant="filled"
-                  color="info"
-                  sx={{ backgroundColor: "#ffffff" }}
-                  onChange={(ev) => {
-                    updatePlatformTransactions("fighterCost", ev.target.value);
-                  }}
-                />
-                <TextField
-                  label="Fighter Count"
-                  defaultValue="0"
-                  variant="filled"
-                  color="info"
-                  sx={{ backgroundColor: "#ffffff" }}
-                  onChange={(ev) => {
-                    updatePlatformTransactions("fighterCount", ev.target.value);
-                  }}
-                />
-              </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                <TextField
-                  label="Trainer Cost"
-                  defaultValue="30.000"
-                  variant="filled"
-                  color="info"
-                  sx={{ backgroundColor: "#ffffff" }}
-                  onChange={(ev) => {
-                    updatePlatformTransactions("trainerCost", ev.target.value);
-                  }}
-                />
-                <TextField
-                  label="Trainer Count"
-                  defaultValue="0"
-                  variant="filled"
-                  color="info"
-                  sx={{ backgroundColor: "#ffffff" }}
-                  onChange={(ev) => {
-                    updatePlatformTransactions("trainerCount", ev.target.value);
-                  }}
-                />
-              </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                <TextField
-                  label="Spectator Cost"
-                  defaultValue="20.00"
-                  variant="filled"
-                  color="info"
-                  sx={{ backgroundColor: "#ffffff" }}
-                  onChange={(ev) => {
-                    updatePlatformTransactions("spectatorCost", ev.target.value);
-                  }}
-                />
-                <TextField
-                  label="Spectator Count"
-                  defaultValue="0"
-                  variant="filled"
-                  color="info"
-                  sx={{ backgroundColor: "#ffffff" }}
-                  onChange={(ev) => {
-                    updatePlatformTransactions("spectatorCount", ev.target.value);
-                  }}
-                />
-              </Box>
-            </Box>
-          </Box>
-          <Box>
-            <Typography variant="h4">{`Door Transactions: ${formatter.format(+doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}`}</Typography>
-            <Box sx={{ display: "flex", gap: 4 }}>
-              <TextField
-                label="Credit Card Total"
-                defaultValue="0"
-                variant="filled"
-                color="info"
-                sx={{ backgroundColor: "#ffffff" }}
-                onChange={(ev) => {
-                  updateEventDayTransactions("creditCardTotal", ev.target.value);
-                }}
-              />
-              <TextField
-                label="Cash Total"
-                defaultValue="0"
-                variant="filled"
-                color="info"
-                sx={{ backgroundColor: "#ffffff" }}
-                onChange={(ev) => {
-                  updateEventDayTransactions("cashTotal", ev.target.value);
-                }}
-              />
-            </Box>
-          </Box>
+          <PlatformTransactions />
+          <DoorTransactions />
         </Box>
       </Paper>
       <Paper sx={{ margin: "5px", padding: "5px", display: "flex", gap: 3, alignItems: "center" }} elevation={10}>
         <Typography variant="h3">Revenue</Typography>
         <Box sx={{ display: "flex", gap: 4 }}>
-          <Box sx={{ fontSize: "32px" }}>{`Platform Total: ${formatter.format(getPlatformTotal())} +`}</Box>
-          <Box sx={{ fontSize: "32px" }}>{`Door Total: ${formatter.format(+doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}=`}</Box>
-          <Box sx={{ fontSize: "32px" }}>{`Total Revenue:  ${formatter.format(getPlatformTotal() + +doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}`}</Box>
+          <Box sx={{ fontSize: "32px" }}>{`Platform Total: ${Formatter.format(getPlatformTotal())} +`}</Box>
+          <Box sx={{ fontSize: "32px" }}>{`Door Total: ${Formatter.format(+doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}=`}</Box>
+          <Box sx={{ fontSize: "32px" }}>{`Total Revenue:  ${Formatter.format(getPlatformTotal() + +doorTransactions.cashTotal + +doorTransactions.creditCardTotal)}`}</Box>
         </Box>
       </Paper>
       <Paper sx={{ margin: "5px", padding: "5px" }} elevation={10}>
         <Typography variant="h3">{`Expenses`}</Typography>
         <Box sx={{ display: "flex", justifyContent: "space-around" }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Typography variant="h4">{`Event Expenses: ${formatter.format(getTotalExpenses())}`}</Typography>
+            <Typography variant="h4">{`Event Expenses: ${Formatter.format(getTotalExpenses())}`}</Typography>
             <Box sx={{ display: "flex", gap: 2 }}>
               <Box>
                 <Typography variant="h5">Location</Typography>
@@ -348,7 +245,7 @@ function CSSettleUp() {
             </Box>
           </Box>
           <Box sx={{ backgroundColor: "#eee", borderLeft: "2px solid #000", paddingLeft: "10px", marginLeft: "10px", maxWidth: "40vw" }}>
-            <Typography variant="h4">{`Cash Expenses: ${formatter.format(getCashExpenses())}`}</Typography>
+            <Typography variant="h4">{`Cash Expenses: ${Formatter.format(getCashExpenses())}`}</Typography>
             <Box sx={{ display: "flex", gap: 1 }}>
               <Box>
                 <TextField
@@ -425,7 +322,7 @@ function CSSettleUp() {
         <Box>
           <Box sx={{ fontSize: "32px" }}>(Revenue) - (Expense) = Profit</Box>
           <Box sx={{ fontSize: "32px" }}>
-            {`${formatter.format(getTotalRevenue())} - ${formatter.format(getTotalExpenses())} = `} <Typography variant="body1" sx={{ display: "inline", fontSize: "32px", color: "green" }}>{`${formatter.format(getTotalRevenue() - getTotalExpenses())}`}</Typography>
+            {`${Formatter.format(getTotalRevenue())} - ${Formatter.format(getTotalExpenses())} = `} <Typography variant="body1" sx={{ display: "inline", fontSize: "32px", color: "green" }}>{`${Formatter.format(getTotalRevenue() - getTotalExpenses())}`}</Typography>
           </Box>
         </Box>
       </Paper>
