@@ -1,16 +1,23 @@
+import { IKFParticipant } from "./fighter.model";
+
 export type CombatEvent = {
   eventName: string;
   bouts: Bout[];
-}
-export type Fighter = { firstName: string; lastName: string }
-export type Bout = { blueCorner: Fighter, redCorner: Fighter }
-export type BracketEditState = "moveFighter" | "duplicateAndMoveFighter" | "removeFighter" | "addFighter" | "off";
+};
+export type Fighter = { firstName: string; lastName: string };
+export type Bout = { blueCorner: Fighter; redCorner: Fighter };
+export type BracketEditState =
+  | "moveFighter"
+  | "duplicateAndMoveFighter"
+  | "removeFighter"
+  | "addFighter"
+  | "off";
 
 export type CSBrackets = {
   brackets: CSBracket[];
   editState: BracketEditState;
   selectedCompetitor: string | null;
-}
+};
 export type CSBracket = {
   bracketId: number;
   divisionName: string;
@@ -20,7 +27,7 @@ export type CSBracket = {
   ringNumber: number;
   bracketGender: string;
   competitors: BracketCompetitor[];
-}
+};
 export type BracketCompetitor = {
   bracket: competitorBracket;
   competitiveexperienceString: string | null;
@@ -30,7 +37,7 @@ export type BracketCompetitor = {
     id: number;
     is_final_weight: number;
     weight: number;
-  }
+  };
   fighterAffiliations: any[];
   gym_name: string;
   id: number;
@@ -41,16 +48,16 @@ export type BracketCompetitor = {
     full_name: string;
     id: number;
     last_name: string;
-  }
+  };
   profile_name: string;
   seed: number;
   wlrString: string;
   wlr_string: string;
-}
+};
 
 export type competitorBracket = {
   id: number;
-}
+};
 
 export type IKFBracket = {
   bracketClassName: string;
@@ -59,9 +66,25 @@ export type IKFBracket = {
   discipline: string;
   ringNumber: number;
   ringName?: string;
-}
+};
 
 export type fileUpload = {
   brackets: IKFBracket[];
   ringsNumbers: Number[];
-}
+};
+
+export type IKFEvent = {
+  eventDate: string;
+  eventName: string;
+  eventUid: string;
+  id: number;
+  posterSmallUrl: string;
+  posterUrl: string;
+  promoterId: number;
+  registrationFee: string | number;
+  trainerRegistrationFee: string | number;
+  participants?: IKFParticipant[];
+};
+
+export type EventParticipantRequest = { eventID: number; eventUID: string };
+export type EventBracketRequest = { eventID: number; eventUID: string };

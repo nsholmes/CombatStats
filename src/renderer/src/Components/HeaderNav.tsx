@@ -16,7 +16,7 @@ import Typography from "@mui/material/Typography";
 
 const pages = [
   { linkText: "Events", url: "events" },
-  { linkText: "Create Event", url: "/createevent" },
+  // { linkText: "Create Event", url: "/createevent" },
   { linkText: "Upload IKF Event", url: "uploadEvent" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -50,15 +50,15 @@ function HeaderNav() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position='static'>
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
-            variant="h6"
+            variant='h6'
             noWrap
-            component="a"
-            href="/"
+            component='a'
+            href='/'
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -67,22 +67,20 @@ function HeaderNav() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-            }}
-          >
+            }}>
             CombatStats
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
+              size='large'
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
               onClick={handleOpenNavMenu}
-              color="inherit"
-            ></IconButton>
+              color='inherit'></IconButton>
             <Menu
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: "bottom",
@@ -99,24 +97,22 @@ function HeaderNav() {
               }}
               sx={{
                 display: { xs: "block", md: "none" },
-              }}
-            >
+              }}>
               {pages.map((page) => (
                 <MenuItem
                   key={page.linkText}
-                  onClick={() => handleCloseNavMenu(page.url)}
-                >
-                  {<Typography textAlign="center">{page.linkText}</Typography>}
+                  onClick={() => handleCloseNavMenu(page.url)}>
+                  {<Typography textAlign='center'>{page.linkText}</Typography>}
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
-            variant="h5"
+            variant='h5'
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component='a'
+            href='#app-bar-with-responsive-menu'
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -126,8 +122,7 @@ function HeaderNav() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-            }}
-          >
+            }}>
             CombatStats
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -135,22 +130,21 @@ function HeaderNav() {
               <Button
                 key={page.linkText}
                 onClick={() => handleCloseNavMenu(page.url)}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
+                sx={{ my: 2, color: "white", display: "block" }}>
                 {<>{page.linkText}</>}
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
@@ -162,11 +156,10 @@ function HeaderNav() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+              onClose={handleCloseUserMenu}>
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign='center'>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

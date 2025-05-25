@@ -29,7 +29,8 @@ function mapDispatchToProps(dispatch: any) {
   return {
     setBracketEditState: (editState: BracketEditState) =>
       dispatch(setBracketEditState(editState)),
-    setMenuIsVisible: (isVisible: boolean) => dispatch(setIsVisible(isVisible)),
+    setMenuIsVisible: (isVisible: boolean) =>
+      dispatch(setIsVisible(isVisible)),
   };
 }
 
@@ -45,45 +46,40 @@ function BracketSetupContextMenu(props: BracketSetupMenuProps) {
       <Box>
         <List
           sx={{ width: "100%", maxWidth: 360 }}
-          className="contextMenu"
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-        >
+          className='contextMenu'
+          component='nav'
+          aria-labelledby='nested-list-subheader'>
           <ListItemButton
-            onClick={(ev) => {
+            onClick={() => {
               menuItemClicked("moveFighter");
-            }}
-          >
+            }}>
             <ListItemIcon></ListItemIcon>
-            <ListItemText primary="Move Fighter" />
+            <ListItemText primary='Move Fighter' />
           </ListItemButton>
           <ListItemButton
-            onClick={(ev) => {
+            onClick={() => {
               menuItemClicked("duplicateAndMoveFighter");
-            }}
-          >
+            }}>
             <ListItemIcon></ListItemIcon>
-            <ListItemText primary="Duplicate and Move Fighter" />
+            <ListItemText primary='Duplicate and Move Fighter' />
           </ListItemButton>
           <ListItemButton
-            onClick={(ev) => {
+            onClick={() => {
               menuItemClicked("removeFighter");
-            }}
-          >
+            }}>
             <ListItemIcon>
               <RemoveCircleIcon />
             </ListItemIcon>
-            <ListItemText primary="Remove Fighter" />
+            <ListItemText primary='Remove Fighter' />
           </ListItemButton>
           <ListItemButton
-            onClick={(ev) => {
+            onClick={() => {
               menuItemClicked("addFighter");
-            }}
-          >
+            }}>
             <ListItemIcon>
               <AddCircleIcon />
             </ListItemIcon>
-            <ListItemText primary="Add Fighter" />
+            <ListItemText primary='Add Fighter' />
           </ListItemButton>
         </List>
       </Box>

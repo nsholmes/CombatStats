@@ -1,13 +1,13 @@
-import { defineConfig } from 'electron-vite';
+import { defineConfig } from "electron-vite";
 
-import react from '@vitejs/plugin-react';
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-    main: {
-        publicDir: false
-    },
-    preload: {},
-    renderer: {
-        plugins: [react()]
-    }
-})
+  main: {
+    publicDir: false,
+  },
+  preload: {},
+  renderer: {
+    plugins: [react()],
+  },
+});

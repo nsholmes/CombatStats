@@ -1,37 +1,36 @@
-import { Box, Paper, Typography, } from "@mui/material";
-import BracketSetup from "./BracketSetup";
-import { memo, DragEvent } from "react";
+import { Typography } from "@mui/material";
+// import BracketSetup from "./BracketSetup";
+import { memo } from "react";
 import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
 import { connect } from "react-redux";
 import { BracketListProps } from "../Models";
-import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+// import {
+//   DragDropContext,
+//   Draggable,
+//   DropResult,
+//   Droppable,
+// } from "react-beautiful-dnd";
 
 function mapStateToProps(state: any) {
   return {
-    getAllCSBrackets: SelectAllCSBrackets(state)
-  }
+    getAllCSBrackets: SelectAllCSBrackets(state),
+  };
 }
 
 function mapDispatchToProps(dispatch: any) {
-  return {}
+  console.log("dispatch", dispatch);
+  return {};
 }
 
 const BracketList = memo(function BracketList(props: BracketListProps) {
-  /**
-   * 
-   * @param ev DragEvent
-   */
-  const dragBracket = (ev: DragEvent<HTMLDivElement>) => {
-    console.log(ev);
-  }
+  console.log(props);
 
   return (
     <>
-      <Typography sx={{ textAlign: "center" }} variant="h4">
+      <Typography sx={{ textAlign: "center" }} variant='h4'>
         Bracket List
       </Typography>
-      <BracketSetup />
     </>
   );
-})
+});
 export default connect(mapStateToProps, mapDispatchToProps)(BracketList);

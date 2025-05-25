@@ -1,8 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { BracketEditState, CSBracket, CSBrackets } from '../Models';
+import { BracketEditState, CSBracket, CSBrackets } from "../Models";
 
-const initialState: CSBrackets = { brackets: [], editState: "off", selectedCompetitor: null };
+const initialState: CSBrackets = {
+  brackets: [],
+  editState: "off",
+  selectedCompetitor: null,
+};
 
 export const CSBracketSlice = createSlice({
   name: "CSBracket",
@@ -47,71 +51,98 @@ export const CSBracketSlice = createSlice({
           if (bracket.bracketId.toString() == selectedBracketId) {
             console.log("GOT A HIT: ", bracket.bracketClassName);
           }
-          return bracket.bracketId.toString() == selectedBracketId
+          return bracket.bracketId.toString() == selectedBracketId;
         });
-        const selectedCompetitor = selectedBracket?.competitors.find((competitor) => {
-          if (competitor.id.toString() == selectedCompetitorId) {
-            console.log("Competitor has been Found: ", competitor.person.first_name)
+        const selectedCompetitor = selectedBracket?.competitors.find(
+          (competitor) => {
+            if (competitor.id.toString() == selectedCompetitorId) {
+              console.log(
+                "Competitor has been Found: ",
+                competitor.person.first_name
+              );
+            }
+            return competitor.id.toString() == selectedCompetitorId;
           }
-          return competitor.id.toString() == selectedCompetitorId;
-        });
+        );
 
         state.brackets.find((bracket) => {
           if (bracket.bracketId.toString() === destinationBracketId) {
             // insert selected competitor to the competitors array
             state.brackets.find((bracket) => {
-              if (bracket.bracketId.toString() == destinationBracketId && selectedCompetitor) {
-                console.log(`Destination Bracket: ${bracket.bracketId}`)
+              if (
+                bracket.bracketId.toString() == destinationBracketId &&
+                selectedCompetitor
+              ) {
+                console.log(`Destination Bracket: ${bracket.bracketId}`);
                 bracket.competitors.push(selectedCompetitor);
               }
             });
           }
 
-          return bracket.bracketId.toString() === destinationBracketId
+          return bracket.bracketId.toString() === destinationBracketId;
         });
 
         state.brackets.find((bracket) => {
           if (bracket.bracketId.toString() === selectedBracketId) {
             // remove competitor from selected bracket
             bracket.competitors.map((competitor, idx) => {
-              if (competitor.id.toString() === selectedCompetitorId && selectedCompetitor) {
+              if (
+                competitor.id.toString() === selectedCompetitorId &&
+                selectedCompetitor
+              ) {
                 console.log(`bracket.bracketId: ${bracket.bracketId}`);
                 console.log(`${competitor.person.first_name}: ${idx}`);
                 const removedCompetitor = bracket.competitors.splice(idx, 1);
-                console.log("Removed Competitor: ", removedCompetitor[0].person.full_name);
+                console.log(
+                  "Removed Competitor: ",
+                  removedCompetitor[0].person.full_name
+                );
               }
-            })
+            });
           }
         });
-
       }
-    }
-  }
+    },
+  },
 });
 
 export const SelectAllCSBrackets = (state: any) => state.CSBracket.brackets;
 export const SelectBracketCompetitors = (state: any) => {
-  const competitors = state.CSBracket.brackets.map((bracket: CSBracket) => bracket.competitors);
+  const competitors = state.CSBracket.brackets.map(
+    (bracket: CSBracket) => bracket.competitors
+  );
   return competitors.flat();
-}
-export const SelectBracketCompetitorsById = (state: any, bracketId: number) => {
-  console.log(state.CSBracket.brackets.filter((bracket: CSBracket) => bracket.competitors.find(compt => compt.bracket.id == bracketId)))
-}
+};
+export const SelectBracketCompetitorsById = (
+  state: any,
+  bracketId: number
+) => {
+  console.log(
+    state.CSBracket.brackets.filter((bracket: CSBracket) =>
+      bracket.competitors.find((compt) => compt.bracket.id == bracketId)
+    )
+  );
+};
 export const SelectBracketEditState = (state: any): BracketEditState => {
-  return state.CSBracket.editState
-}
+  return state.CSBracket.editState;
+};
 export const SelectedCompetitorSelector = (state: any): string | null => {
   return state.CSBracket.selectedCompetitor;
-}
+};
 export const SelectBracketsByRing = (state: any) => {
   const brackets = state.CSBracket.brackets;
   brackets.map((bracket: any) => {
-    const ringArr = [];
+    console.log(bracket.ringNumber);
+    // const ringArr = [];
     // const ringBracket = bracket.competitors.filter(comp => comp)
+  });
+};
 
-  })
-}
-
-export const { setCBBrackets, setBracketEditState, setSelectedBracketCompetitor, moveSelectedCompetitor } = CSBracketSlice.actions;
+export const {
+  setCBBrackets,
+  setBracketEditState,
+  setSelectedBracketCompetitor,
+  moveSelectedCompetitor,
+} = CSBracketSlice.actions;
 
 export const { reducer } = CSBracketSlice;
