@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 
 import * as path from "path";
 import * as fs from "fs";
@@ -63,12 +63,17 @@ ipcMain.on("read-event-participants", (event, eventUID, eventId) => {
     "main: Received read-event-participants event",
     `${eventUID}.${eventId}`
   );
-  const fileContent = fs.readFileSync(
-    `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`,
-    "utf8"
-  );
-  event.sender.send("read-event-participants-success", fileContent);
-  console.log("Main: Received read-event-participants-success event.");
+  let fileContent;
+  try {
+    fileContent = fs.readFileSync(
+      `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`,
+      "utf8"
+    );
+    event.sender.send("read-event-participants-success", fileContent);
+    console.log("Main: Received read-event-participants-success event.");
+  } catch {
+    dialog.showErrorBox("File Not Found", "File Not Found");
+  }
 });
 
 ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
@@ -76,10 +81,14 @@ ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
     "main: Received read-event-brackets event",
     `${eventUID}.${eventId}`
   );
-  const fileContent = fs.readFileSync(
-    `C:\\Users\\metap\\development\\nhe-cli\\data\\eventBrackets\\${eventUID}.${eventId}`,
-    "utf8"
-  );
-  event.sender.send("read-event-brackets-success", fileContent);
-  console.log("Main: Received read-event-brackets-success event.");
+  try {
+    const fileContent = fs.readFileSync(
+      `C:\\Users\\metap\\development\\nhe-cli\\data\\eventBrackets\\${eventUID}.${eventId}`,
+      "utf8"
+    );
+    event.sender.send("read-event-brackets-success", fileContent);
+    console.log("Main: Received read-event-brackets-success event.");
+  } catch {
+    dialog.showErrorBox("File Not Found", "File Not Found");
+  }
 });

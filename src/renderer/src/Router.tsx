@@ -8,11 +8,13 @@ import App from "./App";
 import UploadEvent from "./Views/UploadEvent";
 import JudgeEntry from "./Views/JudgesEntry";
 import Events from "./Views/Events";
+import SelectedEventView from "./Views/SelectedEventView";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route path='events' element={<Events />} />
+      <Route path='events/selectedEvent' element={<SelectedEventView />} />
       {/* <Route path="createevent" element={<CreateEvent />} /> */}
       <Route path='uploadEvent' element={<UploadEvent />} />
       <Route path='judges' element={<JudgeEntry />} />

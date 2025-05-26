@@ -1,9 +1,15 @@
 import { IKFParticipant } from "./fighter.model";
 
 export type CombatEvent = {
-  eventName: string;
   bouts: Bout[];
+  selectedEvent: SelectedEvent;
 };
+export type SelectedEvent = {
+  eventID: number;
+  eventUID: string;
+  eventName: string;
+};
+
 export type Fighter = { firstName: string; lastName: string };
 export type Bout = { blueCorner: Fighter; redCorner: Fighter };
 export type BracketEditState =

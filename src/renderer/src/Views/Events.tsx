@@ -15,12 +15,19 @@ import { IKFBracket, IKFEvent } from "../Models";
 import { EventBracket } from "../Models/bracket.model";
 import { IKFParticipant } from "../Models/fighter.model";
 import EventBrackets from "./EventBrackets";
+import { setSelectedEvent } from "../Features/combatEvent.slice";
+import { useNavigate } from "react-router-dom";
 
 type EventsProps = {
   // Define any props you need here
   getFSIEvents: () => void;
   getFSIEventBrackets: (eventUID: string, eventID: number) => void;
   getFSIEventParticipants: (eventUID: string, eventID: number) => void;
+  setSelectedEvent: (
+    eventUID: string,
+    eventID: number,
+    eventName: string
+  ) => void;
   getAllFSIEvents: IKFEvent[];
   getEventBrackets: EventBracket[];
   getEventParticipants: IKFParticipant[];
@@ -35,6 +42,10 @@ function mapStateToProps(state: any) {
 }
 function mapDispatchToProps(dispatch: any) {
   return {
+    setSelectedEvent: (eventUID: string, eventID: number, eventName: string) =>
+      dispatch(
+        setSelectedEvent({ eventID: eventID, eventUID: eventUID, eventName })
+      ),
     getFSIEvents: () => dispatch(GetEventsFromFSI()),
     getFSIEventBrackets: (eventUID: string, eventID: number) =>
       dispatch(GET_FSI_EVENT_BRACKETS({ eventUID, eventID })),
@@ -44,6 +55,7 @@ function mapDispatchToProps(dispatch: any) {
 }
 
 function Events(props: EventsProps) {
+  const navigator = useNavigate();
   const [visibleEvents, setVisibleEvents] = useState<IKFEvent[]>([]);
   const [eventSort, setEventSort] = useState<string>("");
   const [selectedEventId, setSelectedEventID] = useState<number>(-1);
@@ -52,10 +64,9 @@ function Events(props: EventsProps) {
   //#region Use Effects
   useEffect(() => {
     props.getFSIEvents();
+    setVisibleEvents(upcomingEvents());
   }, []);
-
   useEffect(() => {}, [props.getAllFSIEvents]);
-
   useEffect(() => {
     if (eventSort === "upcoming") {
       setVisibleEvents(upcomingEvents());
@@ -89,46 +100,28 @@ function Events(props: EventsProps) {
   const selectButtonClicked = (event: IKFEvent) => {
     console.log("Event ID: ", event.id);
     console.log("Event UID: ", event.eventUid);
-    setSelectedEventID(event.id);
+    props.setSelectedEvent(event.eventUid, event.id, event.eventName);
     props.getFSIEventParticipants(event.eventUid, event.id);
     props.getFSIEventBrackets(event.eventUid, event.id);
+    navigator("selectedEvent");
   };
   //#endregion
 
   //#region rendered elements
   const eventSelectView = () => {
-    const eventSelectView = visibleEvents.map((event: IKFEvent) => {
-      if (selectedEventId === -1) {
-        return (
-          <Box id={`eventID_${event.id}`} key={event.id}>
-            <Box>{event.eventName}</Box>
-            <Box>{event.eventDate}</Box>
-            <Button
-              variant='contained'
-              onClick={() => {
-                selectButtonClicked(event);
-              }}>
-              Select Event
-            </Button>
-          </Box>
-        );
-      }
-      if (event.id === selectedEventId) {
-        return (
-          <Box id={`eventID_${event.id}`} key={event.id}>
-            <Box>{event.eventName}</Box>
-            <Box>{event.eventDate}</Box>
-            <Button
-              variant='contained'
-              onClick={() => {
-                selectButtonClicked(event);
-              }}>
-              Select Event
-            </Button>
-          </Box>
-        );
-      }
-    });
+    const eventSelectView = visibleEvents.map((event: IKFEvent) => (
+      <Box id={`eventID_${event.id}`} key={event.id}>
+        <Box>{event.eventName}</Box>
+        <Box>{event.eventDate}</Box>
+        <Button
+          variant='contained'
+          onClick={() => {
+            selectButtonClicked(event);
+          }}>
+          Select Event
+        </Button>
+      </Box>
+    ));
     return eventSelectView;
   };
 
@@ -161,8 +154,8 @@ function Events(props: EventsProps) {
   //#endregion
   return (
     <>
-      <Typography sx={{ textAlign: "center" }} variant='h4'>
-        [Sync FSI Events ]
+      <Typography sx={{ textAlign: "center" }} variant='h2'>
+        [IKF Midwest Events ]
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-around" }}>
         <Button variant='contained' onClick={() => setEventSort("upcoming")}>
@@ -172,9 +165,7 @@ function Events(props: EventsProps) {
           Past 10 Events
         </Button>
       </Box>
-      <Box>
-        <EventBrackets />
-      </Box>
+      <Box>{/* <EventBrackets /> */}</Box>
       <Box>{renderByViewIndex()}</Box>
     </>
   );

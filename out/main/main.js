@@ -10458,22 +10458,31 @@ require$$0.ipcMain.on("read-event-participants", (event, eventUID, eventId) => {
     "main: Received read-event-participants event",
     `${eventUID}.${eventId}`
   );
-  const fileContent = fs__namespace.readFileSync(
-    `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`,
-    "utf8"
-  );
-  event.sender.send("read-event-participants-success", fileContent);
-  console.log("Main: Received read-event-participants-success event.");
+  let fileContent;
+  try {
+    fileContent = fs__namespace.readFileSync(
+      `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`,
+      "utf8"
+    );
+    event.sender.send("read-event-participants-success", fileContent);
+    console.log("Main: Received read-event-participants-success event.");
+  } catch {
+    require$$0.dialog.showErrorBox("File Not Found", "File Not Found");
+  }
 });
 require$$0.ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
   console.log(
     "main: Received read-event-brackets event",
     `${eventUID}.${eventId}`
   );
-  const fileContent = fs__namespace.readFileSync(
-    `C:\\Users\\metap\\development\\nhe-cli\\data\\eventBrackets\\${eventUID}.${eventId}`,
-    "utf8"
-  );
-  event.sender.send("read-event-brackets-success", fileContent);
-  console.log("Main: Received read-event-brackets-success event.");
+  try {
+    const fileContent = fs__namespace.readFileSync(
+      `C:\\Users\\metap\\development\\nhe-cli\\data\\eventBrackets\\${eventUID}.${eventId}`,
+      "utf8"
+    );
+    event.sender.send("read-event-brackets-success", fileContent);
+    console.log("Main: Received read-event-brackets-success event.");
+  } catch {
+    require$$0.dialog.showErrorBox("File Not Found", "File Not Found");
+  }
 });
