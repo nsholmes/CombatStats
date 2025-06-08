@@ -65,3 +65,15 @@ export type IKFParticipant = {
   profileName: string;
   phoneNumber?: string;
 };
+
+export type CheckInPariticipantSort = {
+  weightMax: number;
+  weightMin: number;
+  isWeightNull: boolean;
+  participants: IKFParticipant[];
+};
+
+export type WeightRange = {
+  weightMin: number;
+  weightMax: number;
+};

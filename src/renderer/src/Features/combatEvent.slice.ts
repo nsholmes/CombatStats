@@ -1,18 +1,22 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Bout, CombatEvent, SelectedEvent } from "../Models/event.model";
+import {
+  Bout,
+  CombatEvent,
+  IKFEvent,
+  SelectedEvent,
+} from "../Models/event.model";
 
 const initialState: CombatEvent = {
   bouts: [],
-  selectedEvent: { eventID: -1, eventUID: "", eventName: "" },
+  selectedEvent: {} as CombatEvent["selectedEvent"],
 };
 
 export const CombatEventSlice = createSlice({
   name: "CombatEvent",
   initialState,
   reducers: {
-    setSelectedEvent(state, action: PayloadAction<SelectedEvent>) {
-      const { eventID, eventUID, eventName } = action.payload;
-      state.selectedEvent = { eventID, eventUID, eventName };
+    setSelectedEvent(state, action: PayloadAction<IKFEvent>) {
+      state.selectedEvent = action.payload;
     },
 
     addNewBout(state, action: PayloadAction<Bout>) {
@@ -22,10 +26,7 @@ export const CombatEventSlice = createSlice({
 });
 export const SelectAllBouts = (state: any) => state.combatEvent.bouts;
 export const SelectSelectedEvent = (state: any) => {
-  console.log(
-    "SelectCombatEventName: ",
-    state.combatEvent.selectedEvent.eventName
-  );
+  console.log("Selected Event: ", state.combatEvent.selectedEvent);
   return state.combatEvent;
 };
 

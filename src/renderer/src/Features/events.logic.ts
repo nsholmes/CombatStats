@@ -10,6 +10,7 @@ import {
   setIKFEventParticipants,
   setIKFEvents,
 } from "./events.slice";
+import { IKFParticipant } from "../Models/fighter.model";
 // import * as fs from "fs";
 
 declare const window: {
@@ -40,6 +41,9 @@ const GetFSIEventParticipants = createLogic({
       .readEventParticipants(action.payload.eventUID, action.payload.eventID)
       .then((resp: any) => {
         const participants = JSON.parse(resp.data);
+        participants.sort((a: IKFParticipant, b: IKFParticipant) => {
+          return a.weight - b.weight;
+        });
         dispatch(setIKFEventParticipants(participants));
         dispatch({
           type: "GET_FSI_EVENT_PARTICIPANTS_SUCCESS",

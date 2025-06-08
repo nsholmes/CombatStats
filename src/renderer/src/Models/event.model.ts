@@ -2,7 +2,7 @@ import { IKFParticipant } from "./fighter.model";
 
 export type CombatEvent = {
   bouts: Bout[];
-  selectedEvent: SelectedEvent;
+  selectedEvent: IKFEvent;
 };
 export type SelectedEvent = {
   eventID: number;
@@ -80,15 +80,15 @@ export type fileUpload = {
 };
 
 export type IKFEvent = {
-  eventDate: string;
-  eventName: string;
-  eventUid: string;
-  id: number;
-  posterSmallUrl: string;
-  posterUrl: string;
-  promoterId: number;
-  registrationFee: string | number;
-  trainerRegistrationFee: string | number;
+  eventDate: "";
+  eventName: "";
+  eventUid: "";
+  id: -1;
+  posterSmallUrl: "";
+  posterUrl: "";
+  promoterId: -1;
+  registrationFee: "" | -1;
+  trainerRegistrationFee: "" | -1;
   participants?: IKFParticipant[];
 };
 

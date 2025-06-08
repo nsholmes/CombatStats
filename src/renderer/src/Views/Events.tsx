@@ -23,11 +23,7 @@ type EventsProps = {
   getFSIEvents: () => void;
   getFSIEventBrackets: (eventUID: string, eventID: number) => void;
   getFSIEventParticipants: (eventUID: string, eventID: number) => void;
-  setSelectedEvent: (
-    eventUID: string,
-    eventID: number,
-    eventName: string
-  ) => void;
+  setSelectedEvent: (event: IKFEvent) => void;
   getAllFSIEvents: IKFEvent[];
   getEventBrackets: EventBracket[];
   getEventParticipants: IKFParticipant[];
@@ -42,10 +38,7 @@ function mapStateToProps(state: any) {
 }
 function mapDispatchToProps(dispatch: any) {
   return {
-    setSelectedEvent: (eventUID: string, eventID: number, eventName: string) =>
-      dispatch(
-        setSelectedEvent({ eventID: eventID, eventUID: eventUID, eventName })
-      ),
+    setSelectedEvent: (event: IKFEvent) => dispatch(setSelectedEvent(event)),
     getFSIEvents: () => dispatch(GetEventsFromFSI()),
     getFSIEventBrackets: (eventUID: string, eventID: number) =>
       dispatch(GET_FSI_EVENT_BRACKETS({ eventUID, eventID })),
@@ -100,7 +93,7 @@ function Events(props: EventsProps) {
   const selectButtonClicked = (event: IKFEvent) => {
     console.log("Event ID: ", event.id);
     console.log("Event UID: ", event.eventUid);
-    props.setSelectedEvent(event.eventUid, event.id, event.eventName);
+    props.setSelectedEvent(event);
     props.getFSIEventParticipants(event.eventUid, event.id);
     props.getFSIEventBrackets(event.eventUid, event.id);
     navigator("selectedEvent");

@@ -36,6 +36,12 @@ export const SelectAllEvents = (state: any) => {
 export const SelectAllParticipants = (state: any) => {
   return state.IKFEvents.participants;
 };
+export const SelectSortedByWeight = (state: any) => {
+  return state.IKFEvents.participants;
+  // return state.IKFEvents.participants.sort(
+  //   (a: IKFParticipant, b: IKFParticipant) => a.weight - b.weight
+  // );
+};
 export const SelectAllBrackets = (state: any) => {
   return state.IKFEvents.brackets;
 };

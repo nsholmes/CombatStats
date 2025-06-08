@@ -10416,6 +10416,8 @@ let mainWindow;
 const isDev = process.env.NODE_ENV === "development";
 const createWindow = () => {
   mainWindow = new require$$0.BrowserWindow({
+    width: 1200,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
       preload: require$$1__namespace.join(`${__dirname}/../preload`, "preload.js"),

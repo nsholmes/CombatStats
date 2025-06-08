@@ -9,6 +9,8 @@ import {
 } from "../../Features/contextMenu.slice";
 import BracketSetupContextMenu from "./BracketSetupContextMenu";
 import { useEffect } from "react";
+import Matching from "../participants/Matching";
+import MatchingContextMenu from "./MatchingContextMenu";
 
 function mapStateToProps(state: any) {
   return {
@@ -43,7 +45,8 @@ function ContextMenu(props: ContextMenuProps) {
       case "bracketSetup":
         return <BracketSetupContextMenu />;
         break;
-
+      case "matching":
+        return <MatchingContextMenu />;
       default:
         break;
     }
