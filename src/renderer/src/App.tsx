@@ -1,8 +1,8 @@
-import './App.css';
+import "./App.css";
 
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
 
-import ContextMenu from './Components/contextMenus/ContextMenu';
+import ContextMenu from "./Components/contextMenus/ContextMenu";
 // import { useState } from "react";
 // import { Box, } from "@mui/material";
 // // import TargetedStrikes from "./TargetedStrikes";
@@ -11,7 +11,8 @@ import ContextMenu from './Components/contextMenus/ContextMenu';
 // import FighterTotalStrikes from "./FighterTotalStrikes";
 // import StatsBox from "./components/StatsBox";
 // import CreateEvent from "./Views/CreateEvent";
-import HeaderNav from './Components/HeaderNav';
+import HeaderNav from "./Components/HeaderNav";
+import Modals from "./Views/Modals/Modals";
 
 // import FighterTotalStrikes from "./FighterTotalStrikes";
 // import StatsBox from "./components/StatsBox";
@@ -21,6 +22,7 @@ function App() {
     <>
       <HeaderNav />
       <ContextMenu />
+      <Modals />
       <Outlet />
     </>
     // <Box sx={{ height: '100%', padding: '0px 5px 5px 5px' }}>

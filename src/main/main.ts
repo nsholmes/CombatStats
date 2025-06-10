@@ -3,7 +3,10 @@ import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import * as path from "path";
 import * as fs from "fs";
 import { installExtension, REDUX_DEVTOOLS } from "electron-devtools-installer";
+import { createNewBracketWindow } from "./windows";
 let mainWindow: BrowserWindow | null;
+let newBracketWindow: BrowserWindow | null;
+
 const isDev = process.env.NODE_ENV === "development";
 
 const createWindow = () => {
@@ -47,6 +50,13 @@ app.on("activate", () => {
   if (mainWindow == null) {
     createWindow();
   }
+});
+
+// #region IPC Handlers
+
+ipcMain.on("create-new-bracket-window", (event) => {
+  console.log("main: received create-new-bracket-window event");
+  newBracketWindow = createNewBracketWindow(mainWindow!);
 });
 
 ipcMain.on("read-event-list", (event) => {
@@ -94,3 +104,5 @@ ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
     dialog.showErrorBox("File Not Found", "File Not Found");
   }
 });
+
+// #endregion IPC Handlers

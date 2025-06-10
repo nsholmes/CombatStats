@@ -10412,6 +10412,25 @@ var REDUX_DEVTOOLS = dist$1.REDUX_DEVTOOLS = {
 dist$1.MOBX_DEVTOOLS = {
   id: "pfgnfdagidkfgccljigdamigbcnndkod"
 };
+const createNewBracketWindow = (parentWindow) => {
+  const { BrowserWindow: BrowserWindow2 } = require("electron").remote;
+  let bracketWindow = new BrowserWindow2({
+    width: 400,
+    height: 500,
+    parent: parentWindow,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true
+    }
+  });
+  bracketWindow.loadURL("http://localhost:5173/judges");
+  bracketWindow.on("closed", () => {
+    bracketWindow = null;
+  });
+  return bracketWindow;
+};
 let mainWindow;
 const isDev = process.env.NODE_ENV === "development";
 const createWindow = () => {
@@ -10445,6 +10464,10 @@ require$$0.app.on("activate", () => {
   if (mainWindow == null) {
     createWindow();
   }
+});
+require$$0.ipcMain.on("create-new-bracket-window", (event) => {
+  console.log("main: received create-new-bracket-window event");
+  createNewBracketWindow(mainWindow);
 });
 require$$0.ipcMain.on("read-event-list", (event) => {
   console.log("main: received read-event-list event");
