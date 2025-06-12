@@ -19,3 +19,5 @@ export const GET_FSI_EVENT_BRACKETS_SUCCESS = createAction(
 export const GET_FSI_EVENT_BRACKETS_FAILURE = createAction(
   "GET_FSI_EVENT_BRACKETS_FAILURE"
 );
+export const REFRESH_EVENT_PARTICIPANTS_FROM_FSI =
+  createAction<EventParticipantRequest>("REFRESH_EVENT_PARTICIPANTS_FROM_FSI");

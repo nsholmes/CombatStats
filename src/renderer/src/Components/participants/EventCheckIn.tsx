@@ -3,7 +3,7 @@ import {
   CheckInPariticipantSort,
   IKFParticipant,
 } from "../../Models/fighter.model";
-import { SelectAllParticipants } from "../../Features/events.slice";
+import { SelectAllParticipants } from "../../Features/combatEvent.slice";
 import { connect } from "react-redux";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";

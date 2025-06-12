@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.send("read-event-list");
 
     // Create a promise that resolves when the "read-event-list" event is received.
-    // That even is sent from the main process when the file has been successfully read.
+    // That event is sent from the main process when the file has been successfully read.
     return new Promise((resolve) =>
       ipcRenderer.once("read-event-list-success", (event, data) =>
         resolve({ event, data })
@@ -28,6 +28,16 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.send("read-event-brackets", eventUID, eventId);
     return new Promise((resolve) =>
       ipcRenderer.once("read-event-brackets-success", (event, data) => {
+        resolve({ event, data });
+      })
+    );
+  },
+
+  refreshEventParticipantsFromFSI: (eventUID: string, eventId: number) => {
+    console.log("refreshEventParticipants", eventUID, eventId);
+    ipcRenderer.send("refresh-event-participants", eventUID, eventId);
+    return new Promise((resolve) =>
+      ipcRenderer.once("refresh-event-participants-success", (event, data) => {
         resolve({ event, data });
       })
     );

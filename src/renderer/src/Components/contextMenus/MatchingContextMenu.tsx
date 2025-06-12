@@ -52,19 +52,21 @@ function MatchingContextMenu(props: MatchingContextMenuProps) {
           className='contextMenu'
           component='nav'
           aria-labelledby='nested-list-subheader'>
-          <ListItemButton id='createBoxingBracket' onClick={menuItemClicked}>
+          <ListItemButton id='createBracket-Boxing' onClick={menuItemClicked}>
             <ListItemIcon></ListItemIcon>
             <ListItemText primary='Boxing Bracket' />
           </ListItemButton>
-          <ListItemButton id='createMuayThaiBracket' onClick={menuItemClicked}>
+          <ListItemButton
+            id='createBracket-MuayThai'
+            onClick={menuItemClicked}>
             <ListItemIcon></ListItemIcon>
             <ListItemText primary='Muay Thai Bracket' />
           </ListItemButton>
-          <ListItemButton id='createIntlBracket' onClick={menuItemClicked}>
+          <ListItemButton id='createBracket-Intl' onClick={menuItemClicked}>
             <ListItemIcon></ListItemIcon>
             <ListItemText primary='Intl Bracket' />
           </ListItemButton>
-          <ListItemButton id='createUnifiedBracket' onClick={menuItemClicked}>
+          <ListItemButton id='createBracket-Unified' onClick={menuItemClicked}>
             <ListItemIcon></ListItemIcon>
             <ListItemText primary='Unified Bracket' />
           </ListItemButton>

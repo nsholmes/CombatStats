@@ -1,5 +1,6 @@
 "use strict";
 const require$$0 = require("electron");
+const child_process = require("child_process");
 const require$$1 = require("path");
 const fs$2 = require("fs");
 const require$$3 = require("https");
@@ -10492,7 +10493,10 @@ require$$0.ipcMain.on("read-event-participants", (event, eventUID, eventId) => {
     event.sender.send("read-event-participants-success", fileContent);
     console.log("Main: Received read-event-participants-success event.");
   } catch {
-    require$$0.dialog.showErrorBox("File Not Found", "File Not Found");
+    require$$0.dialog.showErrorBox(
+      "File Not Found",
+      `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`
+    );
   }
 });
 require$$0.ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
@@ -10509,5 +10513,19 @@ require$$0.ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
     console.log("Main: Received read-event-brackets-success event.");
   } catch {
     require$$0.dialog.showErrorBox("File Not Found", "File Not Found");
+  }
+});
+require$$0.ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
+  console.log("Event UID:", eventUID);
+  console.log("Event ID:", eventId);
+  const args = [eventUID, eventId].join(".");
+  console.log("main: Received refresh-event-participants event");
+  try {
+    console.log("Spawning nhe-cli command with args:", args);
+    const child = child_process.spawn("ls", ["-lh", "/usr"]);
+    console.log(child);
+  } catch (error) {
+    console.error("Error spawning nhe-cli command:", error);
+    require$$0.dialog.showErrorBox("Command Error", "Failed to refresh participants.");
   }
 });

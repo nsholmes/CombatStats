@@ -8,18 +8,16 @@ import {
   getAgeFromDOB,
   sortParticipantsForMatching,
 } from "../../utils/participants";
-import { SelectAllParticipants } from "../../Features/events.slice";
+import { SelectAllParticipants } from "../../Features/combatEvent.slice";
 import { Typography, TextField, Box } from "@mui/material";
 import { ContextMenuType, PositionCoords } from "../../Models";
-import {
-  setSelectedBracketCompetitor,
-  moveSelectedCompetitor,
-} from "../../Features/cbBracket.slice";
+import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
 import {
   setCurrentMenu,
   setIsVisible,
   setMenuCoords,
 } from "../../Features/contextMenu.slice";
+import { setSelectedParticipantIds } from "../../Features/combatEvent.slice";
 
 type MatchingProps = {
   eventParticipants: IKFParticipant[];
@@ -27,7 +25,7 @@ type MatchingProps = {
   setCurrentContextMenu: (menuName: ContextMenuType) => void;
   setMenuIsVisible: (isVisible: boolean) => void;
   setMenuPosition: (coords: PositionCoords) => void;
-  setSelectedCompetitor: (competitorId: string | null) => void;
+  setSelectedParticipant: (participantIds: number[]) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -44,10 +42,10 @@ function mapDispatchToProps(dispatch: any) {
       dispatch(setIsVisible(isVisible)),
     setMenuPosition: (coords: PositionCoords) =>
       dispatch(setMenuCoords(coords)),
-    setSelectedCompetitor: (competitorId: string | null) =>
-      dispatch(setSelectedBracketCompetitor(competitorId)),
     moveSelectedCompetitor: (competitorId: string | null) =>
       dispatch(moveSelectedCompetitor(competitorId)),
+    setSelectedParticipant: (participantIds: number[]) =>
+      dispatch(setSelectedParticipantIds(participantIds)),
   };
 }
 
@@ -69,6 +67,7 @@ function Matching(props: MatchingProps) {
     props.setCurrentContextMenu("matching");
   }, []);
   useEffect(() => {
+    console.log(props.eventParticipants);
     if (!searchValue) {
       setFilteredParticipants(props.eventParticipants);
       setSortedParticipantsForMatching(
@@ -86,11 +85,15 @@ function Matching(props: MatchingProps) {
     }
   }, [searchValue, props.eventParticipants]);
 
+  useEffect(() => {
+    props.setSelectedParticipant(selectedParticipants);
+  }, [selectedParticipants]);
+
   //#region Event Handlers
   const showContextMenu = (ev: React.MouseEvent<HTMLDivElement>) => {
     ev.preventDefault();
+    console.log("Context Menu Triggered", ev.currentTarget);
     const selectedId = ev.currentTarget.getAttribute("id");
-    props.setSelectedCompetitor(selectedId);
     props.setMenuIsVisible(false);
     const positionChange: PositionCoords = {
       xpos: ev.clientX,
@@ -126,10 +129,7 @@ function Matching(props: MatchingProps) {
         onChange={(e) => setSearchValue(e.target.value)}
         placeholder='Search by Name'
       /> */}
-      <Box
-        onClick={(e) => {
-          hideContextMenu();
-        }}>
+      <Box>
         <Box
           sx={{
             display: "flex",

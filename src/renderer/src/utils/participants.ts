@@ -31,7 +31,7 @@ export const sortParticipantsForMatching = (
     const nullWeightParticipants: IKFParticipant[] = participants.filter(
       (p) => p.weight === null || p.weight === undefined
     );
-
+    console.log(`SORTED PARTICIPANTS: `, nullWeightParticipants);
     if (nullWeightParticipants.length > 0) {
       sortedParticipants.push({
         weightMax: 0,

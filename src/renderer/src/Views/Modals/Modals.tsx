@@ -27,22 +27,14 @@ function mapDispatchToProps(dispatch: any) {
 
 function Modals(props: ModalsProps) {
   const renderModalContent = () => {
-    switch (props.currentModal) {
-      case "createMuayThaiBracket":
-        return (
-          <Box>
-            <CreateNewBracketModal />
-          </Box>
-        );
-      case "createBoxingBracket":
-        return <div>Create New Boxing Bracket</div>;
-      case "createIntlBracket":
-        return <div>Create New International Bracket</div>;
-      case "createUnifiedBracket":
-        return <div>Create New Unified Bracket</div>;
-      // Add more cases for other modals as needed
-      default:
-        return <></>;
+    if (props.currentModal.indexOf("createBracket") > -1) {
+      return (
+        <Box>
+          <CreateNewBracketModal />
+        </Box>
+      );
+    } else {
+      return <></>;
     }
   };
   return <Modal open={props.isVisible}>{renderModalContent()}</Modal>;

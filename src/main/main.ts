@@ -1,5 +1,5 @@
 import { app, BrowserWindow, dialog, ipcMain } from "electron";
-
+import { spawn } from "child_process";
 import * as path from "path";
 import * as fs from "fs";
 import { installExtension, REDUX_DEVTOOLS } from "electron-devtools-installer";
@@ -84,7 +84,10 @@ ipcMain.on("read-event-participants", (event, eventUID, eventId) => {
     event.sender.send("read-event-participants-success", fileContent);
     console.log("Main: Received read-event-participants-success event.");
   } catch {
-    dialog.showErrorBox("File Not Found", "File Not Found");
+    dialog.showErrorBox(
+      "File Not Found",
+      `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`
+    );
   }
 });
 
@@ -102,6 +105,22 @@ ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
     console.log("Main: Received read-event-brackets-success event.");
   } catch {
     dialog.showErrorBox("File Not Found", "File Not Found");
+  }
+});
+
+ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
+  console.log("Event UID:", eventUID);
+  console.log("Event ID:", eventId);
+  const args = [eventUID, eventId].join(".");
+  console.log("main: Received refresh-event-participants event");
+  try {
+    console.log("Spawning nhe-cli command with args:", args);
+    // spawn(`node`, [`ikf participants -u ${args}`]);
+    const child = spawn("ls", ["-lh", "/usr"]);
+    console.log(child);
+  } catch (error) {
+    console.error("Error spawning nhe-cli command:", error);
+    dialog.showErrorBox("Command Error", "Failed to refresh participants.");
   }
 });
 

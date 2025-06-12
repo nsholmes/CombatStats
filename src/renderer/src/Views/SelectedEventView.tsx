@@ -4,18 +4,19 @@ import { IKFParticipant } from "../Models/fighter.model";
 import {
   SelectAllBrackets,
   SelectAllParticipants,
-} from "../Features/events.slice";
+} from "../Features/combatEvent.slice";
 import { connect } from "react-redux";
 import { SelectSelectedEvent } from "../Features/combatEvent.slice";
-import { CombatEvent } from "../Models";
+import { CombatEvent, IKFEvent } from "../Models";
 import { useEffect, useState } from "react";
 import EventCheckIn from "../Components/participants/EventCheckIn";
 import Matching from "../Components/participants/Matching";
+import { ref } from "process";
+import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
 
 type SelectedEventProps = {
-  eventBrackets: EventBracket[];
-  eventParticipants: IKFParticipant[];
-  selectedEvent: CombatEvent;
+  selectedEvent: IKFEvent;
+  refreshParticipantsFromFSI: (eventUID: string, eventID: number) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -26,14 +27,16 @@ function mapStateToProps(state: any) {
   };
 }
 function mapDispatchToProps(dispatch: any) {
-  return {};
+  return {
+    refreshParticipantsFromFSI: (eventUID: string, eventID: number) =>
+      dispatch(REFRESH_EVENT_PARTICIPANTS_FROM_FSI({ eventUID, eventID })),
+  };
 }
 
 function SelectedEventView(props: SelectedEventProps) {
   const [viewState, setViewState] = useState("");
   useEffect(() => {
     console.log(props.selectedEvent);
-    console.log(props.eventParticipants);
   }, []);
 
   const subNavButtonClicked = (vState: number) => {
@@ -49,6 +52,13 @@ function SelectedEventView(props: SelectedEventProps) {
     }
   };
 
+  const refreshParticipantsClicked = () => {
+    // props.refreshParticipantsFromFSI(
+    //   props.selectedEvent.selectedEvent.eventUid,
+    //   props.selectedEvent.selectedEvent.id
+    // );
+    console.log("Refresh Participants Clicked");
+  };
   const renderViewState = () => {
     switch (viewState) {
       case "Event CheckIn": // Event CheckIn
@@ -58,7 +68,7 @@ function SelectedEventView(props: SelectedEventProps) {
       default:
         return (
           <Box>
-            <img src={`${props.selectedEvent.selectedEvent.posterUrl}`} />
+            <img src={`${props.selectedEvent.posterUrl}`} />
           </Box>
         );
     }
@@ -67,23 +77,33 @@ function SelectedEventView(props: SelectedEventProps) {
   return (
     <>
       <Box>
-        <Typography variant='h3'>
-          {`${props.selectedEvent.selectedEvent.eventName} - ${viewState}`}
+        <Typography variant='h6'>
+          {`${props.selectedEvent.eventName} - ${viewState}`}
         </Typography>
-        <Box>
+        <Box sx={{ display: "flex", gap: 2, marginBottom: 2, marginTop: 2 }}>
           <Button
-            sx={{ fontSize: "24px" }}
+            variant='outlined'
+            sx={{ fontSize: "18px" }}
             onClick={() => {
               subNavButtonClicked(1);
             }}>
             Event CheckIn
           </Button>
           <Button
-            sx={{ fontSize: "24px" }}
+            variant='outlined'
+            sx={{ fontSize: "18px" }}
             onClick={() => {
               subNavButtonClicked(2);
             }}>
             Match Making
+          </Button>
+          <Button
+            variant='outlined'
+            sx={{ fontSize: "18px" }}
+            onClick={() => {
+              refreshParticipantsClicked();
+            }}>
+            Refresh Participants
           </Button>
         </Box>
 

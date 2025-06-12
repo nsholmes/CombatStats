@@ -7,7 +7,6 @@ import { ContextMenuSlice } from "./Features/contextMenu.slice";
 import eventsLogic from "./Features/events.logic";
 import { EventsSlice } from "./Features/events.slice";
 import { ModalsSlice } from "./Features/modal.slice";
-import { MatchingSlice } from "./Features/matching.slice";
 
 const fileUploadMiddleware = createLogicMiddleware(fileUploadLogic);
 const eventsMiddleware = createLogicMiddleware(eventsLogic);
@@ -19,7 +18,6 @@ export const store = configureStore({
     ContextMenu: ContextMenuSlice.reducer,
     IKFEvents: EventsSlice.reducer,
     Modals: ModalsSlice.reducer,
-    Matching: MatchingSlice.reducer,
   },
   middleware: [fileUploadMiddleware, eventsMiddleware],
 });

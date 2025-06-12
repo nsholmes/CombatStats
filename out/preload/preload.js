@@ -28,5 +28,14 @@ electron.contextBridge.exposeInMainWorld("api", {
         resolve({ event, data });
       })
     );
+  },
+  refreshEventParticipantsFromFSI: (eventUID, eventId) => {
+    console.log("refreshEventParticipants", eventUID, eventId);
+    electron.ipcRenderer.send("refresh-event-participants", eventUID, eventId);
+    return new Promise(
+      (resolve) => electron.ipcRenderer.once("refresh-event-participants-success", (event, data) => {
+        resolve({ event, data });
+      })
+    );
   }
 });

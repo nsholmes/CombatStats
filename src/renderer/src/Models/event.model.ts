@@ -1,8 +1,12 @@
+import { EventBracket } from "./bracket.model";
 import { IKFParticipant } from "./fighter.model";
 
 export type CombatEvent = {
   bouts: Bout[];
   selectedEvent: IKFEvent;
+  participants: IKFParticipant[];
+  brackets: EventBracket[];
+  selectedParticipantIds: number[];
 };
 export type SelectedEvent = {
   eventID: number;

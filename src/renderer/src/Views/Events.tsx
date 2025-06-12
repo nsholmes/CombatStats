@@ -6,15 +6,14 @@ import {
   GetEventsFromFSI,
 } from "../Features/eventsAction";
 import { useEffect, useState } from "react";
+import { SelectAllEvents } from "../Features/events.slice";
 import {
   SelectAllBrackets,
-  SelectAllEvents,
   SelectAllParticipants,
-} from "../Features/events.slice";
-import { IKFBracket, IKFEvent } from "../Models";
+} from "../Features/combatEvent.slice";
+import { IKFEvent } from "../Models";
 import { EventBracket } from "../Models/bracket.model";
 import { IKFParticipant } from "../Models/fighter.model";
-import EventBrackets from "./EventBrackets";
 import { setSelectedEvent } from "../Features/combatEvent.slice";
 import { useNavigate } from "react-router-dom";
 
@@ -91,8 +90,6 @@ function Events(props: EventsProps) {
     return upcoming;
   };
   const selectButtonClicked = (event: IKFEvent) => {
-    console.log("Event ID: ", event.id);
-    console.log("Event UID: ", event.eventUid);
     props.setSelectedEvent(event);
     props.getFSIEventParticipants(event.eventUid, event.id);
     props.getFSIEventBrackets(event.eventUid, event.id);
@@ -119,7 +116,6 @@ function Events(props: EventsProps) {
   };
 
   const participantSelectView = () => {
-    console.log("EVENT PARTICIPANTS");
     const participantSelectView = props.getEventParticipants.map(
       (participant: IKFParticipant) => {
         return <Box>{participant.firstName}</Box>;
