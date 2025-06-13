@@ -103,13 +103,13 @@ function Events(props: EventsProps) {
       <Box id={`eventID_${event.id}`} key={event.id}>
         <Box>{event.eventName}</Box>
         <Box>{event.eventDate}</Box>
-        <Button
-          variant='contained'
+        <div
+          className='bg-blue-400 w-35 border-l hover:cursor-pointer'
           onClick={() => {
             selectButtonClicked(event);
           }}>
           Select Event
-        </Button>
+        </div>
       </Box>
     ));
     return eventSelectView;

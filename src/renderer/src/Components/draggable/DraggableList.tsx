@@ -8,6 +8,7 @@ import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish
 import { flushSync } from "react-dom";
 import { ParticipantListItem } from "./ParticipantListItem";
 import { Box } from "@mui/material";
+import { List } from "./AlexListFiles/list";
 
 type DraggableListProps = {
   itemList: IKFParticipant[];
@@ -16,62 +17,62 @@ type DraggableListProps = {
 const DraggableList = (props: DraggableListProps) => {
   const [items, setItems] = useState(props.itemList);
 
-  useEffect(() => {
-    return monitorForElements({
-      canMonitor({ source }) {
-        return isListData(source.data);
-      },
-      onDrop({ location, source }) {
-        const target = location.current.dropTargets[0];
-        if (!target) {
-          return;
-        }
+  // useEffect(() => {
+  //   return monitorForElements({
+  //     canMonitor({ source }) {
+  //       return isListData(source.data);
+  //     },
+  //     onDrop({ location, source }) {
+  //       const target = location.current.dropTargets[0];
+  //       if (!target) {
+  //         return;
+  //       }
 
-        const sourceData = source.data;
-        const targetData = source.data;
+  //       const sourceData = source.data;
+  //       const targetData = source.data;
 
-        if (!isListData(sourceData) || !isListData(targetData)) {
-          return;
-        }
+  //       if (!isListData(sourceData) || !isListData(targetData)) {
+  //         return;
+  //       }
 
-        const indexOfSource = items.findIndex(
-          (item) => item.participantId === sourceData.participant.participantId
-        );
-        const indexOfTarget = items.findIndex(
-          (item) => item.participantId === targetData.participant.participantId
-        );
+  //       const indexOfSource = items.findIndex(
+  //         (item) => item.participantId === sourceData.participant.participantId
+  //       );
+  //       const indexOfTarget = items.findIndex(
+  //         (item) => item.participantId === targetData.participant.participantId
+  //       );
 
-        if (indexOfTarget < 0 || indexOfSource < 0) {
-          return;
-        }
+  //       if (indexOfTarget < 0 || indexOfSource < 0) {
+  //         return;
+  //       }
 
-        const closestEdgeOfTarget = extractClosestEdge(targetData);
+  //       const closestEdgeOfTarget = extractClosestEdge(targetData);
 
-        // Using `flushSync` so we can query the DOM straight after this line
-        flushSync(() => {
-          setItems(
-            reorderWithEdge({
-              list: items,
-              startIndex: indexOfSource,
-              indexOfTarget,
-              closestEdgeOfTarget,
-              axis: "vertical",
-            })
-          );
-        });
-        // Being simple and just querying for the task after the drop.
-        // We could use react context to register the element in a lookup,
-        // and then we could retrieve that element after the drop and use
-        // `triggerPostMoveFlash`. But this gets the job done.
-        const element = document.querySelector(
-          `[data-task-id="${sourceData.participant.participantId}"]`
-        );
-        if (element instanceof HTMLElement) {
-          triggerPostMoveFlash(element);
-        }
-      },
-    });
-  }, [items]);
+  //       // Using `flushSync` so we can query the DOM straight after this line
+  //       flushSync(() => {
+  //         setItems(
+  //           reorderWithEdge({
+  //             list: items,
+  //             startIndex: indexOfSource,
+  //             indexOfTarget,
+  //             closestEdgeOfTarget,
+  //             axis: "vertical",
+  //           })
+  //         );
+  //       });
+  //       // Being simple and just querying for the task after the drop.
+  //       // We could use react context to register the element in a lookup,
+  //       // and then we could retrieve that element after the drop and use
+  //       // `triggerPostMoveFlash`. But this gets the job done.
+  //       const element = document.querySelector(
+  //         `[data-task-id="${sourceData.participant.participantId}"]`
+  //       );
+  //       if (element instanceof HTMLElement) {
+  //         triggerPostMoveFlash(element);
+  //       }
+  //     },
+  //   });
+  // }, [items]);
 
   return (
     <Box sx={{ margin: "auto 0px", width: "420px" }}>
@@ -81,9 +82,10 @@ const DraggableList = (props: DraggableListProps) => {
           flexDirection: "column",
           gap: "8px",
         }}>
-        {items.map((item) => (
-          <ParticipantListItem item={item} />
-        ))}
+        <List items={items} />
+        {/* {items.map((item) => (
+          // <ParticipantListItem item={item} />
+        ))} */}
       </Box>
     </Box>
   );

@@ -51,7 +51,6 @@ export const SelectParticipantsByIds = (state: any) => {
 };
 
 export const SelectAllParticipants = (state: any) => {
-  console.log(state.combatEvent);
   return state.combatEvent.participants;
 };
 

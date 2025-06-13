@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Tuple } from "@reduxjs/toolkit";
 import { CombatEventSlice } from "./Features/combatEvent.slice";
 import { createLogicMiddleware } from "redux-logic";
 import fileUploadLogic from "./Features/fileUpload.logic";
@@ -19,7 +19,7 @@ export const store = configureStore({
     IKFEvents: EventsSlice.reducer,
     Modals: ModalsSlice.reducer,
   },
-  middleware: [fileUploadMiddleware, eventsMiddleware],
+  middleware: () => new Tuple(fileUploadMiddleware, eventsMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

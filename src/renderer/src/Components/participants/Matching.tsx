@@ -67,7 +67,6 @@ function Matching(props: MatchingProps) {
     props.setCurrentContextMenu("matching");
   }, []);
   useEffect(() => {
-    console.log(props.eventParticipants);
     if (!searchValue) {
       setFilteredParticipants(props.eventParticipants);
       setSortedParticipantsForMatching(

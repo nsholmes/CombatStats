@@ -15,6 +15,7 @@ import {
 } from "../../Features/modal.slice";
 import { CheckBox } from "@mui/icons-material";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
+import { WeightClasses } from "../../utils/weightClasses";
 
 type CreateNewBracketModalProps = {
   currentBracketType: string;
@@ -67,30 +68,55 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
   return (
     <Box sx={ModalStyle}>
       <Typography variant='h4'>{bracketTitle()}</Typography>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ width: "50%", display: "flex", gap: "20px" }}>
-          <Box>
-            <Typography variant='subtitle1' sx={{ marginTop: "10px" }}>
-              Weight Class:
-            </Typography>
-          </Box>
-          <Box>
-            <FormControl sx={{ m: 1, minWidth: 150 }} size='small'>
-              <InputLabel id='demo-select-small-label'>Gender</InputLabel>
-              <Select
-                labelId='Gender-select-label'
-                id='gender-select'
-                value={bracketGender}
-                label='Gender'
-                onChange={(e) => setBracketGender(e.target.value)}>
-                <MenuItem value='Select Gender'>
-                  <em>Select Gender</em>
-                </MenuItem>
-                <MenuItem value='Male'>Male</MenuItem>
-                <MenuItem value='Female'>Female</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+      <Box sx={{ width: "50%", display: "flex", gap: "20px" }}>
+        {/*  */}
+        <div>
+          <div className='flex gap-4'>
+            <div className='flex'>
+              <label
+                htmlFor='genderSelect'
+                className='text-white font-bold w-30'>
+                Weight Class:
+              </label>
+              <div className='border border-white text-white '>
+                <select
+                  id='genderSelect'
+                  onChange={(e) => setBracketGender(e.target.value)}
+                  className='p-1.5 w-70'>
+                  <option selected className='text-black' value=''>
+                    --
+                  </option>
+                  {WeightClasses.map((wClass) => (
+                    <option className='text-black' value='F'>
+                      {`${wClass.name}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {/* <div>
+              <div className='flex'>
+                <label
+                  htmlFor='weightSelect'
+                  className='text-white font-bold w-30'>
+                  Select Gender:
+                </label>
+                <div className='border border-white text-white '>
+                  <select
+                    id='genderSelect'
+                    onChange={(e) => setBracketGender(e.target.value)}
+                    className='p-1.5 w-40'>
+                    <option className='text-black' value='F'>
+                      Female
+                    </option>
+                    <option selected className='text-black' value='M'>
+                      Male
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div> */}
+          </div>
           <Box>
             <Typography variant='subtitle1' sx={{ marginTop: "10px" }}>
               <CheckBox /> Include Consolation Bracket:
@@ -99,24 +125,23 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
           <Box>
             <BracketParticipantList />
           </Box>
-        </Box>
+        </div>
       </Box>
-      <Box sx={{ marginTop: "10px" }}>
-        <Button
+      <div>
+        <button
           onClick={() => {
             props.setModalIsVisible(false);
           }}>
           Cancel
-        </Button>
-        <Button
-          variant='contained'
+        </button>
+        <button
           color='primary'
           onClick={() => {
             props.setModalIsVisible(false);
           }}>
           Create Bracket
-        </Button>
-      </Box>
+        </button>
+      </div>
     </Box>
   );
 }
