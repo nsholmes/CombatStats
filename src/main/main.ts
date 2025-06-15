@@ -1,11 +1,9 @@
-import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import { spawn } from "child_process";
-import * as path from "path";
-import * as fs from "fs";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import { installExtension, REDUX_DEVTOOLS } from "electron-devtools-installer";
-import { createNewBracketWindow } from "./windows";
+import * as fs from "fs";
+import * as path from "path";
 let mainWindow: BrowserWindow | null;
-let newBracketWindow: BrowserWindow | null;
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -53,11 +51,6 @@ app.on("activate", () => {
 });
 
 // #region IPC Handlers
-
-ipcMain.on("create-new-bracket-window", (event) => {
-  console.log("main: received create-new-bracket-window event");
-  newBracketWindow = createNewBracketWindow(mainWindow!);
-});
 
 ipcMain.on("read-event-list", (event) => {
   console.log("main: received read-event-list event");
@@ -111,6 +104,7 @@ ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
 ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
   console.log("Event UID:", eventUID);
   console.log("Event ID:", eventId);
+  console.log("event: ", event.type);
   const args = [eventUID, eventId].join(".");
   console.log("main: Received refresh-event-participants event");
   try {

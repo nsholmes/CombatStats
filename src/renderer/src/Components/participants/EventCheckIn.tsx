@@ -1,13 +1,10 @@
-import Typography from "@mui/material/Typography";
-import {
-  CheckInPariticipantSort,
-  IKFParticipant,
-} from "../../Models/fighter.model";
-import { SelectAllParticipants } from "../../Features/combatEvent.slice";
-import { connect } from "react-redux";
-import Box from "@mui/material/Box";
-import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { SelectAllParticipants } from "../../Features/combatEvent.slice";
+import { IKFParticipant } from "../../Models/fighter.model";
 import {
   getAgeFromDOB,
   sortParticipantsForMatching,
@@ -23,23 +20,23 @@ function mapStateToProps(state: any) {
   };
 }
 
-function mapDispatchToProps(dispatch: any) {
-  return {};
-}
+// function mapDispatchToProps(dispatch: any) {
+//   return {};
+// }
 
 function EventCheckIn(props: CheckinProps) {
   const [filteredParticipants, setFilteredParticipants] = useState<
     IKFParticipant[]
   >(props.eventParticipants);
-  const [sortedParticipantsForCheckin, setSortedParticipantsForCheckin] =
-    useState<CheckInPariticipantSort[]>([]);
+  // const [sortedParticipantsForCheckin, setSortedParticipantsForCheckin] =
+  //   useState<CheckInPariticipantSort[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   useEffect(() => {
     if (!searchValue) {
       setFilteredParticipants(props.eventParticipants);
-      setSortedParticipantsForCheckin(
-        sortParticipantsForMatching(props.eventParticipants)
-      );
+      sortParticipantsForMatching(props.eventParticipants);
+      // setSortedParticipantsForCheckin(
+      // );
     } else {
       const lower = searchValue.toLowerCase();
       setFilteredParticipants(
@@ -106,4 +103,4 @@ function EventCheckIn(props: CheckinProps) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventCheckIn);
+export default connect(mapStateToProps, null)(EventCheckIn);

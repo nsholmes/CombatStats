@@ -1,24 +1,24 @@
-import { GripVertical } from "lucide-react";
-import {
-  draggable,
-  dropTargetForElements,
-} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
-import { pointerOutsideOfPreview } from "@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview";
-import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import { type HTMLAttributes, useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
-import { createPortal } from "react-dom";
 import {
   attachClosestEdge,
   type Edge,
   extractClosestEdge,
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
+import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { pointerOutsideOfPreview } from "@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview";
+import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
+import { GripVertical } from "lucide-react";
+import { type HTMLAttributes, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import invariant from "tiny-invariant";
 import { DropIndicator } from "./drop-indicator";
-import { isListData, type TTask } from "./list-data";
+import { isListData } from "./list-data";
 // import { Status } from "./Status";
+import { Box } from "@mui/material";
 import { IKFParticipant } from "../../Models/fighter.model";
-import { Box, Typography } from "@mui/material";
 
 type ItemState =
   | {

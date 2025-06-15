@@ -1,15 +1,15 @@
 import { Box } from "@mui/material";
+import { useEffect } from "react";
 import { connect } from "react-redux";
-import { ContextMenuProps } from "../../Models";
 import {
   SelectCurrentMenu,
   SelectIsVisible,
   SelectMenuCoords,
   setIsVisible,
 } from "../../Features/contextMenu.slice";
+import { ContextMenuProps } from "../../Models";
 import BracketSetupContextMenu from "./BracketSetupContextMenu";
-import { useEffect } from "react";
-import Matching from "../participants/Matching";
+// import Matching from "../participants/Matching";
 import MatchingContextMenu from "./MatchingContextMenu";
 
 function mapStateToProps(state: any) {
@@ -44,7 +44,6 @@ function ContextMenu(props: ContextMenuProps) {
     switch (props.currentMenu) {
       case "bracketSetup":
         return <BracketSetupContextMenu />;
-        break;
       case "matching":
         return <MatchingContextMenu />;
       default:

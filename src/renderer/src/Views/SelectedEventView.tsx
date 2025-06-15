@@ -1,18 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
-import { EventBracket } from "../Models/bracket.model";
-import { IKFParticipant } from "../Models/fighter.model";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import EventCheckIn from "../Components/participants/EventCheckIn";
+import Matching from "../Components/participants/Matching";
 import {
   SelectAllBrackets,
   SelectAllParticipants,
+  SelectSelectedEvent,
 } from "../Features/combatEvent.slice";
-import { connect } from "react-redux";
-import { SelectSelectedEvent } from "../Features/combatEvent.slice";
-import { CombatEvent, IKFEvent } from "../Models";
-import { useEffect, useState } from "react";
-import EventCheckIn from "../Components/participants/EventCheckIn";
-import Matching from "../Components/participants/Matching";
-import { ref } from "process";
 import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
+import { IKFEvent } from "../Models";
 
 type SelectedEventProps = {
   selectedEvent: IKFEvent;

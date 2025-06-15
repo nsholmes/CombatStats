@@ -1,14 +1,13 @@
 import { createLogic } from "redux-logic";
-import { getOptions } from "../Models";
+import { IKFParticipant } from "../Models/fighter.model";
+import { setBrackets, setParticipants } from "./combatEvent.slice";
+import { setIKFEvents } from "./events.slice";
 import {
   GET_FSI_EVENT_BRACKETS,
   GET_FSI_EVENT_PARTICIPANTS,
   GetEventsFromFSI,
   REFRESH_EVENT_PARTICIPANTS_FROM_FSI,
 } from "./eventsAction";
-import { setParticipants, setBrackets } from "./combatEvent.slice";
-import { setIKFEvents } from "./events.slice";
-import { IKFParticipant } from "../Models/fighter.model";
 // import * as fs from "fs";
 
 declare const window: {
@@ -56,7 +55,7 @@ const GetFSIEventParticipants = createLogic({
 
 const RefreshEventParticipantsFromFSI = createLogic({
   type: REFRESH_EVENT_PARTICIPANTS_FROM_FSI,
-  async process({ action }, dispatch, done) {
+  async process({ action }, _dispatch, done) {
     console.log("RefreshEventParticipantsFromFSI: ", action.payload.eventUID);
     console.log("Event ID: ", action.payload.eventID);
     window.api

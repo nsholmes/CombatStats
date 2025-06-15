@@ -1,10 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import {
-  Bout,
-  CombatEvent,
-  IKFEvent,
-  SelectedEvent,
-} from "../Models/event.model";
+import { Bout, CombatEvent, IKFEvent } from "../Models/event.model";
 import { IKFParticipant } from "../Models/fighter.model";
 
 const initialState: CombatEvent = {

@@ -5,13 +5,13 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { setIsVisible } from "../../Features/contextMenu.slice";
+import { MouseEvent } from "react";
 import { connect } from "react-redux";
+import { setIsVisible } from "../../Features/contextMenu.slice";
 import {
   setCurrentModal,
   setModalIsVisible,
 } from "../../Features/modal.slice";
-import { MouseEvent } from "react";
 // import { ipcRenderer } from "electron";
 
 type MatchingContextMenuProps = {
@@ -20,9 +20,9 @@ type MatchingContextMenuProps = {
   setModalIsVisible: (isVisible: boolean) => void;
 };
 
-function mapStateToProps(state: any) {
-  return {};
-}
+// function mapStateToProps(state: any) {
+//   return {};
+// }
 
 function mapDispatchToProps(dispatch: any) {
   return {
@@ -76,7 +76,4 @@ function MatchingContextMenu(props: MatchingContextMenuProps) {
   );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MatchingContextMenu);
+export default connect(null, mapDispatchToProps)(MatchingContextMenu);

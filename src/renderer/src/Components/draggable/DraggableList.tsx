@@ -1,13 +1,5 @@
-import { useEffect, useState } from "react";
-import { IKFParticipant } from "../../Models/fighter.model";
-import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { isListData } from "./list-data";
-import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
-import { reorderWithEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge";
-import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash";
-import { flushSync } from "react-dom";
-import { ParticipantListItem } from "./ParticipantListItem";
 import { Box } from "@mui/material";
+import { IKFParticipant } from "../../Models/fighter.model";
 import { List } from "./AlexListFiles/list";
 
 type DraggableListProps = {
@@ -15,7 +7,7 @@ type DraggableListProps = {
 };
 
 const DraggableList = (props: DraggableListProps) => {
-  const [items, setItems] = useState(props.itemList);
+  // const [items, setItems] = useState(props.itemList);
 
   // useEffect(() => {
   //   return monitorForElements({
@@ -82,7 +74,7 @@ const DraggableList = (props: DraggableListProps) => {
           flexDirection: "column",
           gap: "8px",
         }}>
-        <List items={items} />
+        <List items={props.itemList} />
         {/* {items.map((item) => (
           // <ParticipantListItem item={item} />
         ))} */}

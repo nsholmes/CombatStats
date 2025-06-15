@@ -1,5 +1,17 @@
-import { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
+import {
+  SelectAllParticipants,
+  setSelectedParticipantIds,
+} from "../../Features/combatEvent.slice";
+import {
+  setCurrentMenu,
+  setIsVisible,
+  setMenuCoords,
+} from "../../Features/contextMenu.slice";
+import { ContextMenuType, PositionCoords } from "../../Models";
 import {
   CheckInPariticipantSort,
   IKFParticipant,
@@ -8,16 +20,6 @@ import {
   getAgeFromDOB,
   sortParticipantsForMatching,
 } from "../../utils/participants";
-import { SelectAllParticipants } from "../../Features/combatEvent.slice";
-import { Typography, TextField, Box } from "@mui/material";
-import { ContextMenuType, PositionCoords } from "../../Models";
-import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
-import {
-  setCurrentMenu,
-  setIsVisible,
-  setMenuCoords,
-} from "../../Features/contextMenu.slice";
-import { setSelectedParticipantIds } from "../../Features/combatEvent.slice";
 
 type MatchingProps = {
   eventParticipants: IKFParticipant[];
@@ -51,9 +53,9 @@ function mapDispatchToProps(dispatch: any) {
 
 function Matching(props: MatchingProps) {
   // #region State
-  const [filteredParticipants, setFilteredParticipants] = useState<
-    IKFParticipant[]
-  >(props.eventParticipants);
+  // const [filteredParticipants, setFilteredParticipants] = useState<
+  //   IKFParticipant[]
+  // >(props.eventParticipants);
 
   const [selectedParticipants, setSelectedParticipants] = useState<number[]>(
     []
@@ -61,28 +63,16 @@ function Matching(props: MatchingProps) {
   // #endregion
   const [sortedParticipantsForMatching, setSortedParticipantsForMatching] =
     useState<CheckInPariticipantSort[]>([]);
-  const [searchValue, setSearchValue] = useState<string>("");
+  // const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     props.setCurrentContextMenu("matching");
   }, []);
   useEffect(() => {
-    if (!searchValue) {
-      setFilteredParticipants(props.eventParticipants);
-      setSortedParticipantsForMatching(
-        sortParticipantsForMatching(props.eventParticipants)
-      );
-    } else {
-      const lower = searchValue.toLowerCase();
-      setFilteredParticipants(
-        props.eventParticipants.filter(
-          (p) =>
-            p.firstName.toLowerCase().includes(lower) ||
-            p.lastName.toLowerCase().includes(lower)
-        )
-      );
-    }
-  }, [searchValue, props.eventParticipants]);
+    setSortedParticipantsForMatching(
+      sortParticipantsForMatching(props.eventParticipants)
+    );
+  }, [props.eventParticipants]);
 
   useEffect(() => {
     props.setSelectedParticipant(selectedParticipants);
@@ -92,7 +82,6 @@ function Matching(props: MatchingProps) {
   const showContextMenu = (ev: React.MouseEvent<HTMLDivElement>) => {
     ev.preventDefault();
     console.log("Context Menu Triggered", ev.currentTarget);
-    const selectedId = ev.currentTarget.getAttribute("id");
     props.setMenuIsVisible(false);
     const positionChange: PositionCoords = {
       xpos: ev.clientX,
@@ -102,9 +91,9 @@ function Matching(props: MatchingProps) {
     props.setMenuIsVisible(true);
   };
 
-  const hideContextMenu = () => {
-    props.setMenuIsVisible(false);
-  };
+  // const hideContextMenu = () => {
+  //   props.setMenuIsVisible(false);
+  // };
 
   const participantSelected = (participantId: number) => {
     if (selectedParticipants.includes(participantId)) {

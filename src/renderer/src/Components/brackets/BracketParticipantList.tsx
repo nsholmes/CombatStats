@@ -1,7 +1,7 @@
-import { connect } from "react-redux";
-import { IKFParticipant } from "../../Models/fighter.model";
-import { SelectParticipantsByIds } from "../../Features/combatEvent.slice";
 import { Box, Typography } from "@mui/material";
+import { connect } from "react-redux";
+import { SelectParticipantsByIds } from "../../Features/combatEvent.slice";
+import { IKFParticipant } from "../../Models/fighter.model";
 import DraggableList from "../draggable/DraggableList";
 
 type BracketParticipantListProps = {
@@ -12,9 +12,6 @@ function mapStateToProps(state: any) {
   return {
     getSelectedParticipants: SelectParticipantsByIds(state),
   };
-}
-function mapDispatchToProps(dispatch: any) {
-  return {};
 }
 
 function BracketParticipantList(props: BracketParticipantListProps) {
@@ -34,7 +31,4 @@ function BracketParticipantList(props: BracketParticipantListProps) {
   );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BracketParticipantList);
+export default connect(mapStateToProps, null)(BracketParticipantList);

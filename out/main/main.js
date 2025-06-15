@@ -1,8 +1,8 @@
 "use strict";
-const require$$0 = require("electron");
 const child_process = require("child_process");
-const require$$1 = require("path");
+const require$$0 = require("electron");
 const fs = require("fs");
+const require$$1 = require("path");
 const require$$3 = require("https");
 const require$$0$1 = require("stream");
 const require$$2 = require("events");
@@ -24,8 +24,8 @@ function _interopNamespaceDefault(e) {
   n.default = e;
   return Object.freeze(n);
 }
-const require$$1__namespace = /* @__PURE__ */ _interopNamespaceDefault(require$$1);
 const fs__namespace = /* @__PURE__ */ _interopNamespaceDefault(fs);
+const require$$1__namespace = /* @__PURE__ */ _interopNamespaceDefault(require$$1);
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var dist$1 = {};
 var downloadChromeExtension = {};
@@ -10560,25 +10560,6 @@ function requireDist() {
   return dist$1;
 }
 var distExports = requireDist();
-const createNewBracketWindow = (parentWindow) => {
-  const { BrowserWindow: BrowserWindow2 } = require("electron").remote;
-  let bracketWindow = new BrowserWindow2({
-    width: 400,
-    height: 500,
-    parent: parentWindow,
-    modal: true,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true
-    }
-  });
-  bracketWindow.loadURL("http://localhost:5173/judges");
-  bracketWindow.on("closed", () => {
-    bracketWindow = null;
-  });
-  return bracketWindow;
-};
 let mainWindow;
 const isDev = process.env.NODE_ENV === "development";
 const createWindow = () => {
@@ -10612,10 +10593,6 @@ require$$0.app.on("activate", () => {
   if (mainWindow == null) {
     createWindow();
   }
-});
-require$$0.ipcMain.on("create-new-bracket-window", (event) => {
-  console.log("main: received create-new-bracket-window event");
-  createNewBracketWindow(mainWindow);
 });
 require$$0.ipcMain.on("read-event-list", (event) => {
   console.log("main: received read-event-list event");
@@ -10665,6 +10642,7 @@ require$$0.ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
 require$$0.ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
   console.log("Event UID:", eventUID);
   console.log("Event ID:", eventId);
+  console.log("event: ", event.type);
   const args = [eventUID, eventId].join(".");
   console.log("main: Received refresh-event-participants event");
   try {

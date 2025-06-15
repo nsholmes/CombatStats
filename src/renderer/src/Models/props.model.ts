@@ -1,15 +1,14 @@
-import { ContextMenuType, PositionCoords } from './';
-import { Bout, BracketEditState, CSBracket } from './event.model';
+import { ContextMenuType, PositionCoords } from "./";
+import { Bout, BracketEditState, CSBracket } from "./event.model";
 
 export type CreateEventProps = {
-  setEventName: (eventName: string) => void;
   addBout: (bout: Bout) => void;
   setBracketEditState: (editState: BracketEditState) => void;
   setBrackets: (brackets: CSBracket[]) => void;
   getAllCSBrackets: CSBracket[];
   getCombatEventName: string;
   getAllBouts: Bout[];
-}
+};
 
 export type BracketSetupProps = {
   getAllCSBrackets: CSBracket[];
@@ -20,19 +19,18 @@ export type BracketSetupProps = {
   setMenuIsVisible: (isVisible: boolean) => void;
   setMenuPosition: (coords: PositionCoords) => void;
   setSelectedCompetitor: (competitorId: string | null) => void;
-}
+};
 export type BracketListProps = {
   getAllCSBrackets: CSBracket[];
-}
+};
 export type BracketLayoutProps = {
   getAllCSBrackets: CSBracket[];
-}
+};
 
 export type EventBracketsProps = {
   getAllCSBrackets: CSBracket[];
-}
+};
 
 export type FileUploadProps = {
   uploadIKFEventFile: (file: File) => void;
-}
-
+};

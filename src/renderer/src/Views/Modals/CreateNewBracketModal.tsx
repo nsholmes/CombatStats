@@ -1,20 +1,12 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
+import { CheckBox } from "@mui/icons-material";
+import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
 import {
   SelectCurrentModal,
   setModalIsVisible,
 } from "../../Features/modal.slice";
-import { CheckBox } from "@mui/icons-material";
-import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
 import { WeightClasses } from "../../utils/weightClasses";
 
 type CreateNewBracketModalProps = {
@@ -49,6 +41,10 @@ const ModalStyle = {
 
 function CreateNewBracketModal(props: CreateNewBracketModalProps) {
   const [bracketGender, setBracketGender] = useState<string>("");
+
+  useEffect(() => {
+    console.log(bracketGender);
+  }, []);
 
   const bracketTitle = () => {
     switch (props.currentBracketType) {

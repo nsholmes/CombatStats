@@ -10,18 +10,12 @@ import {
   setBracketEditState,
   setCBBrackets,
 } from "../Features/cbBracket.slice";
-import {
-  addNewBout,
-  SelectAllBouts,
-  SelectCombatEventName,
-  setEventName,
-} from "../Features/combatEvent.slice";
+import { addNewBout, SelectAllBouts } from "../Features/combatEvent.slice";
 import { Bout, BracketEditState, CSBracket } from "../Models/event.model";
 import { CreateEventProps } from "../Models/props.model";
 
 function mapStateToProps(state: any) {
   return {
-    getCombatEventName: SelectCombatEventName(state),
     getAllBouts: SelectAllBouts(state),
     getAllCSBrackets: SelectAllCSBrackets(state),
   };
@@ -29,7 +23,6 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    setEventName: (eventName: string) => dispatch(setEventName(eventName)),
     addBout: (bout: Bout) => dispatch(addNewBout(bout)),
     setEditState: (editState: BracketEditState) =>
       dispatch(setBracketEditState(editState)),

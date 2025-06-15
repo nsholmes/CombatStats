@@ -1,21 +1,21 @@
 import { Box, Button, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  SelectAllBrackets,
+  SelectAllParticipants,
+  setSelectedEvent,
+} from "../Features/combatEvent.slice";
+import { SelectAllEvents } from "../Features/events.slice";
 import {
   GET_FSI_EVENT_BRACKETS,
   GET_FSI_EVENT_PARTICIPANTS,
   GetEventsFromFSI,
 } from "../Features/eventsAction";
-import { useEffect, useState } from "react";
-import { SelectAllEvents } from "../Features/events.slice";
-import {
-  SelectAllBrackets,
-  SelectAllParticipants,
-} from "../Features/combatEvent.slice";
 import { IKFEvent } from "../Models";
 import { EventBracket } from "../Models/bracket.model";
 import { IKFParticipant } from "../Models/fighter.model";
-import { setSelectedEvent } from "../Features/combatEvent.slice";
-import { useNavigate } from "react-router-dom";
 
 type EventsProps = {
   // Define any props you need here
@@ -50,11 +50,11 @@ function Events(props: EventsProps) {
   const navigator = useNavigate();
   const [visibleEvents, setVisibleEvents] = useState<IKFEvent[]>([]);
   const [eventSort, setEventSort] = useState<string>("");
-  const [selectedEventId, setSelectedEventID] = useState<number>(-1);
   const [viewIndex, setViewIndex] = useState<number>(0);
 
   //#region Use Effects
   useEffect(() => {
+    setViewIndex(0);
     props.getFSIEvents();
     setVisibleEvents(upcomingEvents());
   }, []);
