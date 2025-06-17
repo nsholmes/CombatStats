@@ -30,6 +30,7 @@ export type EventBracket = {
   ring_name: string | null;
   ring_number: number;
   fighterIds: number[];
+  bouts?: Bout[];
 };
 
 export type FSIWeightClasses = {
@@ -56,4 +57,36 @@ export type FSISport = {
   has_positions: false;
   id: number;
   name: string;
+};
+
+export type Bout = {
+  age_class: String;
+  bracket: {
+    id: number;
+  };
+  bracket_id: number;
+  bracket_round: number;
+  competitor_ids: {
+    competitors_ids: {
+      id: number;
+      corner_color: "red" | "blue";
+    }[];
+  };
+  has_started: boolean;
+  id: number;
+  notes: String | null;
+  summary: BoutSummary;
+  sport: Sport;
+};
+
+export type BoutSummary = {
+  bout_id: number;
+  result_method_string: String;
+  winner_corner: String;
+};
+
+export type Sport = {
+  abbreviation: String;
+  name: String;
+  id: number;
 };

@@ -1,5 +1,5 @@
 import { CheckBox } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
@@ -124,19 +124,19 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
         </div>
       </Box>
       <div>
-        <button
+        <Button
           onClick={() => {
             props.setModalIsVisible(false);
           }}>
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           color='primary'
           onClick={() => {
             props.setModalIsVisible(false);
           }}>
           Create Bracket
-        </button>
+        </Button>
       </div>
     </Box>
   );

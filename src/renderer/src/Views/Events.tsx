@@ -9,8 +9,11 @@ import {
 } from "../Features/combatEvent.slice";
 import { SelectAllEvents } from "../Features/events.slice";
 import {
+  GET_BRACKETS_FROM_FB,
+  GET_EVENTS_FROM_FB,
   GET_FSI_EVENT_BRACKETS,
   GET_FSI_EVENT_PARTICIPANTS,
+  GET_PARTICIPANTS_FROM_FB,
   GetEventsFromFSI,
 } from "../Features/eventsAction";
 import { IKFEvent } from "../Models";
@@ -19,8 +22,11 @@ import { IKFParticipant } from "../Models/fighter.model";
 
 type EventsProps = {
   // Define any props you need here
+  getEventsFromFB: () => void;
   getFSIEvents: () => void;
+  getBracketsFromFB: (eventUID: string, eventID: number) => void;
   getFSIEventBrackets: (eventUID: string, eventID: number) => void;
+  getParticipantsFromFB: (eventUID: string, eventID: number) => void;
   getFSIEventParticipants: (eventUID: string, eventID: number) => void;
   setSelectedEvent: (event: IKFEvent) => void;
   getAllFSIEvents: IKFEvent[];
@@ -38,9 +44,14 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any) {
   return {
     setSelectedEvent: (event: IKFEvent) => dispatch(setSelectedEvent(event)),
+    getEventsFromFB: () => dispatch(GET_EVENTS_FROM_FB()),
     getFSIEvents: () => dispatch(GetEventsFromFSI()),
+    getBracketsFromFB: (eventUID: string, eventID: number) =>
+      dispatch(GET_BRACKETS_FROM_FB({ eventUID, eventID })),
     getFSIEventBrackets: (eventUID: string, eventID: number) =>
       dispatch(GET_FSI_EVENT_BRACKETS({ eventUID, eventID })),
+    getParticipantsFromFB: (eventUID: string, eventID: number) =>
+      dispatch(GET_PARTICIPANTS_FROM_FB({ eventUID, eventID })),
     getFSIEventParticipants: (eventUID: string, eventID: number) =>
       dispatch(GET_FSI_EVENT_PARTICIPANTS({ eventUID, eventID })),
   };
@@ -55,7 +66,9 @@ function Events(props: EventsProps) {
   //#region Use Effects
   useEffect(() => {
     setViewIndex(0);
-    props.getFSIEvents();
+    // ON LOAD GET EVENTS FROM Either the Data base or from the local file
+    // props.getFSIEvents();
+    props.getEventsFromFB();
     setVisibleEvents(upcomingEvents());
   }, []);
   useEffect(() => {}, [props.getAllFSIEvents]);
@@ -91,8 +104,10 @@ function Events(props: EventsProps) {
   };
   const selectButtonClicked = (event: IKFEvent) => {
     props.setSelectedEvent(event);
-    props.getFSIEventParticipants(event.eventUid, event.id);
-    props.getFSIEventBrackets(event.eventUid, event.id);
+    props.getParticipantsFromFB(event.eventUid, event.id);
+    // props.getFSIEventParticipants(event.eventUid, event.id);
+    props.getBracketsFromFB(event.eventUid, event.id);
+    // props.getFSIEventBrackets(event.eventUid, event.id);
     navigator("selectedEvent");
   };
   //#endregion
@@ -100,16 +115,16 @@ function Events(props: EventsProps) {
   //#region rendered elements
   const eventSelectView = () => {
     const eventSelectView = visibleEvents.map((event: IKFEvent) => (
-      <Box id={`eventID_${event.id}`} key={event.id}>
-        <Box>{event.eventName}</Box>
+      <Box id={`eventID_${event.id}`} key={event.id} sx={{ padding: "5px" }}>
+        <Box>{`${event.id} - ${event.eventName}`}</Box>
         <Box>{event.eventDate}</Box>
-        <div
-          className='bg-blue-400 w-35 border-l hover:cursor-pointer'
+        <Button
+          variant='contained'
           onClick={() => {
             selectButtonClicked(event);
           }}>
           Select Event
-        </div>
+        </Button>
       </Box>
     ));
     return eventSelectView;

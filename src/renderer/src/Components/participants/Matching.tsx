@@ -121,15 +121,19 @@ function Matching(props: MatchingProps) {
         <Box
           sx={{
             display: "flex",
+            flexDirection: "column",
             gap: 2,
-            width: "100vw",
+            height: "100vh",
             flexWrap: "wrap",
             backgroundColor: "#2D3E40",
           }}>
           {sortedParticipantsForMatching.map((weightRange, idx) => {
             return (
               <Box
-                sx={{ backgroundColor: "#93BFB7", padding: 2 }}
+                sx={{
+                  backgroundColor: "#93BFB7",
+                  padding: 2,
+                }}
                 key={`WeightRange-${idx}`}
                 onContextMenu={showContextMenu}>
                 {weightRange.weightMin === 0 && weightRange.weightMax === 0 ? (

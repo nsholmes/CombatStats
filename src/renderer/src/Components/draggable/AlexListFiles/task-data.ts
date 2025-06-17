@@ -1,6 +1,7 @@
+import { EventBracket } from "../../../Models/bracket.model";
 import { IKFParticipant } from "../../../Models/fighter.model";
 
-export type TStatus = "todo" | "in-progress" | "done";
+export type TStatus = string;
 export type TTask = { id: string; content: string; status: TStatus };
 
 const taskDataKey = Symbol("task");
@@ -18,8 +19,17 @@ export function isTaskData(
 }
 export function isIKFParticipant(obj: any): obj is IKFParticipant {
   console.log("isIKFParticipant", obj);
-  return obj && typeof obj === "object" && "competitorId" in obj;
+  const retVal = obj && typeof obj === "object" && "competitorId" in obj;
+  console.log(retVal);
+  return retVal;
   // Add other required properties of IKFParticipant
+}
+
+export function isEventBracket(obj: any): obj is EventBracket {
+  console.log("isEventBracket", obj);
+  const retVal = obj && typeof obj === "object" && "bracketrule" in obj;
+  console.log(retVal);
+  return retVal;
 }
 
 const tasks: TTask[] = [
@@ -69,5 +79,18 @@ export function getTasks<Type>(data: Type): TTask[] {
     // data is likely an IKFParticipant array
     // You can add your logic here if needed
   }
+
+  if (Array.isArray(data) && data.length > 0) {
+    const newTask: TTask[] = [];
+    data.map((bracket: EventBracket) => {
+      newTask.push({
+        id: bracket.id.toString(),
+        content: bracket.name,
+        status: bracket.bracketstatus.friendly_name,
+      });
+    });
+    return newTask;
+  }
+
   return tasks;
 }

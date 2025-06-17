@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
-import { IKFParticipant } from "../../Models/fighter.model";
 import { List } from "./AlexListFiles/list";
 
-type DraggableListProps = {
-  itemList: IKFParticipant[];
+type DraggableListProps<T = any[]> = {
+  itemList: T;
 };
 
 const DraggableList = (props: DraggableListProps) => {

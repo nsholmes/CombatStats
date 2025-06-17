@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import BracketList from "../Components/brackets/BracketList";
 import EventCheckIn from "../Components/participants/EventCheckIn";
 import Matching from "../Components/participants/Matching";
 import {
@@ -33,7 +34,7 @@ function mapDispatchToProps(dispatch: any) {
 function SelectedEventView(props: SelectedEventProps) {
   const [viewState, setViewState] = useState("");
   useEffect(() => {
-    console.log(props.selectedEvent);
+    console.log("TODO: Check Need for this variable: ", props.selectedEvent);
   }, []);
 
   const subNavButtonClicked = (vState: number) => {
@@ -44,24 +45,22 @@ function SelectedEventView(props: SelectedEventProps) {
       case 2: // Match Making
         setViewState("Match Making");
         break;
+      case 3: //Bracket Lists
+        setViewState("Bracket List");
+        break;
       default:
         setViewState("");
     }
   };
 
-  const refreshParticipantsClicked = () => {
-    // props.refreshParticipantsFromFSI(
-    //   props.selectedEvent.selectedEvent.eventUid,
-    //   props.selectedEvent.selectedEvent.id
-    // );
-    console.log("Refresh Participants Clicked");
-  };
   const renderViewState = () => {
     switch (viewState) {
       case "Event CheckIn": // Event CheckIn
         return <EventCheckIn />;
       case "Match Making": // Match Making
         return <Matching />;
+      case "Bracket List": // Bracket List
+        return <BracketList />;
       default:
         return (
           <Box>
@@ -98,9 +97,9 @@ function SelectedEventView(props: SelectedEventProps) {
             variant='outlined'
             sx={{ fontSize: "18px" }}
             onClick={() => {
-              refreshParticipantsClicked();
+              subNavButtonClicked(3);
             }}>
-            Refresh Participants
+            Brackets
           </Button>
         </Box>
 

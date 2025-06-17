@@ -106,7 +106,7 @@ export const CSBracketSlice = createSlice({
   },
 });
 
-export const SelectAllCSBrackets = (state: any) => state.CSBracket.brackets;
+export const SelectAllCSBrackets = (state: any) => state.brackets;
 export const SelectBracketCompetitors = (state: any) => {
   const competitors = state.CSBracket.brackets.map(
     (bracket: CSBracket) => bracket.competitors

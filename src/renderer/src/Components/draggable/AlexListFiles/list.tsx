@@ -1,22 +1,32 @@
-import { useEffect, useState } from "react";
-import { getTasks, type TTask } from "./task-data";
-import { Task } from "./task";
-import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { isTaskData } from "./task-data";
+import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash";
 import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { reorderWithEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge";
-import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash";
+import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
+import { EventBracket } from "../../../Models/bracket.model";
 import { IKFParticipant } from "../../../Models/fighter.model";
+import { Task } from "./task";
+import {
+  getTasks,
+  isEventBracket,
+  isIKFParticipant,
+  isTaskData,
+  type TTask,
+} from "./task-data";
 
-type ListProps = {
-  items: IKFParticipant[];
+type ListProps<T = any[]> = {
+  items: T;
 };
 
 export function List(props: ListProps) {
-  const [tasks, setTasks] = useState<TTask[]>(() =>
-    getTasks<IKFParticipant[]>(props.items)
-  );
+  const [tasks, setTasks] = useState<TTask[]>(() => {
+    if (isIKFParticipant(props.items[0]))
+      return getTasks<IKFParticipant[]>(props.items);
+    if (isEventBracket(props.items[0]))
+      return getTasks<EventBracket[]>(props.items);
+    return [];
+  });
 
   useEffect(() => {
     return monitorForElements({

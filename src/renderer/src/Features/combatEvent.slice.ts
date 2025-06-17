@@ -24,6 +24,7 @@ export const CombatEventSlice = createSlice({
       state.participants = action.payload;
     },
     setBrackets(state, action: PayloadAction<any[]>) {
+      console.log("combatEvent.Slice: ", action.payload);
       state.brackets = action.payload;
     },
     setSelectedParticipantIds(state, action: PayloadAction<number[]>) {
@@ -50,7 +51,7 @@ export const SelectAllParticipants = (state: any) => {
 };
 
 export const SelectAllBrackets = (state: any) => {
-  return state.brackets;
+  return state.combatEvent.brackets;
 };
 
 export const {

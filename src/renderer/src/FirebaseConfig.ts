@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
 // import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,12 +14,28 @@ const firebaseConfig = {
   storageBucket: "combatstats-b6c26.appspot.com",
   messagingSenderId: "94594949326",
   appId: "1:94594949326:web:d51372d8774d1336dff09f",
-  measurementId: "G-TQLQK7C74K"
+  measurementId: "G-TQLQK7C74K",
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
-export { db }
+export const ikfpkbDB = () => {
+  const ikfpkbFirebaseConfig = {
+    apiKey: "AIzaSyB4KkX-lY3mRmERgn6a0OEICQ6VYQ-PkhA",
+    authDomain: "ikfpkb-midwest.firebaseapp.com",
+    projectId: "ikfpkb-midwest",
+    storageBucket: "ikfpkb-midwest.appspot.com",
+    messagingSenderId: "719658046582",
+    appId: "1:719658046582:web:d3734ab36d1dc0f19f3b57",
+    measurementId: "G-JLH3W3TEJ",
+    databaseURL: "https://ikfpkb-midwest.firebaseio.com",
+  };
+  const app = initializeApp(ikfpkbFirebaseConfig);
+  const ikfpkbDB = getDatabase(app);
+  return ikfpkbDB;
+};
+
+// export { db };

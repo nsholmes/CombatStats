@@ -1,6 +1,13 @@
 import { createAction } from "@reduxjs/toolkit";
 import { EventBracketRequest, EventParticipantRequest } from "../Models";
 
+export const GET_EVENTS_FROM_FB = createAction("GET_EVENTS_FROM_FB");
+export const GET_PARTICIPANTS_FROM_FB = createAction<EventParticipantRequest>(
+  "GET_PARTICIPANTS_FROM_FB"
+);
+export const GET_BRACKETS_FROM_FB = createAction<EventParticipantRequest>(
+  "GET_BRACKETS_FROM_FB"
+);
 export const GetEventsFromFSI = createAction("GetEventsFromFSI");
 export const GET_FSI_EVENT_PARTICIPANTS =
   createAction<EventParticipantRequest>("GET_FSI_EVENT_PARTICIPANTS");
