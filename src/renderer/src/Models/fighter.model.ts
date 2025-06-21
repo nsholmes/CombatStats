@@ -64,6 +64,7 @@ export type IKFParticipant = {
   height: number;
   profileName: string;
   phoneNumber?: string;
+  bracketCount: number;
 };
 
 export type CheckInPariticipantSort = {

@@ -4,6 +4,8 @@ import { reorderWithEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/r
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
+import { connect } from "react-redux";
+import { setSelectedParticipantIds } from "../../../Features/combatEvent.slice";
 import { EventBracket } from "../../../Models/bracket.model";
 import { IKFParticipant } from "../../../Models/fighter.model";
 import { Task } from "./task";
@@ -17,9 +19,17 @@ import {
 
 type ListProps<T = any[]> = {
   items: T;
+  setParticipants: (ids: number[]) => void;
 };
 
-export function List(props: ListProps) {
+function mapDispatchToProps(dispatch: any) {
+  return {
+    setParticipants: (ids: number[]) =>
+      dispatch(setSelectedParticipantIds(ids)),
+  };
+}
+
+function List(props: ListProps) {
   const [tasks, setTasks] = useState<TTask[]>(() => {
     if (isIKFParticipant(props.items[0]))
       return getTasks<IKFParticipant[]>(props.items);
@@ -61,15 +71,19 @@ export function List(props: ListProps) {
 
         // Using `flushSync` so we can query the DOM straight after this line
         flushSync(() => {
-          setTasks(
-            reorderWithEdge({
-              list: tasks,
-              startIndex: indexOfSource,
-              indexOfTarget,
-              closestEdgeOfTarget,
-              axis: "vertical",
-            })
-          );
+          const reorderedTasks = reorderWithEdge({
+            list: tasks,
+            startIndex: indexOfSource,
+            indexOfTarget,
+            closestEdgeOfTarget,
+            axis: "vertical",
+          });
+          const sIds = reorderedTasks.map((item) => {
+            console.log(`${item.content} - ${item.id}`);
+            return parseInt(item.id);
+          });
+          props.setParticipants(sIds);
+          setTasks(reorderedTasks);
         });
         // Being simple and just querying for the task after the drop.
         // We could use react context to register the element in a lookup,
@@ -95,3 +109,4 @@ export function List(props: ListProps) {
     </div>
   );
 }
+export default connect(null, mapDispatchToProps)(List);

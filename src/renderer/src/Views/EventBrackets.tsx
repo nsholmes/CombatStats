@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import { EventBracketsProps } from "../Models";
 import { connect } from "react-redux";
 import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
+import { EventBracketsProps } from "../Models";
 
 function mapStateToProps(state: any) {
   return {
@@ -21,7 +21,7 @@ function EventBrackets(props: EventBracketsProps) {
     // let tempBracketArr: CSBracket[] = [];
 
     props.getAllCSBrackets.map((bracket) => {
-      const tempRing = bracket.ringNumber;
+      const tempRing = bracket.matNumber;
       if (rings.length === 0) {
         rings.push(tempRing);
       } else {
@@ -56,7 +56,7 @@ function EventBrackets(props: EventBracketsProps) {
                 sx={{ fontWeight: "bold" }}
                 variant='h6'>{`Ring ${ring}`}</Typography>
               {props.getAllCSBrackets.map((bracket) => {
-                return bracket.ringNumber == ring ? (
+                return bracket.matNumber == ring ? (
                   <Box sx={{ margin: "5px 0px" }}>
                     <Typography
                       sx={{
@@ -91,10 +91,10 @@ function EventBrackets(props: EventBracketsProps) {
                               variant='body2'
                               component='span'
                               sx={{ fontWeight: "bold" }}>
-                              {`${fighter.person.full_name}(${fighter.competitor.weight} lbs):`}
+                              {`${fighter.firstName} ${fighter.lastName} (${fighter.weight} lbs):`}
                             </Typography>{" "}
                             <Typography variant='body2' component='span'>
-                              {`${fighter.gym_name}`}
+                              {`${fighter.profileName}`}
                             </Typography>
                           </Box>
                         );

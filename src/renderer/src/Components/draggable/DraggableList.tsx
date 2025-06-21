@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { List } from "./AlexListFiles/list";
+import List from "./AlexListFiles/list";
 
 type DraggableListProps<T = any[]> = {
   itemList: T;

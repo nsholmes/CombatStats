@@ -18,17 +18,13 @@ export function isTaskData(
   return data[taskDataKey] === true;
 }
 export function isIKFParticipant(obj: any): obj is IKFParticipant {
-  console.log("isIKFParticipant", obj);
   const retVal = obj && typeof obj === "object" && "competitorId" in obj;
-  console.log(retVal);
   return retVal;
   // Add other required properties of IKFParticipant
 }
 
 export function isEventBracket(obj: any): obj is EventBracket {
-  console.log("isEventBracket", obj);
   const retVal = obj && typeof obj === "object" && "bracketrule" in obj;
-  console.log(retVal);
   return retVal;
 }
 
@@ -64,13 +60,12 @@ const tasks: TTask[] = [
 ];
 
 export function getTasks<Type>(data: Type): TTask[] {
-  console.log("getTasks Called: ", data);
   // check if data is of Type IKFParticipant array
   if (Array.isArray(data) && data.length > 0 && isIKFParticipant(data[0])) {
     const newTask: TTask[] = [];
     data.map((participant: IKFParticipant) => {
       newTask.push({
-        id: `${participant.competitorId}`,
+        id: `${participant.participantId}`,
         content: `${participant.firstName} ${participant.lastName} (${participant.weight}lbs)`,
         status: "todo",
       });

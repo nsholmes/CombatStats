@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
 import {
   SelectAllParticipants,
+  SelectSelectedParticipants,
   setSelectedParticipantIds,
 } from "../../Features/combatEvent.slice";
 import {
@@ -23,6 +24,7 @@ import {
 
 type MatchingProps = {
   eventParticipants: IKFParticipant[];
+  selectedParticipantIds: number[];
   moveSelectedCompetitor: (competitorId: string | null) => void;
   setCurrentContextMenu: (menuName: ContextMenuType) => void;
   setMenuIsVisible: (isVisible: boolean) => void;
@@ -33,6 +35,7 @@ type MatchingProps = {
 function mapStateToProps(state: any) {
   return {
     eventParticipants: SelectAllParticipants(state),
+    selectedParticipantIds: SelectSelectedParticipants(state),
   };
 }
 
@@ -57,9 +60,9 @@ function Matching(props: MatchingProps) {
   //   IKFParticipant[]
   // >(props.eventParticipants);
 
-  const [selectedParticipants, setSelectedParticipants] = useState<number[]>(
-    []
-  );
+  // const [selectedParticipants, setSelectedParticipants] = useState<number[]>(
+  //   []
+  // );
   // #endregion
   const [sortedParticipantsForMatching, setSortedParticipantsForMatching] =
     useState<CheckInPariticipantSort[]>([]);
@@ -68,15 +71,20 @@ function Matching(props: MatchingProps) {
   useEffect(() => {
     props.setCurrentContextMenu("matching");
   }, []);
+
+  useEffect(() => {
+    // if (props.selectedParticipantIds.length === 0) setSelectedParticipants([]);
+  }, [props.selectedParticipantIds]);
+
   useEffect(() => {
     setSortedParticipantsForMatching(
       sortParticipantsForMatching(props.eventParticipants)
     );
   }, [props.eventParticipants]);
 
-  useEffect(() => {
-    props.setSelectedParticipant(selectedParticipants);
-  }, [selectedParticipants]);
+  // useEffect(() => {
+  //   props.setSelectedParticipant(selectedParticipants);
+  // }, [selectedParticipants]);
 
   //#region Event Handlers
   const showContextMenu = (ev: React.MouseEvent<HTMLDivElement>) => {
@@ -96,14 +104,17 @@ function Matching(props: MatchingProps) {
   // };
 
   const participantSelected = (participantId: number) => {
-    if (selectedParticipants.includes(participantId)) {
+    if (props.selectedParticipantIds.includes(participantId)) {
       // If already selected, remove from selectedParticipants
-      setSelectedParticipants(
-        selectedParticipants.filter((id) => id !== participantId)
+      props.setSelectedParticipant(
+        props.selectedParticipantIds.filter((id) => id !== participantId)
       );
     } else {
       // If not selected, add to selectedParticipants
-      setSelectedParticipants([...selectedParticipants, participantId]);
+      props.setSelectedParticipant([
+        ...props.selectedParticipantIds,
+        participantId,
+      ]);
     }
   };
 
@@ -147,7 +158,7 @@ function Matching(props: MatchingProps) {
                 )}
                 {weightRange.participants.map((participant, idx) => {
                   const isSelected =
-                    selectedParticipants.findIndex(
+                    props.selectedParticipantIds.findIndex(
                       (p) => participant.participantId === p
                     ) !== -1;
                   return participant.profileName === "Competitor" ? (
@@ -155,6 +166,8 @@ function Matching(props: MatchingProps) {
                       sx={{
                         color: isSelected ? "#fff" : "#2D3E40",
                         borderBottom: "1px solid #E4F2E7",
+                        borderColor:
+                          participant.bracketCount > 0 ? "#2D3E40" : "#E4F2E7",
                         marginBottom: "3px",
                         padding: "5px",
                         ":hover": {

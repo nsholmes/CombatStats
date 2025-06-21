@@ -5,9 +5,11 @@ export type CombatEvent = {
   bouts: Bout[];
   selectedEvent: IKFEvent;
   participants: IKFParticipant[];
+  mats: CSMat[];
   brackets: EventBracket[];
   selectedParticipantIds: number[];
 };
+
 export type SelectedEvent = {
   eventID: number;
   eventUID: string;
@@ -23,6 +25,24 @@ export type BracketEditState =
   | "addFighter"
   | "off";
 
+export type CSMat = {
+  id: Number;
+  name: string;
+  brackets: CSBracket[];
+  roles: MatRoles;
+};
+
+export type MatRoles = {
+  referee: string;
+  judges: string[];
+  timekeeper: string;
+};
+
+export type MatRolesUpdate = {
+  roles: MatRoles;
+  idx: number;
+};
+
 export type CSBrackets = {
   brackets: CSBracket[];
   editState: BracketEditState;
@@ -33,10 +53,8 @@ export type CSBracket = {
   divisionName: string;
   discipline: string;
   bracketClassName: string;
-  ringName: string;
-  ringNumber: number;
-  bracketGender: string;
-  competitors: BracketCompetitor[];
+  competitors: IKFParticipant[];
+  matNumber: number;
 };
 export type BracketCompetitor = {
   bracket: competitorBracket;

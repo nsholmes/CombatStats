@@ -4,17 +4,22 @@ import { connect } from "react-redux";
 import BracketList from "../Components/brackets/BracketList";
 import EventCheckIn from "../Components/participants/EventCheckIn";
 import Matching from "../Components/participants/Matching";
+import { SYNC_COMBAT_EVENT } from "../Features/CombatEvent.actions";
 import {
   SelectAllBrackets,
   SelectAllParticipants,
+  SelectCombatEventState,
   SelectSelectedEvent,
 } from "../Features/combatEvent.slice";
 import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
-import { IKFEvent } from "../Models";
+import { CombatEvent, IKFEvent } from "../Models";
+import EventDetails from "./EventDetails";
 
 type SelectedEventProps = {
   selectedEvent: IKFEvent;
+  selectedCombatEvent: CombatEvent;
   refreshParticipantsFromFSI: (eventUID: string, eventID: number) => void;
+  syncDBWithCombatEventSlice: (event: CombatEvent) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -22,22 +27,27 @@ function mapStateToProps(state: any) {
     eventBrackets: SelectAllBrackets(state),
     eventParticipants: SelectAllParticipants(state),
     selectedEvent: SelectSelectedEvent(state),
+    selectedCombatEvent: SelectCombatEventState(state),
   };
 }
 function mapDispatchToProps(dispatch: any) {
   return {
     refreshParticipantsFromFSI: (eventUID: string, eventID: number) =>
       dispatch(REFRESH_EVENT_PARTICIPANTS_FROM_FSI({ eventUID, eventID })),
+    syncDBWithCombatEventSlice: (event: CombatEvent) =>
+      dispatch(SYNC_COMBAT_EVENT(event)),
   };
 }
 
 function SelectedEventView(props: SelectedEventProps) {
   const [viewState, setViewState] = useState("");
   useEffect(() => {
+    props.syncDBWithCombatEventSlice(props.selectedCombatEvent);
     console.log("TODO: Check Need for this variable: ", props.selectedEvent);
   }, []);
 
   const subNavButtonClicked = (vState: number) => {
+    props.syncDBWithCombatEventSlice(props.selectedCombatEvent);
     switch (vState) {
       case 1: // Event CheckIn
         setViewState("Event CheckIn");
@@ -47,6 +57,9 @@ function SelectedEventView(props: SelectedEventProps) {
         break;
       case 3: //Bracket Lists
         setViewState("Bracket List");
+        break;
+      case 4: //Event Details
+        setViewState("Event Details");
         break;
       default:
         setViewState("");
@@ -61,6 +74,8 @@ function SelectedEventView(props: SelectedEventProps) {
         return <Matching />;
       case "Bracket List": // Bracket List
         return <BracketList />;
+      case "Event Details": //Event Details
+        return <EventDetails />;
       default:
         return (
           <Box>
@@ -100,6 +115,14 @@ function SelectedEventView(props: SelectedEventProps) {
               subNavButtonClicked(3);
             }}>
             Brackets
+          </Button>
+          <Button
+            variant='outlined'
+            sx={{ fontSize: "18px" }}
+            onClick={() => {
+              subNavButtonClicked(4);
+            }}>
+            Event Details
           </Button>
         </Box>
 
