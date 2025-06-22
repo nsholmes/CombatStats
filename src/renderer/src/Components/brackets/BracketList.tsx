@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { connect } from "react-redux";
 import { SelectAllBrackets } from "../../Features/combatEvent.slice";
-import { EventBracket } from "../../Models/bracket.model";
+import { CSBracket } from "../../Models";
 import DraggableList from "../draggable/DraggableList";
 
 type BracketsListProps = {
-  eventBrackets: EventBracket[];
+  eventBrackets: { [key: string]: CSBracket[] };
 };
 function mapStateToProps(state: any) {
   return {

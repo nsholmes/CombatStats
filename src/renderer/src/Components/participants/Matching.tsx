@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
@@ -166,8 +166,10 @@ function Matching(props: MatchingProps) {
                       sx={{
                         color: isSelected ? "#fff" : "#2D3E40",
                         borderBottom: "1px solid #E4F2E7",
-                        borderColor:
-                          participant.bracketCount > 0 ? "#2D3E40" : "#E4F2E7",
+                        border:
+                          participant.bracketCount > 0
+                            ? "2px solid #2D3E40"
+                            : "",
                         marginBottom: "3px",
                         padding: "5px",
                         ":hover": {
@@ -180,24 +182,47 @@ function Matching(props: MatchingProps) {
                         participantSelected(participant.participantId);
                       }}
                       key={`Participant-${idx}`}>
-                      <Box>
-                        {`${idx + 1}. ${participant.firstName} ${
-                          participant.lastName
-                        }`}{" "}
-                        &nbsp;
-                        <Typography
-                          sx={{
-                            display: "inline",
-                            ...(participant.gender === "F"
-                              ? { color: "pink" }
-                              : {}),
-                          }}>{`(${participant.gender})`}</Typography>
-                      </Box>
-                      <Box>
-                        {`(${getAgeFromDOB(participant.dob)} yo) (${
-                          participant.weight === null ? 0 : participant.weight
-                        }lbs)`}
-                      </Box>
+                      <Container
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}>
+                        <Box>
+                          {`${idx + 1}. ${participant.firstName} ${
+                            participant.lastName
+                          }`}{" "}
+                          &nbsp;
+                          <Typography
+                            sx={{
+                              display: "inline",
+                              ...(participant.gender === "F"
+                                ? { color: "pink" }
+                                : {}),
+                            }}>{`(${participant.gender})`}</Typography>
+                          <Box>
+                            {`(${getAgeFromDOB(participant.dob)} yo) (${
+                              participant.weight === null
+                                ? 0
+                                : participant.weight
+                            }lbs)`}
+                          </Box>
+                        </Box>
+                        <Box>
+                          {participant.bracketCount > 0 ? (
+                            <Box
+                              sx={{
+                                color: "gold",
+                                border: "1px solid gold",
+                                width: "20px",
+                                textAlign: "center",
+                              }}>
+                              {participant.bracketCount}
+                            </Box>
+                          ) : (
+                            <></>
+                          )}
+                        </Box>
+                      </Container>
                     </Box>
                   ) : (
                     <></>

@@ -6,19 +6,12 @@ import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { connect } from "react-redux";
 import { setSelectedParticipantIds } from "../../../Features/combatEvent.slice";
-import { EventBracket } from "../../../Models/bracket.model";
-import { IKFParticipant } from "../../../Models/fighter.model";
+import { CSBracket } from "../../../Models";
 import { Task } from "./task";
-import {
-  getTasks,
-  isEventBracket,
-  isIKFParticipant,
-  isTaskData,
-  type TTask,
-} from "./task-data";
+import { getTasks, isEventBracket, isTaskData, type TTask } from "./task-data";
 
-type ListProps<T = any[]> = {
-  items: T;
+type ListProps = {
+  items: { [key: string]: CSBracket[] };
   setParticipants: (ids: number[]) => void;
 };
 
@@ -31,10 +24,8 @@ function mapDispatchToProps(dispatch: any) {
 
 function List(props: ListProps) {
   const [tasks, setTasks] = useState<TTask[]>(() => {
-    if (isIKFParticipant(props.items[0]))
-      return getTasks<IKFParticipant[]>(props.items);
     if (isEventBracket(props.items[0]))
-      return getTasks<EventBracket[]>(props.items);
+      return getTasks<{ [key: string]: CSBracket[] }>(props.items);
     return [];
   });
 

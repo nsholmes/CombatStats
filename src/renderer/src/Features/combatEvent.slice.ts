@@ -48,7 +48,6 @@ export const CombatEventSlice = createSlice({
         }
         partArr.push(participant);
       });
-      console.log(state.participants);
       state.participants = partArr;
     },
     setMats(state, action: PayloadAction<CSMat[]>) {
@@ -59,7 +58,10 @@ export const CombatEventSlice = createSlice({
     },
     addBracketToMat(state, action: PayloadAction<CSBracket>) {
       const { matNumber } = action.payload;
-      state.mats[matNumber].brackets.push(action.payload);
+      state.mats[matNumber].brackets.push({
+        ...action.payload,
+        bracketId: state.mats[matNumber].brackets.length,
+      });
     },
   },
 });
@@ -105,7 +107,11 @@ export const SelectAllParticipants = (state: any) => {
 };
 
 export const SelectAllBrackets = (state: any) => {
-  return state.combatEvent.brackets;
+  const brackets: { [key: string]: CSBracket[] } = {};
+  state.combatEvent.mats.map((mat: CSMat, idx: number) => {
+    brackets[idx] = mat.brackets;
+  });
+  return brackets;
 };
 
 export const SelectMats = (state: any) => {

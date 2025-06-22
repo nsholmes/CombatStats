@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
+import { CSBracket } from "../../Models";
 import List from "./AlexListFiles/list";
 
-type DraggableListProps<T = any[]> = {
-  itemList: T;
+type DraggableListProps = {
+  itemList: { [key: string]: CSBracket[] };
 };
 
 const DraggableList = (props: DraggableListProps) => {
