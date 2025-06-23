@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import BracketList from "../Components/brackets/BracketList";
 import EventCheckIn from "../Components/participants/EventCheckIn";
 import Matching from "../Components/participants/Matching";
-import { SYNC_COMBAT_EVENT } from "../Features/CombatEvent.actions";
+import { SYNC_COMBAT_EVENT } from "../Features/combatEvent.actions";
 import {
   SelectAllBrackets,
   SelectAllParticipants,
@@ -87,11 +87,15 @@ function SelectedEventView(props: SelectedEventProps) {
 
   return (
     <>
-      <Box>
-        <Typography variant='h6'>
-          {`${props.selectedEvent.eventName} - ${viewState}`}
-        </Typography>
-        <Box sx={{ display: "flex", gap: 2, marginBottom: 2, marginTop: 2 }}>
+      <Box sx={{ backgroundColor: "#000000" }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            marginBottom: 2,
+            marginTop: "-53px",
+            position: "fixed",
+          }}>
           <Button
             variant='outlined'
             sx={{ fontSize: "18px" }}
@@ -124,11 +128,12 @@ function SelectedEventView(props: SelectedEventProps) {
             }}>
             Event Details
           </Button>
+          <Typography variant='h6'>
+            {`${props.selectedEvent.eventName} - ${viewState}`}
+          </Typography>
         </Box>
-
-        <Box></Box>
-        {renderViewState()}
       </Box>
+      <Box sx={{ marginTop: "133px" }}>{renderViewState()}</Box>
     </>
   );
 }

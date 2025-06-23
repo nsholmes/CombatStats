@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
 import {
+  SelectAllBrackets,
   SelectAllParticipants,
   SelectSelectedParticipants,
   setSelectedParticipantIds,
@@ -12,7 +13,7 @@ import {
   setIsVisible,
   setMenuCoords,
 } from "../../Features/contextMenu.slice";
-import { ContextMenuType, PositionCoords } from "../../Models";
+import { ContextMenuType, CSBracket, PositionCoords } from "../../Models";
 import {
   CheckInPariticipantSort,
   IKFParticipant,
@@ -25,6 +26,7 @@ import {
 type MatchingProps = {
   eventParticipants: IKFParticipant[];
   selectedParticipantIds: number[];
+  selectAllBrackets: { [key: string]: CSBracket[] };
   moveSelectedCompetitor: (competitorId: string | null) => void;
   setCurrentContextMenu: (menuName: ContextMenuType) => void;
   setMenuIsVisible: (isVisible: boolean) => void;
@@ -36,6 +38,7 @@ function mapStateToProps(state: any) {
   return {
     eventParticipants: SelectAllParticipants(state),
     selectedParticipantIds: SelectSelectedParticipants(state),
+    selectAllBrackets: SelectAllBrackets(state),
   };
 }
 
@@ -70,6 +73,7 @@ function Matching(props: MatchingProps) {
 
   useEffect(() => {
     props.setCurrentContextMenu("matching");
+    console.log(props.selectAllBrackets);
   }, []);
 
   useEffect(() => {
@@ -118,23 +122,53 @@ function Matching(props: MatchingProps) {
     }
   };
 
+  const getParticipantBrackets = (partId: number) => {
+    const brackets = props.selectAllBrackets;
+
+    const bracketIds: { mat: number; id: number }[] = [];
+    Object.values(brackets).forEach((bracketArr) => {
+      bracketArr.forEach((bracket) => {
+        if (
+          bracket.competitors &&
+          bracket.competitors.some((c) => c.participantId === partId)
+        ) {
+          bracketIds.push({ mat: bracket.matNumber, id: bracket.bracketId });
+        }
+      });
+    });
+
+    return bracketIds.map((br) => (
+      <Typography
+        key={`shortBracketId-${br.id}`}
+        variant='caption'
+        sx={{
+          cursor: "pointer",
+          ":hover": {
+            textDecoration: "underline",
+          },
+          marginRight: 1,
+          border: "1px solid gold",
+          padding: "5px",
+        }}
+        onClick={() => {
+          // You can add navigation or selection logic here
+          console.log("Bracket clicked:", br);
+        }}>
+        {`Mat: ${br.mat} - Bracket: ${br.id}`}
+      </Typography>
+    ));
+  };
+
   // #endregion
   return (
     <>
-      {/* <TextField
-        variant='filled'
-        sx={{ backgroundColor: "#fff" }}
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        placeholder='Search by Name'
-      /> */}
       <Box>
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
+            justifyContent: "center",
+            flexDirection: "row",
             gap: 2,
-            height: "100vh",
             flexWrap: "wrap",
             backgroundColor: "#2D3E40",
           }}>
@@ -165,21 +199,12 @@ function Matching(props: MatchingProps) {
                     <Box
                       sx={{
                         color: isSelected ? "#fff" : "#2D3E40",
-                        borderBottom: "1px solid #E4F2E7",
-                        border:
+                        borderBottom:
                           participant.bracketCount > 0
-                            ? "2px solid #2D3E40"
-                            : "",
+                            ? "3px solid #2D3E40"
+                            : "1px solid #E4F2E7",
                         marginBottom: "3px",
                         padding: "5px",
-                        ":hover": {
-                          backgroundColor: "#E4F2E7",
-                          cursor: "pointer",
-                        },
-                        backgroundColor: isSelected ? "#1976d2" : "inherit", // Highlight selected
-                      }}
-                      onClick={() => {
-                        participantSelected(participant.participantId);
                       }}
                       key={`Participant-${idx}`}>
                       <Container
@@ -187,7 +212,21 @@ function Matching(props: MatchingProps) {
                           display: "flex",
                           justifyContent: "space-between",
                         }}>
-                        <Box>
+                        <Box
+                          onClick={() => {
+                            participantSelected(participant.participantId);
+                          }}
+                          sx={{
+                            ":hover": {
+                              textDecoration: "underline",
+                              cursor: "pointer",
+                            },
+                            padding: "5px",
+                            borderRadius: "8px",
+                            backgroundColor: isSelected
+                              ? "#1976d2"
+                              : "inherit", // Highlight selected
+                          }}>
                           {`${idx + 1}. ${participant.firstName} ${
                             participant.lastName
                           }`}{" "}
@@ -212,11 +251,11 @@ function Matching(props: MatchingProps) {
                             <Box
                               sx={{
                                 color: "gold",
-                                border: "1px solid gold",
-                                width: "20px",
                                 textAlign: "center",
                               }}>
-                              {participant.bracketCount}
+                              {getParticipantBrackets(
+                                participant.participantId
+                              )}
                             </Box>
                           ) : (
                             <></>

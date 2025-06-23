@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
-import { SYNC_COMBAT_EVENT } from "../../Features/CombatEvent.actions";
+import { SYNC_COMBAT_EVENT } from "../../Features/combatEvent.actions";
 import {
   addBracketToMat,
   SelectCombatEventState,

@@ -11,6 +11,7 @@ import ContextMenu from "./Components/contextMenus/ContextMenu";
 // import FighterTotalStrikes from "./FighterTotalStrikes";
 // import StatsBox from "./components/StatsBox";
 // import CreateEvent from "./Views/CreateEvent";
+import { Box } from "@mui/material";
 import HeaderNav from "./Components/HeaderNav";
 import Modals from "./Views/Modals/Modals";
 
@@ -20,10 +21,12 @@ import Modals from "./Views/Modals/Modals";
 function App() {
   return (
     <>
-      <HeaderNav />
       <ContextMenu />
       <Modals />
-      <Outlet />
+      <Box>
+        <HeaderNav />
+        <Outlet />
+      </Box>
     </>
     // <Box sx={{ height: '100%', padding: '0px 5px 5px 5px' }}>
     //   <HeaderNav />

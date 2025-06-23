@@ -60,6 +60,7 @@ const tasks: TTask[] = [
 ];
 
 export function getTasks<Type>(data: Type): TTask[] {
+  console.log(`task-data: ${data}`);
   // check if data is of Type IKFParticipant array
   if (Array.isArray(data) && data.length > 0 && isIKFParticipant(data[0])) {
     const newTask: TTask[] = [];
