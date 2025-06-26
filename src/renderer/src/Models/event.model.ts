@@ -49,7 +49,7 @@ export type CSBrackets = {
   selectedCompetitor: string | null;
 };
 export type CSBracket = {
-  bracketId: number;
+  bracketId: number | string;
   divisionName: string;
   discipline: string;
   bracketClassName: string;

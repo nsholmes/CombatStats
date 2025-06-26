@@ -60,7 +60,7 @@ export const CombatEventSlice = createSlice({
       const { matNumber } = action.payload;
       state.mats[matNumber].brackets.push({
         ...action.payload,
-        bracketId: state.mats[matNumber].brackets.length,
+        bracketId: `mat-${matNumber}-br-${state.mats[matNumber].brackets.length}`,
       });
     },
   },

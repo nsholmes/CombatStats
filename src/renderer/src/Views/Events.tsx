@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -115,9 +115,9 @@ function Events(props: EventsProps) {
   //#region rendered elements
   const eventSelectView = () => {
     const eventSelectView = visibleEvents.map((event: IKFEvent) => (
-      <Box id={`eventID_${event.id}`} key={event.id} sx={{ padding: "5px" }}>
-        <Box>{`${event.id} - ${event.eventName}`}</Box>
-        <Box>{event.eventDate}</Box>
+      <div id={`eventID_${event.id}`} key={event.id} className='p-1.5'>
+        <div>{`${event.id} - ${event.eventName}`}</div>
+        <div>{event.eventDate}</div>
         <Button
           variant='contained'
           onClick={() => {
@@ -125,7 +125,7 @@ function Events(props: EventsProps) {
           }}>
           Select Event
         </Button>
-      </Box>
+      </div>
     ));
     return eventSelectView;
   };
@@ -133,7 +133,7 @@ function Events(props: EventsProps) {
   const participantSelectView = () => {
     const participantSelectView = props.getEventParticipants.map(
       (participant: IKFParticipant) => {
-        return <Box>{participant.firstName}</Box>;
+        return <div>{participant.firstName}</div>;
       }
     );
 
@@ -141,7 +141,7 @@ function Events(props: EventsProps) {
   };
   const bracketsView = () => {
     const bracketView = props.getEventBrackets.map((bracket: EventBracket) => {
-      return <Box>{bracket.name}</Box>;
+      return <div>{bracket.name}</div>;
     });
     return bracketView;
   };
@@ -150,27 +150,25 @@ function Events(props: EventsProps) {
     if (viewIndex == 1) {
       return <Box>{bracketsView()}</Box>;
     } else if (viewIndex == 2) {
-      return <Box>{participantSelectView()}</Box>;
+      return <div>{participantSelectView()}</div>;
     } else {
-      return <Box>{eventSelectView()}</Box>;
+      return <div>{eventSelectView()}</div>;
     }
   };
   //#endregion
   return (
     <>
-      <Typography sx={{ textAlign: "center" }} variant='h2'>
-        [IKF Midwest Events ]
-      </Typography>
-      <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+      <h2>[IKF Midwest Events ]</h2>
+      <div className='flex justify-around'>
         <Button variant='contained' onClick={() => setEventSort("upcoming")}>
           Upcoming Events
         </Button>
         <Button variant='contained' onClick={() => setEventSort("lastTen")}>
           Past 10 Events
         </Button>
-      </Box>
-      <Box>{/* <EventBrackets /> */}</Box>
-      <Box>{renderByViewIndex()}</Box>
+      </div>
+      <div>{/* <EventBrackets /> */}</div>
+      <div>{renderByViewIndex()}</div>
     </>
   );
 }

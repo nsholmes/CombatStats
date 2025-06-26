@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
-import List from "./AlexListFiles/list";
+import { useState } from "react";
+import { CSBracket } from "../../Models";
 
 type DraggableListProps<T = any> = {
   itemList: T;
 };
 
 const DraggableList = (props: DraggableListProps) => {
-  // const [items, setItems] = useState(props.itemList);
+  const [items, setItems] = useState(props.itemList);
 
   // useEffect(() => {
   //   return monitorForElements({
@@ -73,10 +74,10 @@ const DraggableList = (props: DraggableListProps) => {
           flexDirection: "column",
           gap: "8px",
         }}>
-        <List items={props.itemList} />
-        {/* {items.map((item) => (
-          // <ParticipantListItem item={item} />
-        ))} */}
+        {/* <List items={props.itemList} /> */}
+        {items.map((item: CSBracket) => (
+          <></>
+        ))}
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Box, Modal } from "@mui/material";
+import { Modal } from "@mui/material";
 import { connect } from "react-redux";
 import {
   SelectCurrentModal,
@@ -22,9 +22,9 @@ function Modals(props: ModalsProps) {
   const renderModalContent = () => {
     if (props.currentModal.indexOf("createBracket") > -1) {
       return (
-        <Box>
+        <div>
           <CreateNewBracketModal />
-        </Box>
+        </div>
       );
     } else {
       return <></>;

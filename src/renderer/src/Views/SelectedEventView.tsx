@@ -87,7 +87,7 @@ function SelectedEventView(props: SelectedEventProps) {
 
   return (
     <>
-      <Box sx={{ backgroundColor: "#000000" }}>
+      <div>
         <Box
           sx={{
             display: "flex",
@@ -132,8 +132,8 @@ function SelectedEventView(props: SelectedEventProps) {
             {`${props.selectedEvent.eventName} - ${viewState}`}
           </Typography>
         </Box>
-      </Box>
-      <Box sx={{ marginTop: "133px" }}>{renderViewState()}</Box>
+      </div>
+      <div className='mt-40'>{renderViewState()}</div>
     </>
   );
 }
