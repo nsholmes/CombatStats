@@ -5,11 +5,13 @@
   gap: 10px;
   justify-content: space-evenly;
 }
+
 .trackerRow div {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .trackerBtn:hover {
   background-color: beige;
   cursor: pointer;
@@ -22,12 +24,12 @@
 .blankItem {
   width: 30px;
 }
+
 .targetName {
   width: 60px;
 }
 
 .trackerBtn {
-  /* flex-grow: 1; */
   min-width: 50%;
   height: 100px;
   border: 1px solid #000;

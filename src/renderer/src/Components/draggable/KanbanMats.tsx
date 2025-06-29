@@ -22,25 +22,35 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { SelectMats, setMats } from "../../Features/combatEvent.slice";
 import { CSBracket, CSMat } from "../../Models";
 
-interface Item {
-  id: string;
-  content: string;
+type KanbanMatsProps = {
+  setEventMats: (mats: CSMat[]) => void;
+  getEventMats: CSMat[];
+};
+
+function mapDispatchToProps(dispatch: any) {
+  return {
+    setEventMats: (mats: CSMat[]) => dispatch(setMats(mats)),
+  };
 }
 
-interface Container {
-  id: string;
-  title: string;
-  items: Item[];
+function mapStateToProps(state: any) {
+  return {
+    getEventMats: SelectMats(state),
+  };
 }
 
 function SortableItem({
   id,
   content,
+  bracket,
 }: {
   id: UniqueIdentifier;
   content: string;
+  bracket: CSBracket;
 }) {
   const {
     attributes,
@@ -67,9 +77,20 @@ function SortableItem({
            ? "border-2 border-dashed border-gray-300 bg-gray-50 opacity-30 dark:border-gray-600 dark:bg-gray-800/30"
            : "bg-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700/50"
        }  bg-white p-3 dark:border-gray-700 dark:bg-gray-800`}>
-      <div className='flex items-center gap-3'>
-        <span className='text-gray-500 dark:text-gray-400'>⋮</span>
-        <span className='dark:text-gray-200'>{content}</span>
+      <div>
+        <div className='flex items-center gap-3 pb-1'>
+          <span className='text-gray-500 dark:text-gray-400'>⋮</span>
+          <span className='dark:text-gray-200'>{content}</span>
+        </div>
+        <hr />
+        <div>
+          {bracket.bracketId}
+          {bracket.competitors.map((competitor) => {
+            return (
+              <div>{`- ${competitor.firstName} ${competitor.lastName} (${competitor.weight} lbs)`}</div>
+            );
+          })}
+        </div>
       </div>
     </li>
   );
@@ -90,7 +111,7 @@ function DroppableContainer({
   return (
     <div
       ref={setNodeRef}
-      className='flex h-full min-h-40 flex-col rounded-md border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800/50'>
+      className=' w-fit flex h-full min-h-40 flex-col rounded-md border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800/50'>
       <h3 className='mb-2 font-medium text-gray-700 dark:text-gray-200'>
         {title}
       </h3>
@@ -104,6 +125,7 @@ function DroppableContainer({
                 key={`sortableItem-${item.bracketId}`}
                 id={item.bracketId}
                 content={item.bracketClassName}
+                bracket={item}
               />
             ))}
           </ul>
@@ -132,11 +154,12 @@ function ItemOverly({ children }: { children: React.ReactNode }) {
   );
 }
 
-function KanbanMats({ csMats }: { csMats: CSMat[] }) {
+function KanbanMats(props: KanbanMatsProps) {
+  const [mats, setMats] = useState<CSMat[]>(props.getEventMats);
   useEffect(() => {
-    console.log(csMats);
-  }, []);
-  const [mats, setMats] = useState<CSMat[]>(csMats);
+    // console.log(csMats);
+    props.setEventMats(mats);
+  }, [mats]);
   void setMats;
 
   // State to track which item is being dragged
@@ -324,7 +347,7 @@ function KanbanMats({ csMats }: { csMats: CSMat[] }) {
         onDragCancel={handleDragCancel}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}>
-        <div className='grid gap-4 md:grid-cols-3'>
+        <div className='grid gap-4 md:grid-cols-4'>
           {mats.map((mat) => (
             <DroppableContainer
               key={mat.id.toString()}
@@ -348,4 +371,4 @@ function KanbanMats({ csMats }: { csMats: CSMat[] }) {
     </div>
   );
 }
-export default KanbanMats;
+export default connect(mapStateToProps, mapDispatchToProps)(KanbanMats);
