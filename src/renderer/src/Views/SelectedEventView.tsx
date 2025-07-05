@@ -13,6 +13,7 @@ import {
 } from "../Features/combatEvent.slice";
 import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
 import { CombatEvent, IKFEvent } from "../Models";
+import EventBouts from "./EventBouts";
 import EventDetails from "./EventDetails";
 
 type SelectedEventProps = {
@@ -61,6 +62,9 @@ function SelectedEventView(props: SelectedEventProps) {
       case 4: //Event Details
         setViewState("Event Details");
         break;
+      case 5: //Event Details
+        setViewState("Event Bouts");
+        break;
       default:
         setViewState("");
     }
@@ -76,6 +80,8 @@ function SelectedEventView(props: SelectedEventProps) {
         return <BracketList />;
       case "Event Details": //Event Details
         return <EventDetails />;
+      case "Event Bouts": //Event Details
+        return <EventBouts />;
       default:
         return (
           <Box>
@@ -87,7 +93,7 @@ function SelectedEventView(props: SelectedEventProps) {
 
   return (
     <>
-      <div>
+      <div className=''>
         <Box
           sx={{
             display: "flex",
@@ -95,6 +101,8 @@ function SelectedEventView(props: SelectedEventProps) {
             marginBottom: 2,
             marginTop: "-53px",
             position: "fixed",
+            padding: "5px",
+            backgroundColor: "#1e2939",
           }}>
           <Button
             variant='outlined'
@@ -128,12 +136,20 @@ function SelectedEventView(props: SelectedEventProps) {
             }}>
             Event Details
           </Button>
+          <Button
+            variant='outlined'
+            sx={{ fontSize: "18px" }}
+            onClick={() => {
+              subNavButtonClicked(5);
+            }}>
+            Event Bouts
+          </Button>
           <Typography variant='h6'>
             {`${props.selectedEvent.eventName} - ${viewState}`}
           </Typography>
         </Box>
       </div>
-      <div className='mt-40'>{renderViewState()}</div>
+      <div className='mt-26'>{renderViewState()}</div>
     </>
   );
 }

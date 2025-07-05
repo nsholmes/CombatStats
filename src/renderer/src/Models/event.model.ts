@@ -2,7 +2,7 @@ import { EventBracket } from "./bracket.model";
 import { IKFParticipant } from "./fighter.model";
 
 export type CombatEvent = {
-  bouts: Bout[];
+  bouts: CSBout[];
   selectedEvent: IKFEvent;
   participants: IKFParticipant[];
   mats: CSMat[];
@@ -26,7 +26,7 @@ export type BracketEditState =
   | "off";
 
 export type CSMat = {
-  id: Number;
+  id: number;
   name: string;
   brackets: CSBracket[];
   roles: MatRoles;
@@ -41,6 +41,15 @@ export type MatRoles = {
 export type MatRolesUpdate = {
   roles: MatRoles;
   idx: number;
+};
+
+export type CSBout = {
+  boutId: string;
+  bracketId: number;
+  matId: number;
+  roundNumber: number;
+  redCorner: IKFParticipant | null;
+  blueCorner: IKFParticipant | null;
 };
 
 export type CSBrackets = {

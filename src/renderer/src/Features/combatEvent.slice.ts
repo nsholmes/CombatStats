@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  Bout,
   CombatEvent,
+  CSBout,
   CSBracket,
   CSMat,
   IKFEvent,
   MatRolesUpdate,
 } from "../Models/event.model";
 import { IKFParticipant } from "../Models/fighter.model";
+import { createBracketBouts } from "./utils/EventBouts";
 
 const initialState: CombatEvent = {
   bouts: [],
@@ -25,8 +26,12 @@ export const CombatEventSlice = createSlice({
     setSelectedEvent(state, action: PayloadAction<IKFEvent>) {
       state.selectedEvent = action.payload;
     },
-    addNewBout(state, action: PayloadAction<Bout>) {
+    addNewBout(state, action: PayloadAction<CSBout>) {
       state.bouts = [...state.bouts, action.payload];
+    },
+    setBouts(state, action: PayloadAction<CSBracket[]>) {
+      // Set the bouts for the event
+      state.bouts = createBracketBouts(action.payload);
     },
     setParticipants(state, action: PayloadAction<any[]>) {
       state.participants = action.payload;
@@ -66,9 +71,8 @@ export const CombatEventSlice = createSlice({
   },
 });
 export const SelectAllBouts = (state: any) => state.combatEvent.bouts;
-export const SelectSelectedEvent = (state: any) => {
-  return state.combatEvent.selectedEvent;
-};
+export const SelectSelectedEvent = (state: any) =>
+  state.combatEvent.selectedEvent;
 export const SelectSelectedParticipants = (state: any) => {
   return state.combatEvent.selectedParticipantIds;
 };
@@ -127,6 +131,7 @@ export const SelectCombatEventState = (state: any) => {
 };
 export const {
   addNewBout,
+  setBouts,
   setSelectedEvent,
   setSelectedParticipantIds,
   setParticipants,
