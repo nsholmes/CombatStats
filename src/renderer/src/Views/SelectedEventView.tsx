@@ -132,17 +132,17 @@ function SelectedEventView(props: SelectedEventProps) {
             variant='outlined'
             sx={{ fontSize: "18px" }}
             onClick={() => {
-              subNavButtonClicked(4);
+              subNavButtonClicked(5);
             }}>
-            Event Details
+            Event Bouts
           </Button>
           <Button
             variant='outlined'
             sx={{ fontSize: "18px" }}
             onClick={() => {
-              subNavButtonClicked(5);
+              subNavButtonClicked(4);
             }}>
-            Event Bouts
+            Event Details
           </Button>
           <Typography variant='h6'>
             {`${props.selectedEvent.eventName} - ${viewState}`}

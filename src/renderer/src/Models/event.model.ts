@@ -1,4 +1,3 @@
-import { EventBracket } from "./bracket.model";
 import { IKFParticipant } from "./fighter.model";
 
 export type CombatEvent = {
@@ -6,7 +5,7 @@ export type CombatEvent = {
   selectedEvent: IKFEvent;
   participants: IKFParticipant[];
   mats: CSMat[];
-  brackets: EventBracket[];
+  brackets: CSBracket[];
   selectedParticipantIds: number[];
 };
 
@@ -28,7 +27,6 @@ export type BracketEditState =
 export type CSMat = {
   id: number;
   name: string;
-  brackets: CSBracket[];
   roles: MatRoles;
 };
 
@@ -64,6 +62,7 @@ export type CSBracket = {
   bracketClassName: string;
   competitors: IKFParticipant[];
   matNumber: number;
+  sequence: number;
 };
 export type BracketCompetitor = {
   bracket: competitorBracket;

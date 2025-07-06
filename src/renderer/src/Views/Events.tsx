@@ -106,7 +106,7 @@ function Events(props: EventsProps) {
     props.setSelectedEvent(event);
     props.getParticipantsFromFB(event.eventUid, event.id);
     // props.getFSIEventParticipants(event.eventUid, event.id);
-    props.getBracketsFromFB(event.eventUid, event.id);
+    // props.getBracketsFromFB(event.eventUid, event.id);
     // props.getFSIEventBrackets(event.eventUid, event.id);
     navigator("selectedEvent");
   };

@@ -122,6 +122,7 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
       bracketClassName: weightClass,
       competitors: props.selectedParticipants,
       matNumber: matId,
+      sequence: 0,
     };
     props.setModalIsVisible(false);
     props.addNewBracketToMat(newBracket);

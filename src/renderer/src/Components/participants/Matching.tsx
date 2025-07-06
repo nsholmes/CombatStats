@@ -26,7 +26,7 @@ import {
 type MatchingProps = {
   eventParticipants: IKFParticipant[];
   selectedParticipantIds: number[];
-  selectAllBrackets: { [key: string]: CSBracket[] };
+  selectAllBrackets: CSBracket[];
   moveSelectedCompetitor: (competitorId: string | null) => void;
   setCurrentContextMenu: (menuName: ContextMenuType) => void;
   setMenuIsVisible: (isVisible: boolean) => void;
@@ -126,15 +126,16 @@ function Matching(props: MatchingProps) {
     const brackets = props.selectAllBrackets;
 
     const bracketIds: { mat: number; id: number }[] = [];
-    Object.values(brackets).forEach((bracketArr) => {
-      bracketArr.forEach((bracket) => {
-        if (
-          bracket.competitors &&
-          bracket.competitors.some((c) => c.participantId === partId)
-        ) {
-          bracketIds.push({ mat: bracket.matNumber, id: bracket.bracketId });
-        }
-      });
+    brackets.forEach((bracket) => {
+      if (
+        bracket.competitors &&
+        bracket.competitors.some((c) => c.participantId === partId)
+      ) {
+        bracketIds.push({
+          mat: bracket.matNumber,
+          id: bracket.bracketId as number,
+        });
+      }
     });
 
     return bracketIds.map((br) => (

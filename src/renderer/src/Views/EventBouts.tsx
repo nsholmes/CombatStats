@@ -21,13 +21,18 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { SelectMats, setMats } from "../Features/combatEvent.slice";
-import { CSBout, CSMat } from "../Models";
+import {
+  SelectAllBrackets,
+  SelectMats,
+  setMats,
+} from "../Features/combatEvent.slice";
+import { CSBout, CSBracket, CSMat } from "../Models";
 import { IKFParticipant } from "../Models/fighter.model";
 
 type EventBoutsProps = {
   setEventMats: (mats: CSMat[]) => void;
   getEventMats: CSMat[];
+  brackets: CSBracket[];
 };
 
 function mapDispatchToProps(dispatch: any) {
@@ -39,6 +44,7 @@ function mapDispatchToProps(dispatch: any) {
 function mapStateToProps(state: any) {
   return {
     getEventMats: SelectMats(state),
+    brackets: SelectAllBrackets(state),
   };
 }
 
@@ -273,15 +279,13 @@ function EventBouts(props: EventBoutsProps) {
   useEffect(() => {
     // This seems to be clled twice, Why?
 
-    props.getEventMats.map((mat) => {
-      console.log("MAT: ", mat.id);
-      mat.brackets.map((bracket) => {
-        createBracketBouts(
-          bracket.bracketId as number,
-          mat.id,
-          bracket.competitors
-        );
-      });
+    props.brackets.map((bracket) => {
+      console.log("MAT: ", bracket.matNumber);
+      createBracketBouts(
+        bracket.bracketId as number,
+        bracket.matNumber,
+        bracket.competitors
+      );
     });
   }, []);
 

@@ -1,4 +1,4 @@
-import { CSBout, CSBracket } from "../../Models";
+import { CSBout, CSBracket, CSMat } from "../../Models";
 
 export function createBracketBouts(brackets: CSBracket[]): CSBout[] {
   const bouts: CSBout[] = [];
@@ -82,4 +82,15 @@ export function createBracketBouts(brackets: CSBracket[]): CSBout[] {
   });
 
   return bouts;
+}
+
+export function matBrackets(
+  brackets: CSBracket[],
+  mats: CSMat[]
+): { matId: number; matName: string; brackets: CSBracket[] }[] {
+  return mats.map((mat) => ({
+    matId: mat.id,
+    matName: mat.name === "" ? `Mat ${mat.id}` : mat.name,
+    brackets: brackets.filter((bracket) => bracket.matNumber === mat.id),
+  }));
 }

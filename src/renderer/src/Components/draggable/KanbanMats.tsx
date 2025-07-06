@@ -21,25 +21,40 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
-import { SelectMats, setMats } from "../../Features/combatEvent.slice";
+import {
+  SelectAllBrackets,
+  SelectMats,
+  setMats,
+  updateBracketMatNumber,
+  updateBracketSequence,
+} from "../../Features/combatEvent.slice";
+import { matBrackets } from "../../Features/utils/EventBouts";
 import { CSBracket, CSMat } from "../../Models";
 
 type KanbanMatsProps = {
   setEventMats: (mats: CSMat[]) => void;
   getEventMats: CSMat[];
+  brackets: CSBracket[];
+  updateBracketMatNumber: (bracketId: number, matNumber: number) => void;
+  updateBracketSequence: (brackets: CSBracket[]) => void;
 };
 
 function mapDispatchToProps(dispatch: any) {
   return {
     setEventMats: (mats: CSMat[]) => dispatch(setMats(mats)),
+    updateBracketMatNumber: (bracketId: number, matNumber: number) =>
+      dispatch(updateBracketMatNumber({ bracketId, matNumber })),
+    updateBracketSequence: (brackets: CSBracket[]) =>
+      dispatch(updateBracketSequence(brackets)),
   };
 }
 
 function mapStateToProps(state: any) {
   return {
     getEventMats: SelectMats(state),
+    brackets: SelectAllBrackets(state),
   };
 }
 
@@ -84,10 +99,11 @@ function SortableItem({
         </div>
         <hr />
         <div>
-          {bracket.bracketId}
-          {bracket.competitors.map((competitor) => {
+          {`Mat: ${bracket.matNumber} BracketId: ${bracket.bracketId}`}
+          {bracket.competitors.map((competitor, idx) => {
             return (
-              <div>{`- ${competitor.firstName} ${competitor.lastName} (${competitor.weight} lbs)`}</div>
+              <div
+                key={`competitor-${bracket.bracketId}-competitor-${competitor.competitorId}`}>{`- ${competitor.firstName} ${competitor.lastName} (${competitor.weight} lbs)`}</div>
             );
           })}
         </div>
@@ -120,14 +136,18 @@ function DroppableContainer({
           items={items.map((item) => item.bracketId)}
           strategy={verticalListSortingStrategy}>
           <ul className='flex flex-col gap-2'>
-            {items.map((item) => (
-              <SortableItem
-                key={`sortableItem-${item.bracketId}`}
-                id={item.bracketId}
-                content={item.bracketClassName}
-                bracket={item}
-              />
-            ))}
+            {items.map((item) => {
+              {
+                return item.matNumber.toString() == id ? (
+                  <SortableItem
+                    key={`sortableItem-${item.bracketId}`}
+                    id={item.bracketId}
+                    content={item.bracketClassName}
+                    bracket={item}
+                  />
+                ) : null;
+              }
+            })}
           </ul>
         </SortableContext>
 
@@ -156,10 +176,10 @@ function ItemOverly({ children }: { children: React.ReactNode }) {
 
 function KanbanMats(props: KanbanMatsProps) {
   const [mats, setMats] = useState<CSMat[]>(props.getEventMats);
-  useEffect(() => {
-    // console.log(csMats);
-    props.setEventMats(mats);
-  }, [mats]);
+  const [matBracketsArr, setMatBracketsArr] = useState<
+    { matId: number; matName: string; brackets: CSBracket[] }[]
+  >(matBrackets(props.brackets, props.getEventMats));
+
   void setMats;
 
   // State to track which item is being dragged
@@ -187,13 +207,17 @@ function KanbanMats(props: KanbanMatsProps) {
     if (mats.some((mat) => mat.id.toString() === itemId)) {
       return itemId;
     }
-
     // If not figure out which container has that ID
-    return mats
-      .find((mat) =>
-        mat.brackets.some((item) => item.bracketId.toString() === itemId)
-      )
-      ?.id.toString();
+    let retValue: UniqueIdentifier | undefined;
+    matBracketsArr.map((matbrackets) => {
+      const foundItem = matbrackets.brackets.some(
+        (item) => item.bracketId.toString() === itemId
+      );
+      if (foundItem) {
+        retValue = matbrackets.matId.toString();
+      }
+    });
+    return retValue;
   }
 
   const handleDrageStart = (event: DragStartEvent) => {
@@ -209,119 +233,118 @@ function KanbanMats(props: KanbanMatsProps) {
     const { active, over } = event;
 
     if (!over) return;
-    const activeId = active.id;
-    const overId = over.id;
+    // const activeId = active.id;
+    // const overId = over.id;
 
-    const activeMatId = findContainerId(activeId);
-    const overMatId = findContainerId(overId);
+    // const activeMatId = findContainerId(activeId);
+    // const overMatId = findContainerId(overId);
 
-    if (!activeMatId || !overMatId) return;
-    if (activeMatId === overMatId && activeId !== overId) return;
-    if (activeMatId === overMatId) return;
+    // if (!activeMatId || !overMatId) return;
+    // if (activeMatId === overMatId && activeId !== overId) return;
+    // if (activeMatId === overMatId) return;
 
-    // Update State
-    setMats((prev) => {
-      // what is the active container
-      const activeMat = prev.find((c) => c.id.toString() === activeMatId);
+    // // Update bracket mat number
+    // console.log(
+    //   `Active Mat ID: ${activeMatId}, Over Mat ID: ${overMatId}, Active ID: ${activeId}, Over ID: ${overId}`
+    // );
 
-      console.log(`activeMat: ${activeMat?.id}`);
-      if (!activeMat) return prev;
+    // const activeItem = props.brackets.find(
+    //   (item) => item.bracketId.toString() === activeId
+    // );
 
-      const activeItem = activeMat.brackets.find(
-        (item) => item.bracketId.toString() === activeId
-      );
+    // matBracketsArr.map((matBrackets) => {
+    //   if(matBrackets.matId === activeMatId)
+    //     if(matBrackets.matId === overMatId){
 
-      console.log(`activeItem: ${activeItem?.bracketId}`);
-      if (!activeItem) return prev;
+    //     }
+    // });
+    // mats.map((mat) => {
+    //   if (mat.id.toString() === activeMatId)
+    //     if (mat.id.toString() === overMatId) {
+    //       // props.updateBracketMatNumber(activeItem?.bracketId as number, mat.id);
+    //       if (overId === overMatId) {
+    //         props.updateBracketMatNumber(
+    //           activeItem?.bracketId as number,
+    //           parseInt(overMatId)
+    //         );
+    //       }
+    //     }
 
-      // Create new array with the item removed from the source container
-      const newMat = prev.map((mat) => {
-        // item is over the source container remove it
-        if (mat.id.toString() === activeMatId) {
-          console.log("item is over the source container - remove it");
-          return {
-            ...mat,
-            brackets: mat.brackets.filter(
-              (item) => item.bracketId.toString() !== activeId
-            ),
-          };
-        }
-
-        // Its the target container add the item
-        if (mat.id.toString() === overMatId) {
-          if (overId === overMatId) {
-            console.log("item is over the target container - add it");
-            return {
-              ...mat,
-              brackets: [...mat.brackets, activeItem],
-            };
-          }
-
-          const overItemIndex = mat.brackets.findIndex(
-            (item) => item.bracketId.toString() === overId
-          );
-          if (overItemIndex !== -1) {
-            return {
-              ...mat,
-              brackets: [
-                ...mat.brackets.slice(0, overItemIndex + 1),
-                activeItem,
-                ...mat.brackets.slice(overItemIndex + 1),
-              ],
-            };
-          }
-        }
-        return mat;
-      });
-      return newMat;
-    });
+    //   // TODO: UPDATE THE ORDER OF THE BRACKETS BRACKETS NEED SEQUENCiNG
+    //   const overItemIndex = props.brackets.findIndex(
+    //     (item) => item.bracketId.toString() === overId
+    //   );
+    //   void overItemIndex;
+    //   if (overItemIndex !== -1) {
+    //     props.updateBracketSequence(
+    //       activeItem?.bracketId as number,
+    //       overItemIndex
+    //     );
+    //   }
+    // });
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
+    console.log("Active ID: ", active.id);
+    console.log("Over ID: ", over?.id);
     if (!over) {
       setActiveId(null);
       return;
     }
 
     const activeMatId = findContainerId(active.id);
+    console.log("Active Mat ID: ", activeMatId);
     const overMatId = findContainerId(over.id);
+    console.log("Over Mat ID: ", overMatId);
 
     if (!activeMatId || !overMatId) {
       setActiveId(null);
       return;
     }
 
-    //Dragging in the same container
+    //Dragging in the same container and not the same item
     if (activeMatId === overMatId && active.id !== over.id) {
       // handle sorting within that same container
       const matIndex = mats.findIndex((m) => m.id.toString() === activeMatId);
+      console.log("Mat Index: ", matIndex);
 
       if (matIndex === -1) {
         setActiveId(null);
         return;
       }
 
-      const mat = mats[matIndex];
-      const activeIndex = mat.brackets.findIndex(
-        (item) => item.bracketId.toString() === active.id
+      // const mat = mats[matIndex];
+      const activeIndex = matBracketsArr[matIndex].brackets.findIndex(
+        (bracket) => bracket.bracketId.toString() === active.id
       );
-      const overIndex = mat.brackets.findIndex(
-        (item) => item.bracketId.toString() === over.id
+      console.log("Active Index: ", activeIndex);
+      const overIndex = matBracketsArr[matIndex].brackets.findIndex(
+        (bracket) => bracket.bracketId.toString() === over.id
       );
+      console.log("Over Index: ", overIndex);
 
       if (activeIndex !== -1 && overIndex !== -1) {
-        const newItems = arrayMove(mat.brackets, activeIndex, overIndex);
-
-        setMats((mats) => {
-          return mats.map((m, i) => {
-            if (i === matIndex) {
-              return { ...m, brackets: newItems };
-            }
-            return m;
-          });
-        });
+        try {
+          console.log("MAT BRACKETS: ", matBracketsArr[matIndex].brackets);
+          const newItems = arrayMove(
+            matBracketsArr[matIndex].brackets,
+            activeIndex,
+            overIndex
+          );
+          console.log("NEW ITEMS: ", newItems);
+          setMatBracketsArr((prev) =>
+            prev.map((mat) =>
+              mat.matId.toString() === activeMatId
+                ? { ...mat, brackets: newItems }
+                : mat
+            )
+          );
+          props.updateBracketSequence(newItems);
+        } catch (error) {
+          console.error("Error moving items:", error);
+        }
       }
       setActiveId(null);
     }
@@ -329,7 +352,7 @@ function KanbanMats(props: KanbanMatsProps) {
 
   const getActiveItem = () => {
     for (const mat of mats) {
-      const item = mat.brackets.find(
+      const item = props.brackets.find(
         (item) => item.bracketId.toString() === activeId
       );
       if (item) return item;
@@ -348,11 +371,11 @@ function KanbanMats(props: KanbanMatsProps) {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}>
         <div className='grid gap-4 md:grid-cols-4'>
-          {mats.map((mat) => (
+          {matBracketsArr.map((mat) => (
             <DroppableContainer
-              key={mat.id.toString()}
-              id={mat.id.toString()}
-              title={mat.name === "" ? mat.id.toString() : mat.name}
+              key={mat.matId.toString()}
+              id={mat.matId.toString()}
+              title={mat.matName}
               items={mat.brackets}
             />
           ))}

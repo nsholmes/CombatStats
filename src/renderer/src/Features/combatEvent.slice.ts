@@ -16,7 +16,26 @@ const initialState: CombatEvent = {
   selectedParticipantIds: [],
   participants: [],
   brackets: [],
-  mats: [],
+  mats: [
+    {
+      id: 0,
+      name: "Mat 1",
+      roles: {
+        referee: "",
+        judges: [],
+        timekeeper: "",
+      },
+    },
+    {
+      id: 1,
+      name: "Mat 2",
+      roles: {
+        referee: "",
+        judges: [],
+        timekeeper: "",
+      },
+    },
+  ],
 };
 
 export const CombatEventSlice = createSlice({
@@ -62,11 +81,46 @@ export const CombatEventSlice = createSlice({
       state.mats[action.payload.idx].roles = action.payload.roles;
     },
     addBracketToMat(state, action: PayloadAction<CSBracket>) {
-      const { matNumber } = action.payload;
-      state.mats[matNumber].brackets.push({
+      const matId = action.payload.matNumber;
+      const sequence = state.brackets.filter(
+        (b) => b.matNumber === matId
+      ).length;
+      state.brackets.push({
         ...action.payload,
-        bracketId: `mat-${matNumber}-br-${state.mats[matNumber].brackets.length}`,
+        bracketId: `${state.selectedEvent.id}-${state.brackets.length}`,
+        sequence,
       });
+    },
+    /**
+     * Updates the sequence number for a specific bracket.
+     * @param state - The current state of the combat event.
+     * @param action - The action containing the bracket ID and new sequence number.
+     */
+    updateBracketSequence(state, action: PayloadAction<CSBracket[]>) {
+      // const { bracketId, sequence } = action.payload;
+      action.payload.map((bracket, idx) => {
+        const bracketIndex = state.brackets.findIndex(
+          (stateBracket) => bracket.bracketId === stateBracket.bracketId
+        );
+        state.brackets[bracketIndex].sequence = idx;
+      });
+    },
+    /**
+     * Updates the mat number for a specific bracket.
+     * @param state - The current state of the combat event.
+     * @param action - The action containing the bracket ID and new mat number.
+     */
+    updateBracketMatNumber(
+      state,
+      action: PayloadAction<{ bracketId: number; matNumber: number }>
+    ) {
+      const { bracketId, matNumber } = action.payload;
+      const bracketIndex = state.brackets.findIndex(
+        (bracket) => bracket.bracketId === bracketId
+      );
+      if (bracketIndex !== -1) {
+        state.brackets[bracketIndex].matNumber = matNumber;
+      }
     },
   },
 });
@@ -88,19 +142,18 @@ export const SelectParticipantsByIds = (state: any) => {
 };
 
 export const SelectParticipantBracketCount = (state: any) => {
-  const { selectedParticipantIds, mats } = state.combatEvent;
-
+  const { selectedParticipantIds, mats, brackets } = state.combatEvent;
+  void mats;
   const bracketCount: Record<number, number> = {};
   selectedParticipantIds.forEach((participantId: number) => {
     bracketCount[participantId] = 0;
   });
-  mats.forEach((mat: CSMat) => {
-    mat.brackets.forEach((bracket: CSBracket) => {
-      bracket.competitors.forEach((competitor: { participantId: number }) => {
-        if (selectedParticipantIds.includes(competitor.participantId)) {
-          bracketCount[competitor.participantId]++;
-        }
-      });
+
+  brackets.forEach((bracket: CSBracket) => {
+    bracket.competitors.forEach((competitor: { participantId: number }) => {
+      if (selectedParticipantIds.includes(competitor.participantId)) {
+        bracketCount[competitor.participantId]++;
+      }
     });
   });
   return bracketCount;
@@ -110,13 +163,7 @@ export const SelectAllParticipants = (state: any) => {
   return state.combatEvent.participants;
 };
 
-export const SelectAllBrackets = (state: any) => {
-  const brackets: { [key: string]: CSBracket[] } = {};
-  state.combatEvent.mats.map((mat: CSMat, idx: number) => {
-    brackets[idx] = mat.brackets;
-  });
-  return brackets;
-};
+export const SelectAllBrackets = (state: any) => state.combatEvent.brackets;
 
 export const SelectMats = (state: any) => {
   return state.combatEvent.mats;
@@ -140,6 +187,8 @@ export const {
   updateMatRoles,
   addBracketToMat,
   setParticipantsBracketCount,
+  updateBracketMatNumber,
+  updateBracketSequence,
 } = CombatEventSlice.actions;
 
 export const { reducer } = CombatEventSlice;
