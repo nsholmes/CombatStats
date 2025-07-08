@@ -16,9 +16,11 @@ import {
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
-import { SYNC_COMBAT_EVENT } from "../../Features/combatEvent.actions";
 import {
-  addBracketToMat,
+  ADD_BRACKET_TO_MAT,
+  SYNC_COMBAT_EVENT,
+} from "../../Features/combatEvent.actions";
+import {
   SelectCombatEventState,
   SelectMatCount,
   SelectMats,
@@ -65,7 +67,7 @@ function mapDispatchToProps(dispatch: any) {
     setModalIsVisible: (isVisible: boolean) =>
       dispatch(setModalIsVisible(isVisible)),
     addNewBracketToMat: (bracket: CSBracket) =>
-      dispatch(addBracketToMat(bracket)),
+      dispatch(ADD_BRACKET_TO_MAT(bracket)),
     clearSelectedParticipants: () => dispatch(setSelectedParticipantIds([])),
     syncDBWithCombatEventSlice: (event: CombatEvent) =>
       dispatch(SYNC_COMBAT_EVENT(event)),

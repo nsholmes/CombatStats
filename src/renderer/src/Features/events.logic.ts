@@ -40,6 +40,7 @@ const GetFSIEvents = createLogic({
 const GetEventsFromFB = createLogic({
   type: GET_EVENTS_FROM_FB,
   async process({ action }, dispatch, done) {
+    void action;
     try {
       const db = ikfpkbDB();
 

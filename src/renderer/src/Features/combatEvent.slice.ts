@@ -42,6 +42,23 @@ export const CombatEventSlice = createSlice({
   name: "CombatEvent",
   initialState,
   reducers: {
+    hydrateCombatEvent(state, action: PayloadAction<CombatEvent>) {
+      // Hydrate the combat event state with the provided data
+      const {
+        bouts,
+        selectedEvent,
+        selectedParticipantIds,
+        participants,
+        brackets,
+        mats,
+      } = action.payload;
+      state.bouts = bouts;
+      state.selectedEvent = selectedEvent;
+      state.selectedParticipantIds = selectedParticipantIds;
+      state.participants = participants;
+      state.brackets = brackets;
+      state.mats = mats;
+    },
     setSelectedEvent(state, action: PayloadAction<IKFEvent>) {
       state.selectedEvent = action.payload;
     },
@@ -80,7 +97,7 @@ export const CombatEventSlice = createSlice({
     updateMatRoles(state, action: PayloadAction<MatRolesUpdate>) {
       state.mats[action.payload.idx].roles = action.payload.roles;
     },
-    addBracketToMat(state, action: PayloadAction<CSBracket>) {
+    addBracketToMatState(state, action: PayloadAction<CSBracket>) {
       const matId = action.payload.matNumber;
       const sequence = state.brackets.filter(
         (b) => b.matNumber === matId
@@ -185,10 +202,11 @@ export const {
   setBrackets,
   setMats,
   updateMatRoles,
-  addBracketToMat,
+  addBracketToMatState,
   setParticipantsBracketCount,
   updateBracketMatNumber,
   updateBracketSequence,
+  hydrateCombatEvent,
 } = CombatEventSlice.actions;
 
 export const { reducer } = CombatEventSlice;

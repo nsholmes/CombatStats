@@ -28,6 +28,9 @@ export type CSMat = {
   id: number;
   name: string;
   roles: MatRoles;
+  currentBout?: CSBout | null;
+  onDeckBout?: CSBout | null;
+  inHoleBout?: CSBout | null;
 };
 
 export type MatRoles = {

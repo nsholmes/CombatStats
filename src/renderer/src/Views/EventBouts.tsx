@@ -2,7 +2,6 @@ import {
   closestCorners,
   DndContext,
   DragEndEvent,
-  DragOverEvent,
   DragOverlay,
   DragStartEvent,
   KeyboardSensor,
@@ -24,13 +23,15 @@ import { connect } from "react-redux";
 import {
   SelectAllBrackets,
   SelectMats,
+  setBouts,
   setMats,
 } from "../Features/combatEvent.slice";
 import { CSBout, CSBracket, CSMat } from "../Models";
 import { IKFParticipant } from "../Models/fighter.model";
-
+type EventMatBouts = { bouts: CSBout[]; matId: number };
 type EventBoutsProps = {
   setEventMats: (mats: CSMat[]) => void;
+  setBouts: (bouts: CSBracket[]) => void;
   getEventMats: CSMat[];
   brackets: CSBracket[];
 };
@@ -38,6 +39,7 @@ type EventBoutsProps = {
 function mapDispatchToProps(dispatch: any) {
   return {
     setEventMats: (mats: CSMat[]) => dispatch(setMats(mats)),
+    setBouts: (bouts: CSBracket[]) => dispatch(setBouts(bouts)),
   };
 }
 
@@ -82,7 +84,9 @@ function SortableBout({
            ? "border-2 border-dashed border-gray-300 bg-gray-50 opacity-30 dark:border-gray-600 dark:bg-gray-800/30"
            : "bg-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700/50"
        }  bg-white p-3 dark:border-gray-700 dark:bg-gray-800`}>
-      <div className='border m-2 w-45 rounded-md border-gray-800 bg-gray-400 p-3'>
+      <div className='border m-2 w-75 rounded-md border-gray-800 bg-gray-400 p-3'>
+        <div>{`Bracket ID: ${bout.bracketId}`}</div>
+        <div>{`Bout ID: ${bout.boutId}`}</div>
         <div className='text-red-700 text-1xl font-bold'>{`${bout.redCorner?.firstName}  ${bout.redCorner?.lastName}`}</div>
         <hr />
         <div className='text-blue-700 text-1xl font-bold'>{`${bout.blueCorner?.firstName} ${bout.blueCorner?.lastName}`}</div>
@@ -110,65 +114,107 @@ function DroppableBoutsContainer({
       </h3>
       <div>
         <SortableContext items={items.map((item) => item.boutId)}>
-          {items.map((item, idx) => {
-            return item.matId.toString() === id && item.roundNumber === 1 ? (
+          {/* {[...items]
+            .filter((item) => item.matId.toString() === id)
+            .sort((a, b) => a.roundNumber - b.roundNumber)
+            .map((item) => (
               <SortableBout
                 key={`sortableBout-${item.bracketId}-${item.blueCorner?.competitorId}-${item.redCorner?.competitorId}`}
                 id={item.boutId}
                 content={`${item.bracketId.toString()}`}
                 bout={item}
               />
-            ) : null;
-          })}
+            ))} */}
+          {items
+            .slice()
+            .sort((a, b) => a.roundNumber - b.roundNumber)
+            .map((item, idx) => {
+              return item.matId.toString() === id ? (
+                <SortableBout
+                  key={`sortableBout-${item.bracketId}-${item.matId}-${idx}`}
+                  id={item.boutId}
+                  content={`${item.bracketId.toString()}`}
+                  bout={item}
+                />
+              ) : null;
+            })}
         </SortableContext>
       </div>
     </div>
   );
 }
 
-function ItemOverly({ children }: { children: React.ReactNode }) {
+function ItemOverly(props: { bout: CSBout }) {
   return (
     <div className='cursor-grabbing touch-none rounded border bg-white p-3 shadow-md dark: border-gray-700 dark:bg-gray-700'>
       <div className='flex items-center gap-3'>
         <span className='text-gray-500 dark:text-gray-400'>⋮⋮</span>
-        <span className='dark:text-gray-200'>{children}</span>
+        <div className='border m-2 w-75 rounded-md border-gray-800 bg-gray-400 p-3'>
+          <div>{`Bracket ID: ${props.bout.bracketId}`}</div>
+          <div>{`Bout ID: ${props.bout.boutId}`}</div>
+          <div className='text-red-700 text-1xl font-bold'>{`${props.bout.redCorner?.firstName}  ${props.bout.redCorner?.lastName}`}</div>
+          <hr />
+          <div className='text-blue-700 text-1xl font-bold'>{`${props.bout.blueCorner?.firstName} ${props.bout.blueCorner?.lastName}`}</div>
+        </div>
       </div>
     </div>
   );
 }
 
 function EventBouts(props: EventBoutsProps) {
+  const [eventMatBouts, setEventMatBouts] = useState<EventMatBouts[]>([]);
+  const [eventBouts, setEventBouts] = useState<CSBout[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   void activeId;
 
   function findContainerId(
     itemId: UniqueIdentifier
   ): UniqueIdentifier | undefined {
-    // Is the Id a container ID?
-    if (eventBouts.some((bout) => bout.matId.toString() === itemId)) {
-      return itemId;
+    const bout = eventBouts.find((bout) => bout.boutId === itemId);
+    if (bout) {
+      return bout.matId.toString();
     }
-
-    // If not figure out which container has that ID
-    return eventBouts.find((bout) =>
-      eventBouts.some((item) => item.matId.toString() === itemId)
-    )?.boutId;
+    return undefined;
   }
 
   const getActiveItem = () => {
-    for (const mat of props.getEventMats) {
-      const item = mat.brackets.find(
-        (item) => item.bracketId.toString() === activeId
-      );
-      if (item) return item;
+    const retVal = eventBouts.find((bout) => bout.boutId === activeId);
+    if (retVal) {
+      return retVal;
     }
-    return null;
+    return {
+      boutId: "",
+      bracketId: 0,
+      matId: 0,
+      roundNumber: 0,
+      redCorner: null,
+      blueCorner: null,
+    } as CSBout;
   };
 
-  const [eventBouts, setEventBouts] = useState<CSBout[]>([]);
+  useEffect(() => {
+    props.setBouts(props.brackets);
+    props.brackets.map((bracket) => {
+      console.log("MAT: ", bracket.matNumber);
+      createBracketBouts(
+        bracket.bracketId as number,
+        bracket.matNumber,
+        bracket.competitors
+      );
+    });
+  }, []);
 
   useEffect(() => {
-    console.log("Event Length: ", eventBouts.length);
+    const matBouts: EventMatBouts[] = [];
+    props.getEventMats.map((mat) => {
+      const bouts = eventBouts
+        .filter((bout) => bout.matId === mat.id)
+        .sort((a, b) => a.roundNumber - b.roundNumber);
+      if (bouts.length > 0) {
+        matBouts.push({ bouts, matId: mat.id });
+      }
+    });
+    setEventMatBouts(matBouts);
   }, [eventBouts]);
 
   const sensors = useSensors(
@@ -189,7 +235,6 @@ function EventBouts(props: EventBoutsProps) {
     competitors: IKFParticipant[]
   ): CSBout[] {
     const bracketBouts: CSBout[] = [];
-
     switch (competitors.length) {
       case 2: // 2 competitors
         console.log(`Competitors: ${competitors}`);
@@ -276,26 +321,11 @@ function EventBouts(props: EventBoutsProps) {
     });
     return bracketBouts;
   }
-  useEffect(() => {
-    // This seems to be clled twice, Why?
-
-    props.brackets.map((bracket) => {
-      console.log("MAT: ", bracket.matNumber);
-      createBracketBouts(
-        bracket.bracketId as number,
-        bracket.matNumber,
-        bracket.competitors
-      );
-    });
-  }, []);
 
   const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id);
   };
-  const handleDragOver = (event: DragOverEvent) => {
-    void event;
-    setActiveId(null);
-  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     const mats: CSMat[] = props.getEventMats;
@@ -322,24 +352,36 @@ function EventBouts(props: EventBoutsProps) {
         return;
       }
 
-      const mat = mats[matIndex];
-      const activeIndex = mat.brackets.findIndex(
-        (item) => item.bracketId.toString() === active.id
+      const activeIndex = eventBouts.findIndex(
+        (item) => item.boutId.toString() === active.id
       );
-      const overIndex = mat.brackets.findIndex(
-        (item) => item.bracketId.toString() === over.id
+      const overIndex = eventBouts.findIndex(
+        (item) => item.boutId.toString() === over.id
       );
 
       if (activeIndex !== -1 && overIndex !== -1) {
-        const newItems = arrayMove(mat.brackets, activeIndex, overIndex);
-        setMats((mats) => {
+        const newItems = arrayMove(
+          eventMatBouts[matIndex].bouts,
+          activeIndex,
+          overIndex
+        );
+        console.log(newItems);
+        setEventMatBouts((mats) => {
           return mats.map((m, i) => {
             if (i === matIndex) {
-              return { ...m, brackets: newItems };
+              return { ...m, bouts: newItems };
             }
             return m;
           });
         });
+        // setMats((mats) => {
+        //   return mats.map((m, i) => {
+        //     if (i === matIndex) {
+        //       return { ...m, brackets: newItems };
+        //     }
+        //     return m;
+        //   });
+        // });
       }
       setActiveId(null);
     }
@@ -352,15 +394,14 @@ function EventBouts(props: EventBoutsProps) {
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}>
         <div className='flex gap-8 justify-center'>
-          {props.getEventMats.map((mat) => (
+          {eventMatBouts.map((mat) => (
             <div className='border rounded-md border-gray-200 p-3 dark:border-gray-700 dark:bg-gray-800/50 mt-6'>
               <DroppableBoutsContainer
-                id={mat.id.toString()}
-                title={`MAT-${mat.id + 1}`}
-                items={eventBouts}
+                id={mat.matId.toString()}
+                title={`MAT-${mat.matId + 1}`}
+                items={eventMatBouts[mat.matId].bouts}
               />
             </div>
           ))}
@@ -370,9 +411,7 @@ function EventBouts(props: EventBoutsProps) {
             duration: 150,
             easing: "cubic-bezier(0.18, 0.67, 0.6,1.22)",
           }}>
-          {activeId ? (
-            <ItemOverly>{getActiveItem()?.bracketClassName}</ItemOverly>
-          ) : null}
+          {activeId ? <ItemOverly bout={getActiveItem()} /> : null}
         </DragOverlay>
       </DndContext>
     </div>

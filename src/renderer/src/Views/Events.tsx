@@ -2,6 +2,7 @@ import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { READ_SELECTED_COMBAT_EVENT_FROM_FB } from "../Features/combatEvent.actions";
 import {
   SelectAllBrackets,
   SelectAllParticipants,
@@ -24,6 +25,7 @@ type EventsProps = {
   // Define any props you need here
   getEventsFromFB: () => void;
   getFSIEvents: () => void;
+  readSelectedCombatEventFromFB: () => void;
   getBracketsFromFB: (eventUID: string, eventID: number) => void;
   getFSIEventBrackets: (eventUID: string, eventID: number) => void;
   getParticipantsFromFB: (eventUID: string, eventID: number) => void;
@@ -44,6 +46,8 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any) {
   return {
     setSelectedEvent: (event: IKFEvent) => dispatch(setSelectedEvent(event)),
+    readSelectedCombatEventFromFB: () =>
+      dispatch(READ_SELECTED_COMBAT_EVENT_FROM_FB()),
     getEventsFromFB: () => dispatch(GET_EVENTS_FROM_FB()),
     getFSIEvents: () => dispatch(GetEventsFromFSI()),
     getBracketsFromFB: (eventUID: string, eventID: number) =>
@@ -66,9 +70,10 @@ function Events(props: EventsProps) {
   //#region Use Effects
   useEffect(() => {
     setViewIndex(0);
-    // ON LOAD GET EVENTS FROM Either the Data base or from the local file
-    // props.getFSIEvents();
+    // Load events from Firebase
     props.getEventsFromFB();
+    // Load selected combatEvent from Firebase
+    props.readSelectedCombatEventFromFB();
     setVisibleEvents(upcomingEvents());
   }, []);
   useEffect(() => {}, [props.getAllFSIEvents]);
@@ -167,7 +172,6 @@ function Events(props: EventsProps) {
           Past 10 Events
         </Button>
       </div>
-      <div>{/* <EventBrackets /> */}</div>
       <div>{renderByViewIndex()}</div>
     </>
   );

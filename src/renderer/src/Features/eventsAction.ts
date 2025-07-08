@@ -8,6 +8,7 @@ export const GET_PARTICIPANTS_FROM_FB = createAction<EventParticipantRequest>(
 export const GET_BRACKETS_FROM_FB = createAction<EventParticipantRequest>(
   "GET_BRACKETS_FROM_FB"
 );
+
 export const GetEventsFromFSI = createAction("GetEventsFromFSI");
 export const GET_FSI_EVENT_PARTICIPANTS =
   createAction<EventParticipantRequest>("GET_FSI_EVENT_PARTICIPANTS");
