@@ -111,7 +111,7 @@ export function createBracketBouts(brackets: CSBracket[]): CSBout[] {
     bouts.push(...bracketBouts);
   });
 
-  return bouts;
+  return bouts.sort((a, b) => a.roundNumber - b.roundNumber);
 }
 
 export function matBrackets(

@@ -8,7 +8,11 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { arrayMove, SortableContext } from "@dnd-kit/sortable";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -42,6 +46,7 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
   const [brackets, setBrackets] = useState(props.selectBrackets);
   const [activeId, setActiveId] = useState<string | null>(null);
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+  void activeId;
 
   const handleDrageStart = (event: DragStartEvent) => {
     setActiveId(String(event.active.id));
@@ -87,7 +92,9 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
         onDragStart={handleDrageStart}
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancel}>
-        <SortableContext items={brackets.map((bracket) => bracket.bracketId)}>
+        <SortableContext
+          strategy={verticalListSortingStrategy}
+          items={brackets.map((bracket) => bracket.bracketId)}>
           <Grid columns={3}>
             {brackets.map((bracket) => (
               <SortableBracketItem

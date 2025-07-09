@@ -11,6 +11,7 @@ function EventMatDisplay(props: {
       <h2>Mat {props.matName}</h2>
       <div className='bg-white dark:border-gray-700 dark:bg-gray-800 p-3'>
         <h2>Current Bout</h2>
+        {props.currrentBout?.boutId}
         {props.currrentBout ? (
           <div className='flex flex-col gap-2'>
             <div className='text-red-700 text-4xl font-bold'>
@@ -29,7 +30,8 @@ function EventMatDisplay(props: {
       </div>
 
       <div className='bg-white dark:border-gray-700 dark:bg-gray-800 p-3'>
-        <h2>On Deck Bout</h2>
+        <h2>On Deck</h2>
+        {props.onDeckBout?.boutId}
         {props.onDeckBout ? (
           <div className='flex flex-col gap-2'>
             <div className='text-red-700 text-4xl font-bold'>
@@ -45,7 +47,8 @@ function EventMatDisplay(props: {
         )}
       </div>
       <div className='bg-white dark:border-gray-700 dark:bg-gray-800 p-3'>
-        <h2>In The Hole Bout</h2>
+        <h2>In The Hole</h2>
+        {props.inHoleBout?.boutId}
         {props.inHoleBout ? (
           <div className='flex flex-col gap-2'>
             <div className='text-red-700 text-4xl font-bold'>

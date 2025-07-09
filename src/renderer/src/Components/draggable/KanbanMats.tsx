@@ -101,6 +101,7 @@ function SortableItem({
         <div>
           {`Mat: ${bracket.matNumber} BracketId: ${bracket.bracketId}`}
           {bracket.competitors.map((competitor, idx) => {
+            void idx;
             return (
               <div
                 key={`competitor-${bracket.bracketId}-competitor-${competitor.competitorId}`}>{`- ${competitor.firstName} ${competitor.lastName} (${competitor.weight} lbs)`}</div>
@@ -231,6 +232,7 @@ function KanbanMats(props: KanbanMatsProps) {
 
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
+    void active;
 
     if (!over) return;
     // const activeId = active.id;

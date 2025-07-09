@@ -136,7 +136,6 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
   };
 
   const matSelected = (event: SelectChangeEvent) => {
-    console.log("HIT HERE!", event.target.value);
     setMatId(parseInt(event.target.value));
   };
   return (
@@ -169,9 +168,7 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
               </div>
             </div>
           </div>
-          <Box>
-            <BracketParticipantList />
-          </Box>
+          <BracketParticipantList />
           <Box sx={{ marginTop: "10px", width: "300px" }}>
             <Typography variant='subtitle1'>
               <CheckBox /> Include Consolation Bracket:

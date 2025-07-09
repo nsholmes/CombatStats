@@ -3,10 +3,9 @@ import {
   DndContext,
   DragCancelEvent,
   DragEndEvent,
-  DragOverEvent,
   DragStartEvent,
-  KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   UniqueIdentifier,
   useSensor,
   useSensors,
@@ -14,7 +13,6 @@ import {
 import {
   arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -80,39 +78,39 @@ function SortableItem({
          isDragging
            ? "border-2 border-dashed border-gray-300 bg-gray-50 opacity-30 dark:border-gray-600 dark:bg-gray-800/30"
            : "bg-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700/50"
-       }`}>
-      {text} ({content.weight} lbs, {getAgeFromDOB(content.dob)} years old)
+       }bg-white p-3 dark:border-gray-700 dark:bg-gray-800`}>
+      <div>
+        <div className='flex items-center gap-3 pb-1'>
+          <span className='text-gray-500 dark:text-gray-400'>⋮</span>
+          <span>
+            {text} ({content.weight} lbs, {getAgeFromDOB(content.dob)} years
+            old)
+          </span>
+        </div>
+      </div>
     </li>
   );
 }
 function BracketParticipantList(props: BracketParticipantListProps) {
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  void activeId;
   const [participantIds, setParticipantIds] = useState<number[]>(
     props.getSelectedParticipants.map(
       (participant) => participant.participantId
     )
   );
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { delay: 50, tolerance: 5 },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  void participantIds;
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
-    setActiveId(active.id);
-    console.log("Drag started:", active.id);
+    setActiveId(String(active.id));
   };
   const handleDragCancel = (event: DragCancelEvent) => {
     void event;
     setActiveId(null);
   };
-  const handleDragOver = (event: DragOverEvent) => {
-    const { active, over } = event;
-    console.log("Drag over:", active.id, "over:", over?.id);
-  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     setActiveId(null);
     const { active, over } = event;
@@ -128,15 +126,15 @@ function BracketParticipantList(props: BracketParticipantListProps) {
       });
     }
   };
-  const getActiveFighter = () => {
-    if (activeId) {
-      const part = props.getSelectedParticipants.find(
-        (participant) =>
-          participant.participantId.toString() === activeId.toString()
-      );
-      return `${part?.firstName} ${part?.lastName} (${part?.weight} lbs)`;
-    }
-  };
+  // const getActiveFighter = () => {
+  //   if (activeId) {
+  //     const part = props.getSelectedParticipants.find(
+  //       (participant) =>
+  //         participant.participantId.toString() === activeId.toString()
+  //     );
+  //     return `${part?.firstName} ${part?.lastName} (${part?.weight} lbs)`;
+  //   }
+  // };
   return (
     <div>
       <Typography variant='h4'>Fighters</Typography>
@@ -145,7 +143,6 @@ function BracketParticipantList(props: BracketParticipantListProps) {
         collisionDetection={closestCorners}
         onDragStart={handleDragStart}
         onDragCancel={handleDragCancel}
-        onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}>
         <SortableContext
           items={props.getSelectedParticipants.map(
@@ -163,11 +160,16 @@ function BracketParticipantList(props: BracketParticipantListProps) {
             ))}
           </ul>
         </SortableContext>
-        {/* <DragOverlay>
+        {/* <DragOverlay
+          modifiers={[restrictToParentElement]}
+          dropAnimation={{
+            duration: 150,
+            easing: "cubic-bezier(0.18, 0.67, 0.6,1.22)",
+          }}>
           {activeId ? (
             <div className='cursor-grabbing rounded-md border bg-blue-50 p-3 shadow-md dark:border-blue-800 dark:bg-blue-900/30'>
               <div className='flex items-center gap-3'>
-                <span className='text-gray-500 dark:text-gray-400'> ⋮⋮</span>
+                <span className='text-gray-500 dark:text-gray-400'>⋮⋮</span>
                 <span className='dark:text-gray-200'>{`${getActiveFighter()}`}</span>
               </div>
             </div>
