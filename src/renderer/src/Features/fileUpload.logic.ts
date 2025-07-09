@@ -1,11 +1,11 @@
-import { createLogic } from 'redux-logic';
+import { createLogic } from "redux-logic";
 
 // import { fetchIntercept } from "./utils/fetchIntercept.logic";
 // import { postFileOptions } from "../Models";
 // import { setCBBrackets } from "./cbBracket.slice";
-import EventData from '../data/MarionBrackets_20231210.json';
-import { setCBBrackets } from './cbBracket.slice';
-import { uploadFile } from './fileUploadAction';
+import EventData from "../data/MarionBrackets_20231210.json";
+import { setCBBrackets } from "./cbBracket.slice";
+import { uploadFile } from "./fileUploadAction";
 
 const fileUpload = createLogic({
   type: uploadFile,
@@ -18,21 +18,20 @@ const fileUpload = createLogic({
         bracketId: bracket.id,
         divisionName: bracket.name,
         discipline: bracket.discipline.name,
-        bracketClassName: bracket.name,
+        bracketDivisionName: bracket.name,
         ringName: bracket.ring_name,
         ringNumber: bracket.ring_number,
         bracketGender: bracket.sport.gender_name,
-        competitors: bracket.seps
-      }
+        competitors: bracket.seps,
+      };
       return newBracketData;
     });
 
     if (brackets) {
       dispatch(setCBBrackets(brackets));
     } else {
-      console.log("Error loading file")
+      console.log("Error loading file");
     }
-
 
     // await fetch(import.meta.env.VITE_UPLOAD_COMBAT_EVENT_FILE, {
     //   ...options,
@@ -61,9 +60,9 @@ const fileUpload = createLogic({
     //   });
 
     done();
-  }
+  },
 });
 
 const fileUploadLogic = [fileUpload];
 
-export default fileUploadLogic
+export default fileUploadLogic;

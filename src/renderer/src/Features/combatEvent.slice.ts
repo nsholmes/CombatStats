@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { EventMatDisplayProps } from "../Models";
 import {
   CombatEvent,
   CSBout,
@@ -25,6 +26,9 @@ const initialState: CombatEvent = {
         judges: [],
         timekeeper: "",
       },
+      currentBout: null,
+      onDeckBout: null,
+      inHoleBout: null,
     },
     {
       id: 1,
@@ -34,6 +38,9 @@ const initialState: CombatEvent = {
         judges: [],
         timekeeper: "",
       },
+      currentBout: null,
+      onDeckBout: null,
+      inHoleBout: null,
     },
   ],
 };
@@ -94,6 +101,12 @@ export const CombatEventSlice = createSlice({
     setMats(state, action: PayloadAction<CSMat[]>) {
       state.mats = action.payload;
     },
+    updateMatBouts(state, action: PayloadAction<EventMatDisplayProps>) {
+      state.mats[action.payload.matId].currentBout =
+        action.payload.currentBout;
+      state.mats[action.payload.matId].onDeckBout = action.payload.onDeckBout;
+      state.mats[action.payload.matId].inHoleBout = action.payload.inHoleBout;
+    },
     updateMatRoles(state, action: PayloadAction<MatRolesUpdate>) {
       state.mats[action.payload.idx].roles = action.payload.roles;
     },
@@ -107,6 +120,9 @@ export const CombatEventSlice = createSlice({
         bracketId: `${state.selectedEvent.id}-${state.brackets.length}`,
         sequence,
       });
+    },
+    updateBracketOrder(state, action: PayloadAction<CSBracket[]>) {
+      state.brackets = action.payload;
     },
     /**
      * Updates the sequence number for a specific bracket.
@@ -201,11 +217,13 @@ export const {
   setParticipants,
   setBrackets,
   setMats,
+  updateMatBouts,
   updateMatRoles,
   addBracketToMatState,
   setParticipantsBracketCount,
   updateBracketMatNumber,
   updateBracketSequence,
+  updateBracketOrder,
   hydrateCombatEvent,
 } = CombatEventSlice.actions;
 

@@ -28,7 +28,7 @@ export type CSMat = {
   id: number;
   name: string;
   roles: MatRoles;
-  currentBout?: CSBout | null;
+  currentBout: CSBout | null;
   onDeckBout?: CSBout | null;
   inHoleBout?: CSBout | null;
 };
@@ -51,6 +51,9 @@ export type CSBout = {
   roundNumber: number;
   redCorner: IKFParticipant | null;
   blueCorner: IKFParticipant | null;
+  winnerID: number | null;
+  loserID: number | null;
+  status: "notStarted" | "inProgress" | "completed";
 };
 
 export type CSBrackets = {
@@ -62,7 +65,7 @@ export type CSBracket = {
   bracketId: number | string;
   divisionName: string;
   discipline: string;
-  bracketClassName: string;
+  bracketDivisionName: string;
   competitors: IKFParticipant[];
   matNumber: number;
   sequence: number;
@@ -99,7 +102,7 @@ export type competitorBracket = {
 };
 
 export type IKFBracket = {
-  bracketClassName: string;
+  bracketDivisionName: string;
   bracketGender: string;
   bracketId: 2915;
   discipline: string;

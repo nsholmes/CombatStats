@@ -121,7 +121,7 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
       bracketId: 0,
       divisionName: weightClass,
       discipline: bracketTitle(),
-      bracketClassName: weightClass,
+      bracketDivisionName: weightClass,
       competitors: props.selectedParticipants,
       matNumber: matId,
       sequence: 0,

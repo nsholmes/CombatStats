@@ -1,5 +1,5 @@
 import { ContextMenuType, PositionCoords } from "./";
-import { Bout, BracketEditState, CSBracket } from "./event.model";
+import { Bout, BracketEditState, CSBout, CSBracket } from "./event.model";
 
 export type CreateEventProps = {
   addBout: (bout: Bout) => void;
@@ -33,4 +33,11 @@ export type EventBracketsProps = {
 
 export type FileUploadProps = {
   uploadIKFEventFile: (file: File) => void;
+};
+
+export type EventMatDisplayProps = {
+  currentBout: CSBout;
+  onDeckBout: CSBout | null;
+  inHoleBout: CSBout | null;
+  matId: number;
 };

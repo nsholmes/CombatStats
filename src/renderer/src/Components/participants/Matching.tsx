@@ -176,10 +176,7 @@ function Matching(props: MatchingProps) {
           {sortedParticipantsForMatching.map((weightRange, idx) => {
             return (
               <Box
-                sx={{
-                  backgroundColor: "#93BFB7",
-                  padding: 2,
-                }}
+                className='bg-white dark:border-gray-700 dark:bg-gray-800'
                 key={`WeightRange-${idx}`}
                 onContextMenu={showContextMenu}>
                 {weightRange.weightMin === 0 && weightRange.weightMax === 0 ? (
@@ -199,7 +196,7 @@ function Matching(props: MatchingProps) {
                   return participant.profileName === "Competitor" ? (
                     <Box
                       sx={{
-                        color: isSelected ? "#fff" : "#2D3E40",
+                        color: isSelected ? "#fff" : "#fff",
                         borderBottom:
                           participant.bracketCount > 0
                             ? "3px solid #2D3E40"

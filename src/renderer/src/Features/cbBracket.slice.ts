@@ -49,7 +49,7 @@ export const CSBracketSlice = createSlice({
 
         const selectedBracket = state.brackets.find((bracket) => {
           if (bracket.bracketId.toString() == selectedBracketId) {
-            console.log("GOT A HIT: ", bracket.bracketClassName);
+            console.log("GOT A HIT: ", bracket.bracketDivisionName);
           }
           return bracket.bracketId.toString() == selectedBracketId;
         });

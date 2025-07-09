@@ -17,7 +17,7 @@ function DraggableBracket(props: { key: number; bracket: CSBracket }) {
 
   return (
     <Box ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      <Typography variant='h6'>{props.bracket.bracketClassName}</Typography>
+      <Typography variant='h6'>{props.bracket.bracketDivisionName}</Typography>
       {props.bracket.competitors.map((competitor, idx) => {
         return <Box>{`${competitor.firstName} ${competitor.lastName}`}</Box>;
       })}

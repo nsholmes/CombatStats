@@ -71,7 +71,8 @@ function EventCheckIn(props: CheckinProps) {
           {filteredParticipants.map((participant, idx) => {
             return participant.profileName === "Competitor" ? (
               <Box
-                sx={{ backgroundColor: "#93BFB7", padding: 2, width: "200px" }}
+                className='bg-white dark:border-gray-700 p-2 w-60 dark:bg-gray-800'
+                // sx={{ backgroundColor: "#93BFB7", padding: 2, width: "200px" }}
                 key={`WeightRange-${idx}`}>
                 <Box>
                   {`${idx + 1}. ${participant.firstName} ${
@@ -81,7 +82,8 @@ function EventCheckIn(props: CheckinProps) {
 
                 <Box
                   sx={{
-                    color: "#2D3E40",
+                    color: "#000",
+                    backgroundColor: "#fff",
                     padding: "5px",
                   }}
                   key={`Participant-${idx}`}>

@@ -7,8 +7,8 @@ import {
 import { CSBracket, CSMat } from "../../Models";
 
 import { useEffect, useState } from "react";
+import BracketsOrderView from "../draggable/BracketsOrderView";
 import DraggableBracket from "../draggable/DraggableBracket";
-import KanbanMats from "../draggable/KanbanMats";
 
 type BracketsListProps = {
   eventBrackets: { [key: string]: CSBracket[] };
@@ -54,7 +54,8 @@ function BracketList(props: BracketsListProps) {
           ))}
         </Box>
       </DndContext> */}
-      <KanbanMats csMats={props.csMats} />
+      <BracketsOrderView />
+      {/* <KanbanMats csMats={props.csMats} /> */}
       {/* <SortableBrackets /> */}
       {/* <DroppableMat>
           {isDropped ? draggableMarkup : "Drop here"}

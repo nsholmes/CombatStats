@@ -66,6 +66,7 @@ const addBracketToMat = createLogic({
     const bracketBouts = addBoutsFromBracket(action.payload);
     bracketBouts.forEach((bout) => {
       // Here you can dispatch an action to add the bout to the store if needed
+      console.log("Adding Bout: ", bout);
       dispatch(addNewBout(bout));
     });
     done();

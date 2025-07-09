@@ -44,7 +44,7 @@ function CreateEvent(props: CreateEventProps) {
         bracketId: bracket.id,
         divisionName: bracket.name,
         discipline: bracket.discipline.name,
-        bracketClassName: bracket.name,
+        bracketDivisionName: bracket.name,
         ringName: bracket.ring_name,
         ringNumber: bracket.ring_number,
         bracketGender: bracket.sport.gender_name,
