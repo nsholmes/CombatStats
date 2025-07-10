@@ -124,13 +124,14 @@ function Matching(props: MatchingProps) {
 
   const getParticipantBrackets = (partId: number) => {
     const brackets = props.selectAllBrackets;
-
+    let selectedBracket: CSBracket;
     const bracketIds: { mat: number; id: number }[] = [];
     brackets.forEach((bracket) => {
       if (
         bracket.competitors &&
         bracket.competitors.some((c) => c.participantId === partId)
       ) {
+        selectedBracket = bracket;
         bracketIds.push({
           mat: bracket.matNumber,
           id: bracket.bracketId as number,
@@ -155,122 +156,116 @@ function Matching(props: MatchingProps) {
           // You can add navigation or selection logic here
           console.log("Bracket clicked:", br);
         }}>
-        {`Mat: ${br.mat} - Bracket: ${br.id}`}
+        {`${selectedBracket.divisionName}`}
       </Typography>
     ));
   };
 
   // #endregion
   return (
-    <>
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "row",
-            gap: 2,
-            flexWrap: "wrap",
-            backgroundColor: "#2D3E40",
-          }}>
-          {sortedParticipantsForMatching.map((weightRange, idx) => {
-            return (
-              <Box
-                className='bg-white dark:border-gray-700 dark:bg-gray-800'
-                key={`WeightRange-${idx}`}
-                onContextMenu={showContextMenu}>
-                {weightRange.weightMin === 0 && weightRange.weightMax === 0 ? (
-                  <Box>
-                    <Typography variant='h5'>Weight Unknown</Typography>
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "row",
+          gap: 2,
+          flexWrap: "wrap",
+          backgroundColor: "#2D3E40",
+        }}>
+        {sortedParticipantsForMatching.map((weightRange, idx) => {
+          return (
+            <Box
+              className='bg-white dark:border-gray-700 dark:bg-gray-800'
+              key={`WeightRange-${idx}`}
+              onContextMenu={showContextMenu}>
+              {weightRange.weightMin === 0 && weightRange.weightMax === 0 ? (
+                <Box>
+                  <Typography variant='h5'>Weight Unknown</Typography>
+                </Box>
+              ) : (
+                <Box>
+                  <h3>{`${weightRange.weightMin}lbs - ${weightRange.weightMax}lbs`}</h3>
+                </Box>
+              )}
+              {weightRange.participants.map((participant, idx) => {
+                const isSelected =
+                  props.selectedParticipantIds.findIndex(
+                    (p) => participant.participantId === p
+                  ) !== -1;
+                return participant.profileName === "Competitor" ? (
+                  <Box
+                    sx={{
+                      color: isSelected ? "#fff" : "#fff",
+                      borderBottom:
+                        participant.bracketCount > 0
+                          ? "3px solid #2D3E40"
+                          : "1px solid #E4F2E7",
+                      marginBottom: "3px",
+                      padding: "5px",
+                    }}
+                    key={`Participant-${idx}`}>
+                    <Container
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}>
+                      <Box
+                        onClick={() => {
+                          participantSelected(participant.participantId);
+                        }}
+                        sx={{
+                          ":hover": {
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                          },
+                          padding: "5px",
+                          borderRadius: "8px",
+                          backgroundColor: isSelected ? "#1976d2" : "inherit", // Highlight selected
+                        }}>
+                        {`${idx + 1}. ${participant.firstName} ${
+                          participant.lastName
+                        }`}{" "}
+                        &nbsp;
+                        <Typography
+                          sx={{
+                            display: "inline",
+                            ...(participant.gender === "F"
+                              ? { color: "pink" }
+                              : {}),
+                          }}>{`(${participant.gender})`}</Typography>
+                        <Box>
+                          {`(${getAgeFromDOB(participant.dob)} yo) (${
+                            participant.weight === null
+                              ? 0
+                              : participant.weight
+                          }lbs)`}
+                        </Box>
+                      </Box>
+                      <Box>
+                        {participant.bracketCount > 0 ? (
+                          <Box
+                            sx={{
+                              color: "gold",
+                              textAlign: "center",
+                            }}>
+                            {getParticipantBrackets(participant.participantId)}
+                          </Box>
+                        ) : (
+                          <></>
+                        )}
+                      </Box>
+                    </Container>
                   </Box>
                 ) : (
-                  <Box>
-                    <h3>{`${weightRange.weightMin}lbs - ${weightRange.weightMax}lbs`}</h3>
-                  </Box>
-                )}
-                {weightRange.participants.map((participant, idx) => {
-                  const isSelected =
-                    props.selectedParticipantIds.findIndex(
-                      (p) => participant.participantId === p
-                    ) !== -1;
-                  return participant.profileName === "Competitor" ? (
-                    <Box
-                      sx={{
-                        color: isSelected ? "#fff" : "#fff",
-                        borderBottom:
-                          participant.bracketCount > 0
-                            ? "3px solid #2D3E40"
-                            : "1px solid #E4F2E7",
-                        marginBottom: "3px",
-                        padding: "5px",
-                      }}
-                      key={`Participant-${idx}`}>
-                      <Container
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}>
-                        <Box
-                          onClick={() => {
-                            participantSelected(participant.participantId);
-                          }}
-                          sx={{
-                            ":hover": {
-                              textDecoration: "underline",
-                              cursor: "pointer",
-                            },
-                            padding: "5px",
-                            borderRadius: "8px",
-                            backgroundColor: isSelected
-                              ? "#1976d2"
-                              : "inherit", // Highlight selected
-                          }}>
-                          {`${idx + 1}. ${participant.firstName} ${
-                            participant.lastName
-                          }`}{" "}
-                          &nbsp;
-                          <Typography
-                            sx={{
-                              display: "inline",
-                              ...(participant.gender === "F"
-                                ? { color: "pink" }
-                                : {}),
-                            }}>{`(${participant.gender})`}</Typography>
-                          <Box>
-                            {`(${getAgeFromDOB(participant.dob)} yo) (${
-                              participant.weight === null
-                                ? 0
-                                : participant.weight
-                            }lbs)`}
-                          </Box>
-                        </Box>
-                        <Box>
-                          {participant.bracketCount > 0 ? (
-                            <Box
-                              sx={{
-                                color: "gold",
-                                textAlign: "center",
-                              }}>
-                              {getParticipantBrackets(
-                                participant.participantId
-                              )}
-                            </Box>
-                          ) : (
-                            <></>
-                          )}
-                        </Box>
-                      </Container>
-                    </Box>
-                  ) : (
-                    <></>
-                  );
-                })}
-              </Box>
-            );
-          })}
-        </Box>
+                  <></>
+                );
+              })}
+            </Box>
+          );
+        })}
       </Box>
-    </>
+    </Box>
   );
 }
 

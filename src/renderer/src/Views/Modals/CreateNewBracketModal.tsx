@@ -1,19 +1,14 @@
-import { CheckBox } from "@mui/icons-material";
 import {
   Box,
-  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
-  InputLabel,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
 import {
@@ -111,7 +106,8 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
     }
   };
 
-  const handleWeightChange = (event: SelectChangeEvent) => {
+  const handleWeightChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
     setWeightClass(event.target.value);
   };
 
@@ -141,70 +137,111 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
   return (
     <Box sx={ModalStyle}>
       <Typography variant='h4'>{bracketTitle()}</Typography>
-      <Box sx={{ width: "50%", display: "flex", gap: "20px" }}>
-        {/*  */}
+      <div className='w-1/2, flex, gap-5'>
         <div>
-          <div className='flex gap-4'>
-            <div className='flex'>
-              <div className='border border-white text-white '>
-                <FormControl>
-                  <InputLabel id='weightClassSelectLabel'>
-                    Weight Class
-                  </InputLabel>
-                  <Select
-                    id='weightClassSelect'
-                    label='Weight Class'
-                    onChange={handleWeightChange}
-                    className='p-1.5 w-70'>
+          <div className='flex flex-row'>
+            <div className='flex gap-4'>
+              <BracketParticipantList />
+              <div className='w-full max-w-sm min-w-[200px]'>
+                <label className='block mb-1 text-sm text-white-800'>
+                  Weight Class
+                </label>
+                <div className='relative'>
+                  <select
+                    className='w-full bg-transparent placeholder:text-slate-400 text-white-700 text-sm border border-slate-500 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer'
+                    onChange={handleWeightChange}>
+                    <option className='text-slate-700' value='Catch Weight'>
+                      -- Select Weight Class
+                    </option>
                     {WeightClasses.map((wClass) => (
-                      <MenuItem
-                        className='text-black'
-                        value={`${wClass.name}`}>
-                        {`${wClass.name}`}
-                      </MenuItem>
+                      <option className='text-slate-700' value={wClass.name}>
+                        {wClass.name}
+                      </option>
                     ))}
-                  </Select>
-                </FormControl>
+                  </select>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke-width='1.2'
+                    stroke='currentColor'
+                    className='h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-white-700'>
+                    <path
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      d='M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9'
+                    />
+                  </svg>
+                </div>
+                <Box sx={{ marginTop: "10px", width: "300px" }}>
+                  <div className='inline-flex items-center'>
+                    <label
+                      className='flex items-center cursor-pointer relative'
+                      htmlFor='check-2'>
+                      <input
+                        type='checkbox'
+                        checked
+                        className='peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800'
+                        id='check-2'
+                      />
+                      <span className='absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          className='h-3.5 w-3.5'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                          stroke='currentColor'
+                          stroke-width='1'>
+                          <path
+                            fill-rule='evenodd'
+                            d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                            clip-rule='evenodd'></path>
+                        </svg>
+                      </span>
+                    </label>
+                    <label
+                      className='cursor-pointer ml-2 text-white-600 text-sm'
+                      htmlFor='check-2'>
+                      Include Consolation Bracket
+                    </label>
+                  </div>
+                  <div>
+                    <FormControl>
+                      <FormLabel>Select Mat</FormLabel>
+                      <RadioGroup onChange={matSelected}>
+                        {props.csMats.map((mat) => (
+                          <FormControlLabel
+                            value={`${mat.id}`}
+                            control={<Radio />}
+                            label={`mat-${mat.id}`}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
+                  <div className='mt-2 flex flex-row gap-2'>
+                    <button
+                      className='rounded-md bg-slate-800 py-1.5 px-3 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
+                      onClick={() => {
+                        props.setModalIsVisible(false);
+                      }}>
+                      Cancel
+                    </button>
+                    <button
+                      className='rounded-md bg-slate-800 py-1.5 px-3 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
+                      color='primary'
+                      onClick={() => {
+                        createNewCSBracket();
+                      }}>
+                      Create Bracket
+                    </button>
+                  </div>
+                </Box>
               </div>
             </div>
           </div>
-          <BracketParticipantList />
-          <Box sx={{ marginTop: "10px", width: "300px" }}>
-            <Typography variant='subtitle1'>
-              <CheckBox /> Include Consolation Bracket:
-            </Typography>
-          </Box>
         </div>
-        <Box>
-          <FormControl>
-            <FormLabel>Select Mat</FormLabel>
-            <RadioGroup onChange={matSelected}>
-              {props.csMats.map((mat) => (
-                <FormControlLabel
-                  value={`${mat.id}`}
-                  control={<Radio />}
-                  label={`mat-${mat.id}`}
-                />
-              ))}
-            </RadioGroup>
-            <Box sx={{ width: "300px" }}>
-              <Button
-                onClick={() => {
-                  props.setModalIsVisible(false);
-                }}>
-                Cancel
-              </Button>
-              <Button
-                color='primary'
-                onClick={() => {
-                  createNewCSBracket();
-                }}>
-                Create Bracket
-              </Button>
-            </Box>
-          </FormControl>
-        </Box>
-      </Box>
+      </div>
     </Box>
   );
 }

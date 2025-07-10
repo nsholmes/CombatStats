@@ -79,6 +79,16 @@ export const CombatEventSlice = createSlice({
     setParticipants(state, action: PayloadAction<any[]>) {
       state.participants = action.payload;
     },
+    updateParticipantWeight(
+      state,
+      action: PayloadAction<{ weight: number; participantId: number }>
+    ) {
+      const { weight, participantId } = action.payload;
+      const idx = state.participants.findIndex(
+        (p) => p.participantId === participantId
+      );
+      state.participants[idx].weight = weight;
+    },
     setBrackets(state, action: PayloadAction<any[]>) {
       console.log("combatEvent.Slice: ", action.payload);
       state.brackets = action.payload;
@@ -214,6 +224,7 @@ export const {
   setBouts,
   setSelectedEvent,
   setSelectedParticipantIds,
+  updateParticipantWeight,
   setParticipants,
   setBrackets,
   setMats,

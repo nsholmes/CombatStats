@@ -126,15 +126,6 @@ function BracketParticipantList(props: BracketParticipantListProps) {
       });
     }
   };
-  // const getActiveFighter = () => {
-  //   if (activeId) {
-  //     const part = props.getSelectedParticipants.find(
-  //       (participant) =>
-  //         participant.participantId.toString() === activeId.toString()
-  //     );
-  //     return `${part?.firstName} ${part?.lastName} (${part?.weight} lbs)`;
-  //   }
-  // };
   return (
     <div>
       <Typography variant='h4'>Fighters</Typography>
@@ -160,21 +151,6 @@ function BracketParticipantList(props: BracketParticipantListProps) {
             ))}
           </ul>
         </SortableContext>
-        {/* <DragOverlay
-          modifiers={[restrictToParentElement]}
-          dropAnimation={{
-            duration: 150,
-            easing: "cubic-bezier(0.18, 0.67, 0.6,1.22)",
-          }}>
-          {activeId ? (
-            <div className='cursor-grabbing rounded-md border bg-blue-50 p-3 shadow-md dark:border-blue-800 dark:bg-blue-900/30'>
-              <div className='flex items-center gap-3'>
-                <span className='text-gray-500 dark:text-gray-400'>⋮⋮</span>
-                <span className='dark:text-gray-200'>{`${getActiveFighter()}`}</span>
-              </div>
-            </div>
-          ) : null}
-        </DragOverlay> */}
       </DndContext>
     </div>
   );

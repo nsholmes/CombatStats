@@ -3,15 +3,17 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { SelectAllParticipants } from "../../Features/combatEvent.slice";
-import { IKFParticipant } from "../../Models/fighter.model";
 import {
-  getAgeFromDOB,
-  sortParticipantsForMatching,
-} from "../../utils/participants";
+  SelectAllParticipants,
+  updateParticipantWeight,
+} from "../../Features/combatEvent.slice";
+import { IKFParticipant } from "../../Models/fighter.model";
+import { sortParticipantsForMatching } from "../../utils/participants";
+import CheckInParticipant from "./CheckInParticipant";
 
 type CheckinProps = {
   eventParticipants: IKFParticipant[];
+  updateParticipantWeight: (weight: number, participantId: number) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -20,16 +22,18 @@ function mapStateToProps(state: any) {
   };
 }
 
-// function mapDispatchToProps(dispatch: any) {
-//   return {};
-// }
+function mapDispatchToProps(dispatch: any) {
+  return {
+    updateParticipantWeight: (weight: number, participantId: number) => {
+      dispatch(updateParticipantWeight({ weight, participantId }));
+    },
+  };
+}
 
 function EventCheckIn(props: CheckinProps) {
   const [filteredParticipants, setFilteredParticipants] = useState<
     IKFParticipant[]
   >(props.eventParticipants);
-  // const [sortedParticipantsForCheckin, setSortedParticipantsForCheckin] =
-  //   useState<CheckInPariticipantSort[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   useEffect(() => {
     if (!searchValue) {
@@ -48,6 +52,10 @@ function EventCheckIn(props: CheckinProps) {
       );
     }
   }, [searchValue, props.eventParticipants]);
+
+  const weightUpdateFunction = (weight: number, participantId: number) => {
+    props.updateParticipantWeight(weight, participantId);
+  };
   return (
     <>
       <Typography variant='h4'>[Event Check In]</Typography>
@@ -67,34 +75,14 @@ function EventCheckIn(props: CheckinProps) {
             flexWrap: "wrap",
             fontSize: "18px",
             backgroundColor: "#2D3E40",
+            padding: 3,
           }}>
-          {filteredParticipants.map((participant, idx) => {
+          {filteredParticipants.map((participant) => {
             return participant.profileName === "Competitor" ? (
-              <Box
-                className='bg-white dark:border-gray-700 p-2 w-60 dark:bg-gray-800'
-                // sx={{ backgroundColor: "#93BFB7", padding: 2, width: "200px" }}
-                key={`WeightRange-${idx}`}>
-                <Box>
-                  {`${idx + 1}. ${participant.firstName} ${
-                    participant.lastName
-                  }`}
-                </Box>
-
-                <Box
-                  sx={{
-                    color: "#000",
-                    backgroundColor: "#fff",
-                    padding: "5px",
-                  }}
-                  key={`Participant-${idx}`}>
-                  <Box></Box>
-                  <Box>
-                    {`(${getAgeFromDOB(participant.dob)} yo) (${
-                      participant.weight === null ? 0 : participant.weight
-                    }lbs) (${participant.gender})`}
-                  </Box>
-                </Box>
-              </Box>
+              <CheckInParticipant
+                participant={participant}
+                updateWeightFunc={weightUpdateFunction}
+              />
             ) : (
               <></>
             );
@@ -105,4 +93,4 @@ function EventCheckIn(props: CheckinProps) {
   );
 }
 
-export default connect(mapStateToProps, null)(EventCheckIn);
+export default connect(mapStateToProps, mapDispatchToProps)(EventCheckIn);

@@ -26,7 +26,7 @@ export default function SortableItem({
     transition,
   };
   return (
-    <li
+    <div
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -53,6 +53,6 @@ export default function SortableItem({
           })}
         </div>
       </div>
-    </li>
+    </div>
   );
 }

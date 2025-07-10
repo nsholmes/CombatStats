@@ -2,12 +2,14 @@ import {
   closestCorners,
   DndContext,
   DragEndEvent,
+  DragOverlay,
   DragStartEvent,
   MouseSensor,
   TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { restrictToParentElement } from "@dnd-kit/modifiers";
 import {
   arrayMove,
   SortableContext,
@@ -84,6 +86,12 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
     setActiveId(null);
   };
 
+  const getActiveBracket = () => {
+    if (activeId) {
+      return brackets.find((b) => b.bracketId == activeId);
+    }
+  };
+
   return (
     <div>
       <DndContext
@@ -106,6 +114,17 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
             ))}
           </Grid>
         </SortableContext>
+        <DragOverlay modifiers={[restrictToParentElement]}>
+          <div>
+            <div className='bg-white dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700/50'>
+              <div className='flex items-center p-3 pb-1'>
+                <span className='dark:text-gray-200'>
+                  ⋮⋮ {`${getActiveBracket()?.divisionName}`}
+                </span>
+              </div>
+            </div>
+          </div>
+        </DragOverlay>
       </DndContext>
     </div>
   );
