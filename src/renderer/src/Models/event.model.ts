@@ -3,6 +3,7 @@ import { IKFParticipant } from "./fighter.model";
 export type CombatEvent = {
   bouts: CSBout[];
   selectedEvent: IKFEvent;
+  selectedBracketId: number;
   participants: IKFParticipant[];
   mats: CSMat[];
   brackets: CSBracket[];
@@ -51,9 +52,8 @@ export type CSBout = {
   roundNumber: number;
   redCorner: IKFParticipant | null;
   blueCorner: IKFParticipant | null;
-  winnerID: number | null;
-  loserID: number | null;
-  status: "notStarted" | "inProgress" | "completed";
+  status: { state: "notStarted" | "queued" | "inProgress" | "completed" };
+  winner: { boutWinnerId?: number } | null;
 };
 
 export type CSBrackets = {

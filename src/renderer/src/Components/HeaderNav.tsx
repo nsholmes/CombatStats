@@ -1,11 +1,7 @@
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
-const pages = [
-  { linkText: "Events", url: "events" },
-  // { linkText: "Create Event", url: "/createevent" },
-  // { linkText: "Upload IKF Event", url: "uploadEvent" },
-];
+const pages = [{ linkText: "Events", url: "events" }];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function HeaderNav() {

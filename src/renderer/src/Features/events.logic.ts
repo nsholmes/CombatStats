@@ -1,4 +1,6 @@
+import { get, ref } from "firebase/database";
 import { createLogic } from "redux-logic";
+import { ikfpkbDB } from "../FirebaseConfig";
 import { IKFParticipant } from "../Models/fighter.model";
 import { setBrackets, setParticipants } from "./combatEvent.slice";
 import { setIKFEvents } from "./events.slice";
@@ -11,9 +13,6 @@ import {
   GetEventsFromFSI,
   REFRESH_EVENT_PARTICIPANTS_FROM_FSI,
 } from "./eventsAction";
-// import * as fs from "fs";
-import { get, ref } from "firebase/database";
-import { ikfpkbDB } from "../FirebaseConfig";
 
 declare const window: {
   api: {

@@ -6,7 +6,6 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemSecondaryAction,
   ListItemText,
   MenuItem,
   Paper,
@@ -45,20 +44,27 @@ function mapDispatchToProps(dispatch: any) {
   };
 }
 
-const defaultMat = (): MatRoles => ({
-  referee: "",
-  judges: ["", "", ""],
-  timekeeper: "",
-});
+const defaultRoles: MatRoles[] = [
+  {
+    referee: " ",
+    judges: [" ", " ", " "],
+    timekeeper: " ",
+  },
+  {
+    referee: " ",
+    judges: [" ", " ", " "],
+    timekeeper: " ",
+  },
+];
 
 const EventDetails: FC<EventDetailsProps> = (props) => {
   const [numMats, setNumMats] = useState(props.mats.length);
-  const [roles, setRoles] = useState<MatRoles[]>([defaultMat()]);
+  const [roles, setRoles] = useState<MatRoles[]>(defaultRoles);
 
   useEffect(() => {
     const newRoles: MatRoles[] = [];
     props.mats.map((mat) => {
-      newRoles.push(mat.roles);
+      mat.roles ? newRoles.push(mat.roles) : newRoles.push(defaultRoles[0]);
     });
     setRoles(newRoles);
   }, []);
@@ -74,11 +80,13 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
           const cbMat: CSMat = {
             id: i,
             name: "",
-            brackets: [],
-            roles: defaultMat(),
+            roles: defaultRoles[0],
+            currentBout: null,
+            onDeckBout: null,
+            inHoleBout: null,
           };
           newMats.push(cbMat);
-          newRoles.push(defaultMat());
+          newRoles.push(defaultRoles[0]);
         }
       } else {
         newRoles.length = value;
@@ -162,7 +170,7 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
       </Box>
       <Grid container spacing={3}>
         {roles.map((mat, matIdx) => (
-          <Grid container item xs={12} md={6} key={matIdx}>
+          <Grid key={matIdx}>
             <Paper elevation={3} sx={{ p: 2 }}>
               <Typography variant='h6' gutterBottom>
                 Mat {matIdx + 1}
@@ -183,7 +191,17 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
                 <Typography>Judges:</Typography>
                 <List dense>
                   {mat.judges.map((judge, judgeIdx) => (
-                    <ListItem key={judgeIdx} disableGutters>
+                    <ListItem
+                      key={judgeIdx}
+                      disableGutters
+                      secondaryAction={
+                        <IconButton
+                          edge='end'
+                          aria-label='delete'
+                          onClick={() => handleRemoveJudge(matIdx, judgeIdx)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      }>
                       <ListItemText
                         primary={
                           <TextField
@@ -201,7 +219,7 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
                           />
                         }
                       />
-                      <ListItemSecondaryAction>
+                      {/* <ListItemSecondaryAction>
                         {mat.judges.length > 1 && (
                           <IconButton
                             edge='end'
@@ -212,7 +230,7 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
                             <DeleteIcon />
                           </IconButton>
                         )}
-                      </ListItemSecondaryAction>
+                      </ListItemSecondaryAction> */}
                     </ListItem>
                   ))}
                 </List>

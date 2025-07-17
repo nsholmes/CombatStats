@@ -235,55 +235,6 @@ function KanbanMats(props: KanbanMatsProps) {
     void active;
 
     if (!over) return;
-    // const activeId = active.id;
-    // const overId = over.id;
-
-    // const activeMatId = findContainerId(activeId);
-    // const overMatId = findContainerId(overId);
-
-    // if (!activeMatId || !overMatId) return;
-    // if (activeMatId === overMatId && activeId !== overId) return;
-    // if (activeMatId === overMatId) return;
-
-    // // Update bracket mat number
-    // console.log(
-    //   `Active Mat ID: ${activeMatId}, Over Mat ID: ${overMatId}, Active ID: ${activeId}, Over ID: ${overId}`
-    // );
-
-    // const activeItem = props.brackets.find(
-    //   (item) => item.bracketId.toString() === activeId
-    // );
-
-    // matBracketsArr.map((matBrackets) => {
-    //   if(matBrackets.matId === activeMatId)
-    //     if(matBrackets.matId === overMatId){
-
-    //     }
-    // });
-    // mats.map((mat) => {
-    //   if (mat.id.toString() === activeMatId)
-    //     if (mat.id.toString() === overMatId) {
-    //       // props.updateBracketMatNumber(activeItem?.bracketId as number, mat.id);
-    //       if (overId === overMatId) {
-    //         props.updateBracketMatNumber(
-    //           activeItem?.bracketId as number,
-    //           parseInt(overMatId)
-    //         );
-    //       }
-    //     }
-
-    //   // TODO: UPDATE THE ORDER OF THE BRACKETS BRACKETS NEED SEQUENCiNG
-    //   const overItemIndex = props.brackets.findIndex(
-    //     (item) => item.bracketId.toString() === overId
-    //   );
-    //   void overItemIndex;
-    //   if (overItemIndex !== -1) {
-    //     props.updateBracketSequence(
-    //       activeItem?.bracketId as number,
-    //       overItemIndex
-    //     );
-    //   }
-    // });
   };
 
   const handleDragEnd = (event: DragEndEvent) => {

@@ -4,7 +4,6 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import App from "./App";
-// import CreateEvent from "./Views/CreateEvent";
 import EventBrackets from "./Views/EventBrackets";
 import Events from "./Views/Events";
 import JudgeEntry from "./Views/JudgesEntry";
@@ -20,7 +19,6 @@ export const router = createBrowserRouter(
         path='events/selectedEvent/brackets'
         element={<EventBrackets />}
       />
-      {/* <Route path="createevent" element={<CreateEvent />} /> */}
       <Route path='uploadEvent' element={<UploadEvent />} />
       <Route path='judges' element={<JudgeEntry />} />
     </Route>

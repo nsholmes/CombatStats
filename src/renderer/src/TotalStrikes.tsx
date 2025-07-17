@@ -1,8 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import "./totalStrikes.css";
-// import StatsBox from "./components/StatsBox";
-
 function TotalStrikes() {
   type strikeTarget =
     | "punchLanded"

@@ -20,25 +20,6 @@ export const CSBracketSlice = createSlice({
     },
     setSelectedBracketCompetitor(state, action: PayloadAction<string | null>) {
       state.selectedCompetitor = action.payload;
-      // if (typeof (action.payload) === "string") {
-      //   const elId = action.payload;
-      //   const bracketId = elId.split("|")[0];
-      //   const competitorId = parseInt(elId.split("|")[1]);
-      //   console.log(`brakcetId: ${bracketId} | competitorId: ${competitorId}`);
-      //   console.log();
-      //   const selectedBracket = state.brackets.find(bracket => {
-      //     return bracket.bracketId == parseInt(bracketId?.toString())
-      //   });
-      //   if (selectedBracket) {
-      //     const competitor = selectedBracket.competitors.find(comp => comp.id === competitorId)
-      //     if (competitor) {
-      //       console.log(competitor)
-      //       state.selectedCompetitor = competpaitor;
-      //     }
-      //   }
-      // } else {
-      //   state.selectedCompetitor = initialState.selectedCompetitor;
-      // }
     },
     moveSelectedCompetitor(state, action: PayloadAction<string | null>) {
       const values = action.payload?.split("|");

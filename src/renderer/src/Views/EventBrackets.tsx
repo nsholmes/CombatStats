@@ -17,9 +17,6 @@ function mapDispatchToProps(dispatch: any) {
 function EventBrackets(props: EventBracketsProps) {
   const getRingGroupings = () => {
     const rings: number[] = [];
-    // const bracketGroupings: CSBracket[][] = [];
-    // let tempBracketArr: CSBracket[] = [];
-
     props.getAllCSBrackets.map((bracket) => {
       const tempRing = bracket.matNumber;
       if (rings.length === 0) {
@@ -33,7 +30,6 @@ function EventBrackets(props: EventBracketsProps) {
         }
       }
     });
-    // console.log("bracketGroupings: ", bracketGroupings);
     return rings;
   };
 

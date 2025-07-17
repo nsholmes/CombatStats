@@ -110,9 +110,6 @@ function Events(props: EventsProps) {
   const selectButtonClicked = (event: IKFEvent) => {
     props.setSelectedEvent(event);
     props.getParticipantsFromFB(event.eventUid, event.id);
-    // props.getFSIEventParticipants(event.eventUid, event.id);
-    // props.getBracketsFromFB(event.eventUid, event.id);
-    // props.getFSIEventBrackets(event.eventUid, event.id);
     navigator("selectedEvent");
   };
   //#endregion

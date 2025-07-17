@@ -1,14 +1,5 @@
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
+import { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
 import {
@@ -19,7 +10,7 @@ import {
   SelectCombatEventState,
   SelectMatCount,
   SelectMats,
-  SelectParticipantBracketCount,
+  // SelectParticipantBracketCount,
   SelectParticipantsByIds,
   setParticipantsBracketCount,
   setSelectedParticipantIds,
@@ -38,7 +29,7 @@ type CreateNewBracketModalProps = {
   csMats: CSMat[];
   selectedParticipants: IKFParticipant[];
   selectedCombatEvent: CombatEvent;
-  bracketCount: Record<number, number>;
+  // bracketCount: Record<number, number>;
   setModalIsVisible: (isVisible: boolean) => void;
   addNewBracketToMat: (bracket: CSBracket) => void;
   clearSelectedParticipants: () => void;
@@ -53,7 +44,7 @@ function mapStateToProps(state: any) {
     csMats: SelectMats(state),
     selectedParticipants: SelectParticipantsByIds(state),
     selectedCombatEvent: SelectCombatEventState(state),
-    bracketCount: SelectParticipantBracketCount(state),
+    // bracketCount: SelectParticipantBracketCount(state),
   };
 }
 
@@ -86,11 +77,7 @@ const ModalStyle = {
 function CreateNewBracketModal(props: CreateNewBracketModalProps) {
   const [weightClass, setWeightClass] = useState<string>("");
   const [matId, setMatId] = useState<number>(-1);
-
-  useEffect(() => {
-    console.log(weightClass);
-  }, []);
-
+  void setMatId;
   const bracketTitle = () => {
     switch (props.currentBracketType) {
       case "createBracket-MuayThai":
@@ -131,9 +118,9 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
     props.clearSelectedParticipants();
   };
 
-  const matSelected = (event: SelectChangeEvent) => {
-    setMatId(parseInt(event.target.value));
-  };
+  // const matSelected = (event: SelectChangeEvent) => {
+  //   setMatId(parseInt(event.target.value));
+  // };
   return (
     <Box sx={ModalStyle}>
       <Typography variant='h4'>{bracketTitle()}</Typography>
@@ -154,7 +141,10 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                       -- Select Weight Class
                     </option>
                     {WeightClasses.map((wClass) => (
-                      <option className='text-slate-700' value={wClass.name}>
+                      <option
+                        className='text-slate-700'
+                        value={wClass.name}
+                        key={wClass.name}>
                         {wClass.name}
                       </option>
                     ))}
@@ -163,22 +153,25 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
                     viewBox='0 0 24 24'
-                    stroke-width='1.2'
+                    strokeWidth='1.2'
                     stroke='currentColor'
                     className='h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-white-700'>
                     <path
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
                       d='M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9'
                     />
                   </svg>
                 </div>
-                <Box sx={{ marginTop: "10px", width: "300px" }}>
+                <div className='mt-2 w-80'>
                   <div className='inline-flex items-center'>
                     <label
                       className='flex items-center cursor-pointer relative'
                       htmlFor='check-2'>
                       <input
+                        onChange={() => {
+                          console.log("Include Consolation Bracket");
+                        }}
                         type='checkbox'
                         checked
                         className='peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800'
@@ -191,11 +184,11 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                           viewBox='0 0 20 20'
                           fill='currentColor'
                           stroke='currentColor'
-                          stroke-width='1'>
+                          strokeWidth='1'>
                           <path
-                            fill-rule='evenodd'
+                            fillRule='evenodd'
                             d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
-                            clip-rule='evenodd'></path>
+                            clipRule='evenodd'></path>
                         </svg>
                       </span>
                     </label>
@@ -205,7 +198,7 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                       Include Consolation Bracket
                     </label>
                   </div>
-                  <div>
+                  {/* <div>
                     <FormControl>
                       <FormLabel>Select Mat</FormLabel>
                       <RadioGroup onChange={matSelected}>
@@ -218,7 +211,7 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                         ))}
                       </RadioGroup>
                     </FormControl>
-                  </div>
+                  </div> */}
                   <div className='mt-2 flex flex-row gap-2'>
                     <button
                       className='rounded-md bg-slate-800 py-1.5 px-3 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
@@ -236,7 +229,7 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                       Create Bracket
                     </button>
                   </div>
-                </Box>
+                </div>
               </div>
             </div>
           </div>

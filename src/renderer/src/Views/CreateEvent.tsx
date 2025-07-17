@@ -33,8 +33,6 @@ function mapDispatchToProps(dispatch: any) {
 function CreateEvent(props: CreateEventProps) {
   const defaultFighter = { firstName: "", lastName: "" };
   const [eventName, setEventName] = useState("");
-  // const [blueCorner, setBlueCorner] = useState<Fighter>(defaultFighter);
-  // const [redCorner, setRedCorner] = useState<Fighter>(defaultFighter);
 
   useEffect(() => {
     console.log(eventName, defaultFighter);

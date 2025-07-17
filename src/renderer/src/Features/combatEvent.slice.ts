@@ -15,16 +15,17 @@ const initialState: CombatEvent = {
   bouts: [],
   selectedEvent: {} as IKFEvent,
   selectedParticipantIds: [],
+  selectedBracketId: -1,
   participants: [],
-  brackets: [],
+  brackets: [{} as CSBracket],
   mats: [
     {
       id: 0,
       name: "Mat 1",
       roles: {
-        referee: "",
+        referee: " ",
         judges: [],
-        timekeeper: "",
+        timekeeper: " ",
       },
       currentBout: null,
       onDeckBout: null,
@@ -34,9 +35,9 @@ const initialState: CombatEvent = {
       id: 1,
       name: "Mat 2",
       roles: {
-        referee: "",
+        referee: " ",
         judges: [],
-        timekeeper: "",
+        timekeeper: " ",
       },
       currentBout: null,
       onDeckBout: null,
@@ -59,12 +60,14 @@ export const CombatEventSlice = createSlice({
         brackets,
         mats,
       } = action.payload;
-      state.bouts = bouts;
+      state.bouts = bouts ? bouts : [];
       state.selectedEvent = selectedEvent;
-      state.selectedParticipantIds = selectedParticipantIds;
-      state.participants = participants;
-      state.brackets = brackets;
-      state.mats = mats;
+      state.selectedParticipantIds = selectedParticipantIds
+        ? selectedParticipantIds
+        : [];
+      state.participants = participants ? participants : [];
+      state.brackets = brackets ? brackets : [];
+      state.mats = mats ? mats : [];
     },
     setSelectedEvent(state, action: PayloadAction<IKFEvent>) {
       state.selectedEvent = action.payload;
@@ -74,7 +77,9 @@ export const CombatEventSlice = createSlice({
     },
     setBouts(state, action: PayloadAction<CSBracket[]>) {
       // Set the bouts for the event
-      state.bouts = createBracketBouts(action.payload);
+      const newBouts = createBracketBouts(action.payload);
+      console.log("CombatEventSlice: setBouts", newBouts);
+      state.bouts = newBouts;
     },
     setParticipants(state, action: PayloadAction<any[]>) {
       state.participants = action.payload;
@@ -92,6 +97,17 @@ export const CombatEventSlice = createSlice({
     setBrackets(state, action: PayloadAction<any[]>) {
       console.log("combatEvent.Slice: ", action.payload);
       state.brackets = action.payload;
+    },
+    setSelectedBracketId(state, action: PayloadAction<number>) {
+      state.selectedBracketId = action.payload;
+      const compsIds = state.selectedParticipantIds;
+      console.log(compsIds);
+      compsIds.map((c) => {
+        const compId = state.participants.find(
+          (p) => p.participantId == c
+        )!.participantId;
+        state.selectedParticipantIds.push(compId);
+      });
     },
     setSelectedParticipantIds(state, action: PayloadAction<number[]>) {
       // Set the selected participants
@@ -140,7 +156,6 @@ export const CombatEventSlice = createSlice({
      * @param action - The action containing the bracket ID and new sequence number.
      */
     updateBracketSequence(state, action: PayloadAction<CSBracket[]>) {
-      // const { bracketId, sequence } = action.payload;
       action.payload.map((bracket, idx) => {
         const bracketIndex = state.brackets.findIndex(
           (stateBracket) => bracket.bracketId === stateBracket.bracketId
@@ -171,7 +186,9 @@ export const SelectAllBouts = (state: any) => state.combatEvent.bouts;
 export const SelectSelectedEvent = (state: any) =>
   state.combatEvent.selectedEvent;
 export const SelectSelectedParticipants = (state: any) => {
-  return state.combatEvent.selectedParticipantIds;
+  return state.combatEvent.selectedParticipantIds
+    ? state.combatEvent.selectedParticipantIds
+    : [];
 };
 export const SelectParticipantsByIds = (state: any) => {
   const participants = state.combatEvent.participants as IKFParticipant[];
@@ -184,36 +201,36 @@ export const SelectParticipantsByIds = (state: any) => {
   return retVal;
 };
 
-export const SelectParticipantBracketCount = (state: any) => {
-  const { selectedParticipantIds, mats, brackets } = state.combatEvent;
-  void mats;
-  const bracketCount: Record<number, number> = {};
-  selectedParticipantIds.forEach((participantId: number) => {
-    bracketCount[participantId] = 0;
-  });
-
-  brackets.forEach((bracket: CSBracket) => {
-    bracket.competitors.forEach((competitor: { participantId: number }) => {
-      if (selectedParticipantIds.includes(competitor.participantId)) {
-        bracketCount[competitor.participantId]++;
-      }
-    });
-  });
-  return bracketCount;
+export const SelectBracketBySelectedId = (state: any) => {
+  return state.combatEvent.brackets !== undefined
+    ? state.combatEvent.brackets?.find(
+        (bracket: CSBracket) =>
+          bracket.bracketId == state.combatEvent.selectedBracketId
+      )
+    : null;
+};
+export const SelectSelectedBracketParticipants = (state: any) => {
+  return state.combatEvent.brackets !== undefined
+    ? state.combatEvent.brackets.find(
+        (bracket: CSBracket) =>
+          bracket.bracketId == state.combatEvent.selectedBracketId
+      )?.competitors
+    : [];
 };
 
 export const SelectAllParticipants = (state: any) => {
-  return state.combatEvent.participants;
+  return state.combatEvent.participants ? state.combatEvent.participants : [];
 };
 
-export const SelectAllBrackets = (state: any) => state.combatEvent.brackets;
+export const SelectAllBrackets = (state: any) =>
+  state.combatEvent.brackets ? state.combatEvent.brackets : [];
 
 export const SelectMats = (state: any) => {
-  return state.combatEvent.mats;
+  return state.combatEvent.mats ? state.combatEvent.mats : [];
 };
 
 export const SelectMatCount = (state: any) => {
-  return state.combatEvent.mats.length;
+  return state.combatEvent.mats ? state.combatEvent.mats.length : 0;
 };
 
 export const SelectCombatEventState = (state: any) => {
@@ -223,6 +240,7 @@ export const {
   addNewBout,
   setBouts,
   setSelectedEvent,
+  setSelectedBracketId,
   setSelectedParticipantIds,
   updateParticipantWeight,
   setParticipants,

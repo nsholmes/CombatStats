@@ -9,7 +9,6 @@ import {
 } from "../../Features/contextMenu.slice";
 import { ContextMenuProps } from "../../Models";
 import BracketSetupContextMenu from "./BracketSetupContextMenu";
-// import Matching from "../participants/Matching";
 import MatchingContextMenu from "./MatchingContextMenu";
 
 function mapStateToProps(state: any) {

@@ -58,28 +58,6 @@ export const sortParticipantsForMatching = (
         return 0;
       });
 
-      //   filteredParticipants.sort((a, b) => {
-      //     const ageA = getAgeFromDOB(a.dob);
-      //     const ageB = getAgeFromDOB(b.dob);
-      //     return ageA - ageB; // Sort by age
-      //   });
-
-      //   // Sort by Last Name, then First Name
-      //   filteredParticipants.sort((a, b) => {
-      //     const lastNameA = a.lastName.toLowerCase();
-      //     const lastNameB = b.lastName.toLowerCase();
-      //     if (lastNameA < lastNameB) return -1;
-      //     if (lastNameA > lastNameB) return 1;
-
-      //     // If last names are the same, sort by first name
-      //     const firstNameA = a.firstName.toLowerCase();
-      //     const firstNameB = b.firstName.toLowerCase();
-      //     if (firstNameA < firstNameB) return -1;
-      //     if (firstNameA > firstNameB) return 1;
-
-      //     return 0; // Names are equal
-      //   });
-
       if (filteredParticipants.length > 0) {
         sortedParticipants.push({
           weightMax: range.weightMax,

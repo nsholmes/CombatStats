@@ -12,17 +12,12 @@ import {
   setCurrentModal,
   setModalIsVisible,
 } from "../../Features/modal.slice";
-// import { ipcRenderer } from "electron";
 
 type MatchingContextMenuProps = {
   setMenuIsVisible: (isVisible: boolean) => void;
   setCurrentModal: (modalName: string) => void;
   setModalIsVisible: (isVisible: boolean) => void;
 };
-
-// function mapStateToProps(state: any) {
-//   return {};
-// }
 
 function mapDispatchToProps(dispatch: any) {
   return {
@@ -38,7 +33,6 @@ function mapDispatchToProps(dispatch: any) {
 function MatchingContextMenu(props: MatchingContextMenuProps) {
   // Event Handler
   const menuItemClicked = (ev: MouseEvent<HTMLDivElement>) => {
-    console.log(ev.currentTarget.id);
     props.setModalIsVisible(true);
     props.setCurrentModal(ev.currentTarget.id);
     props.setMenuIsVisible(false);

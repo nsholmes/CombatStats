@@ -5,7 +5,9 @@ import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
 import {
   SelectAllBrackets,
   SelectAllParticipants,
+  SelectBracketBySelectedId,
   SelectSelectedParticipants,
+  setSelectedBracketId,
   setSelectedParticipantIds,
 } from "../../Features/combatEvent.slice";
 import {
@@ -13,6 +15,10 @@ import {
   setIsVisible,
   setMenuCoords,
 } from "../../Features/contextMenu.slice";
+import {
+  setCurrentModal,
+  setModalIsVisible,
+} from "../../Features/modal.slice";
 import { ContextMenuType, CSBracket, PositionCoords } from "../../Models";
 import {
   CheckInPariticipantSort,
@@ -27,11 +33,15 @@ type MatchingProps = {
   eventParticipants: IKFParticipant[];
   selectedParticipantIds: number[];
   selectAllBrackets: CSBracket[];
+  selectedBracket: CSBracket;
+  setSelectedBracketId: (bracketId: number) => void;
   moveSelectedCompetitor: (competitorId: string | null) => void;
   setCurrentContextMenu: (menuName: ContextMenuType) => void;
   setMenuIsVisible: (isVisible: boolean) => void;
   setMenuPosition: (coords: PositionCoords) => void;
   setSelectedParticipant: (participantIds: number[]) => void;
+  setCurrentModal: (modalName: string) => void;
+  setModalIsVisible: (isVisible: boolean) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -39,6 +49,7 @@ function mapStateToProps(state: any) {
     eventParticipants: SelectAllParticipants(state),
     selectedParticipantIds: SelectSelectedParticipants(state),
     selectAllBrackets: SelectAllBrackets(state),
+    selectedBracket: SelectBracketBySelectedId(state),
   };
 }
 
@@ -54,41 +65,28 @@ function mapDispatchToProps(dispatch: any) {
       dispatch(moveSelectedCompetitor(competitorId)),
     setSelectedParticipant: (participantIds: number[]) =>
       dispatch(setSelectedParticipantIds(participantIds)),
+    setCurrentModal: (modalName: string) =>
+      dispatch(setCurrentModal(modalName)),
+    setModalIsVisible: (isVisible: boolean) =>
+      dispatch(setModalIsVisible(isVisible)),
+    setSelectedBracketId: (bracketId: number) =>
+      dispatch(setSelectedBracketId(bracketId)),
   };
 }
 
 function Matching(props: MatchingProps) {
-  // #region State
-  // const [filteredParticipants, setFilteredParticipants] = useState<
-  //   IKFParticipant[]
-  // >(props.eventParticipants);
-
-  // const [selectedParticipants, setSelectedParticipants] = useState<number[]>(
-  //   []
-  // );
-  // #endregion
   const [sortedParticipantsForMatching, setSortedParticipantsForMatching] =
     useState<CheckInPariticipantSort[]>([]);
-  // const [searchValue, setSearchValue] = useState<string>("");
-
   useEffect(() => {
     props.setCurrentContextMenu("matching");
     console.log(props.selectAllBrackets);
   }, []);
 
   useEffect(() => {
-    // if (props.selectedParticipantIds.length === 0) setSelectedParticipants([]);
-  }, [props.selectedParticipantIds]);
-
-  useEffect(() => {
     setSortedParticipantsForMatching(
       sortParticipantsForMatching(props.eventParticipants)
     );
   }, [props.eventParticipants]);
-
-  // useEffect(() => {
-  //   props.setSelectedParticipant(selectedParticipants);
-  // }, [selectedParticipants]);
 
   //#region Event Handlers
   const showContextMenu = (ev: React.MouseEvent<HTMLDivElement>) => {
@@ -103,10 +101,6 @@ function Matching(props: MatchingProps) {
     props.setMenuIsVisible(true);
   };
 
-  // const hideContextMenu = () => {
-  //   props.setMenuIsVisible(false);
-  // };
-
   const participantSelected = (participantId: number) => {
     if (props.selectedParticipantIds.includes(participantId)) {
       // If already selected, remove from selectedParticipants
@@ -120,6 +114,24 @@ function Matching(props: MatchingProps) {
         participantId,
       ]);
     }
+  };
+
+  const handleBracketSelect = (bracketId: { mat: number; id: number }) => {
+    props.setSelectedBracketId(bracketId.id);
+
+    const brks = props.selectAllBrackets;
+
+    let selectedParticipants: number[] = [];
+
+    brks.map((bracket) => {
+      if (bracket.bracketId == bracketId.id)
+        selectedParticipants = bracket.competitors.map(
+          (comp) => comp.competitorId
+        );
+    });
+    props.setSelectedParticipant(selectedParticipants);
+    props.setModalIsVisible(true);
+    props.setCurrentModal("createBracket");
   };
 
   const getParticipantBrackets = (partId: number) => {
@@ -153,8 +165,7 @@ function Matching(props: MatchingProps) {
           padding: "5px",
         }}
         onClick={() => {
-          // You can add navigation or selection logic here
-          console.log("Bracket clicked:", br);
+          handleBracketSelect(br);
         }}>
         {`${selectedBracket.divisionName}`}
       </Typography>
@@ -251,15 +262,11 @@ function Matching(props: MatchingProps) {
                             }}>
                             {getParticipantBrackets(participant.participantId)}
                           </Box>
-                        ) : (
-                          <></>
-                        )}
+                        ) : null}
                       </Box>
                     </Container>
                   </Box>
-                ) : (
-                  <></>
-                );
+                ) : null;
               })}
             </Box>
           );

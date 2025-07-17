@@ -51,17 +51,19 @@ function EventBouts(props: EventBoutsProps) {
     const eventMatBoutsArr: EventMatDisplayProps[] = [];
     const matCount = props.getEventMats.length;
     const bouts = props.getBouts;
-    for (let i = 0; i < matCount; i++) {
-      const matDisplay: EventMatDisplayProps = {
-        currentBout: bouts[i],
-        onDeckBout: bouts[i + matCount],
-        inHoleBout: bouts[i + 2 * matCount],
-        matId: i,
-      };
-      props.updateMatBouts(matDisplay);
-      eventMatBoutsArr.push(matDisplay);
+    if (bouts.length > 0 && matCount > 0) {
+      for (let i = 0; i < matCount; i++) {
+        const matDisplay: EventMatDisplayProps = {
+          currentBout: bouts[i],
+          onDeckBout: bouts[i + matCount],
+          inHoleBout: bouts[i + 2 * matCount],
+          matId: i,
+        };
+        props.updateMatBouts(matDisplay);
+        eventMatBoutsArr.push(matDisplay);
+      }
+      setEventMatBouts(eventMatBoutsArr);
     }
-    setEventMatBouts(eventMatBoutsArr);
   }
 
   return (
@@ -70,10 +72,35 @@ function EventBouts(props: EventBoutsProps) {
       <div className='flex flex-wrap justify-around gap-4'>
         {eventMatBouts.map((mat, idx) => (
           <EventMatDisplay
+            key={`${mat.matId}-${idx}-MatDisplay`}
             matName={(mat.matId + 1).toString()}
-            currrentBout={eventMatBouts[idx]?.currentBout}
-            onDeckBout={eventMatBouts[idx]?.onDeckBout}
-            inHoleBout={eventMatBouts[idx]?.inHoleBout}
+            currrentBout={
+              eventMatBouts[idx]?.currentBout &&
+              eventMatBouts[idx]?.currentBout.boutId
+                ? {
+                    ...eventMatBouts[idx].currentBout,
+                    status: { state: "queued" },
+                  }
+                : null
+            }
+            onDeckBout={
+              eventMatBouts[idx]?.onDeckBout &&
+              eventMatBouts[idx]?.onDeckBout.boutId
+                ? {
+                    ...eventMatBouts[idx].onDeckBout,
+                    status: { state: "queued" },
+                  }
+                : null
+            }
+            inHoleBout={
+              eventMatBouts[idx]?.inHoleBout &&
+              eventMatBouts[idx]?.inHoleBout.boutId
+                ? {
+                    ...eventMatBouts[idx].inHoleBout,
+                    status: { state: "queued" },
+                  }
+                : null
+            }
           />
         ))}
       </div>
