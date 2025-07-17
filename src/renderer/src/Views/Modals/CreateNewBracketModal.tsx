@@ -10,7 +10,6 @@ import {
   SelectCombatEventState,
   SelectMatCount,
   SelectMats,
-  // SelectParticipantBracketCount,
   SelectParticipantsByIds,
   setParticipantsBracketCount,
   setSelectedParticipantIds,
@@ -29,7 +28,6 @@ type CreateNewBracketModalProps = {
   csMats: CSMat[];
   selectedParticipants: IKFParticipant[];
   selectedCombatEvent: CombatEvent;
-  // bracketCount: Record<number, number>;
   setModalIsVisible: (isVisible: boolean) => void;
   addNewBracketToMat: (bracket: CSBracket) => void;
   clearSelectedParticipants: () => void;
@@ -44,7 +42,6 @@ function mapStateToProps(state: any) {
     csMats: SelectMats(state),
     selectedParticipants: SelectParticipantsByIds(state),
     selectedCombatEvent: SelectCombatEventState(state),
-    // bracketCount: SelectParticipantBracketCount(state),
   };
 }
 
@@ -118,9 +115,6 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
     props.clearSelectedParticipants();
   };
 
-  // const matSelected = (event: SelectChangeEvent) => {
-  //   setMatId(parseInt(event.target.value));
-  // };
   return (
     <Box sx={ModalStyle}>
       <Typography variant='h4'>{bracketTitle()}</Typography>

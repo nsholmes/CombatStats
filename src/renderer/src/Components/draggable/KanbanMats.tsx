@@ -268,7 +268,6 @@ function KanbanMats(props: KanbanMatsProps) {
         return;
       }
 
-      // const mat = mats[matIndex];
       const activeIndex = matBracketsArr[matIndex].brackets.findIndex(
         (bracket) => bracket.bracketId.toString() === active.id
       );
