@@ -1,5 +1,3 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EventMatDisplayProps } from "../Models";
 import {
   CombatEvent,
   CSBout,
@@ -7,11 +5,13 @@ import {
   CSMat,
   IKFEvent,
   MatRolesUpdate,
-} from "../Models/event.model";
-import { IKFParticipant } from "../Models/fighter.model";
+} from "@nsholmes/combat-stats-types/event.model";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
+import { EventMatDisplayProps } from "@nsholmes/combat-stats-types/props.model";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createBracketBouts } from "./utils/EventBouts";
 
-const initialState: CombatEvent = {
+export const initialState: CombatEvent = {
   bouts: [],
   selectedEvent: {} as IKFEvent,
   selectedParticipantIds: [],
@@ -163,6 +163,10 @@ export const CombatEventSlice = createSlice({
         state.brackets[bracketIndex].sequence = idx;
       });
     },
+    resetCombatEvent(state) {
+      // Reset the combat event state to initial state
+      state = initialState;
+    },
     /**
      * Updates the mat number for a specific bracket.
      * @param state - The current state of the combat event.
@@ -254,6 +258,7 @@ export const {
   updateBracketSequence,
   updateBracketOrder,
   hydrateCombatEvent,
+  resetCombatEvent,
 } = CombatEventSlice.actions;
 
 export const { reducer } = CombatEventSlice;

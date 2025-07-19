@@ -18,7 +18,7 @@ import { DropIndicator } from "./drop-indicator";
 import { isListData } from "./list-data";
 // import { Status } from "./Status";
 import { Box } from "@mui/material";
-import { IKFParticipant } from "../../Models/fighter.model";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 
 type ItemState =
   | {

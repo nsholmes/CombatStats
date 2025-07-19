@@ -1,4 +1,13 @@
 import { Box, Container, Typography } from "@mui/material";
+import {
+  ContextMenuType,
+  PositionCoords,
+} from "@nsholmes/combat-stats-types/contextMenu.model";
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
+import {
+  CheckInPariticipantSort,
+  IKFParticipant,
+} from "@nsholmes/combat-stats-types/fighter.model";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
@@ -19,11 +28,6 @@ import {
   setCurrentModal,
   setModalIsVisible,
 } from "../../Features/modal.slice";
-import { ContextMenuType, CSBracket, PositionCoords } from "../../Models";
-import {
-  CheckInPariticipantSort,
-  IKFParticipant,
-} from "../../Models/fighter.model";
 import {
   getAgeFromDOB,
   sortParticipantsForMatching,
@@ -174,7 +178,12 @@ function Matching(props: MatchingProps) {
 
   // #endregion
   return (
-    <Box>
+    <Box className='pt-2 bg-gray-100 dark:bg-gray-900'>
+      <Box>
+        <Typography variant='h4' className='text-center'>
+          Match Participants
+        </Typography>
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -187,7 +196,7 @@ function Matching(props: MatchingProps) {
         {sortedParticipantsForMatching.map((weightRange, idx) => {
           return (
             <Box
-              className='bg-white dark:border-gray-700 dark:bg-gray-800'
+              className='bg-white p-2 dark:border-gray-700 dark:bg-gray-800'
               key={`WeightRange-${idx}`}
               onContextMenu={showContextMenu}>
               {weightRange.weightMin === 0 && weightRange.weightMax === 0 ? (

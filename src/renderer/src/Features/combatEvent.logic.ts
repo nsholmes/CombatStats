@@ -4,6 +4,7 @@ import { ikfpkbDB } from "../FirebaseConfig";
 import {
   ADD_BRACKET_TO_MAT,
   READ_SELECTED_COMBAT_EVENT_FROM_FB,
+  RESET_COMBAT_EVENT,
   SET_PARTICIPANTS_BRACKET_COUNT,
   SYNC_COMBAT_EVENT,
 } from "./combatEvent.actions";
@@ -11,6 +12,7 @@ import {
   addBracketToMatState,
   addNewBout,
   hydrateCombatEvent,
+  initialState,
   setSelectedBracketId,
   updateMatBouts,
 } from "./combatEvent.slice";
@@ -49,9 +51,11 @@ const updateMatLogic = createLogic({
       console.log("Updating mat currentBout in Firebase: ", action.payload);
       // action.payload should be { matId: number, currentBout: CSBout }
       if (
-        !action.payload ||
-        !action.payload.matId ||
-        !action.payload.currentBout
+        action.payload == null ||
+        action.payload.matId == null ||
+        action.payload.currentBout == null ||
+        action.payload.onDeckBout == null ||
+        action.payload.inHoleBout == null
       ) {
         console.error("Invalid payload for updating mat currentBout.");
         done();
@@ -61,9 +65,25 @@ const updateMatLogic = createLogic({
       const db = ikfpkbDB();
       const currentBoutRef = ref(
         db,
-        `combatEvent/mats/${action.payload.matId}/currentBout`
+        `combatEvent/mats/${action.payload.matId}`
       );
-      set(currentBoutRef, action.payload.currentBout).then(() => {
+      const currentBoutSnapshotValue = await get(currentBoutRef).then(
+        (snapshot) => {
+          if (snapshot.exists()) {
+            console.log("Current Bout Snapshot: ", snapshot.val());
+            return snapshot.val();
+          }
+          console.error("No current bout found for the specified matId.");
+          done();
+          return null;
+        }
+      );
+      set(currentBoutRef, {
+        ...currentBoutSnapshotValue,
+        currentBout: action.payload.currentBout,
+        onDeckBout: action.payload.onDeckBout,
+        inHoleBout: action.payload.inHoleBout,
+      }).then(() => {
         console.log("Mat currentBout successfully updated in Firebase.");
       });
     } catch (error) {
@@ -127,6 +147,16 @@ const setSelectedBracketIdLogic = createLogic({
   },
 });
 
+const ResetCombatEventLogic = createLogic({
+  type: RESET_COMBAT_EVENT,
+  async process({ action }, dispatch, done) {
+    void dispatch;
+    console.log("Resetting Combat Event: ", action.payload);
+    dispatch(hydrateCombatEvent(initialState)); // Reset to initial state
+    done();
+  },
+});
+
 const combatEventLogic = [
   syncCombatEvent,
   setParticipantsBracketCount,
@@ -134,6 +164,7 @@ const combatEventLogic = [
   addBracketToMat,
   setSelectedBracketIdLogic,
   updateMatLogic,
+  ResetCombatEventLogic,
 ];
 
 export default combatEventLogic;

@@ -1,4 +1,8 @@
-import { CSBout, CSBracket, CSMat } from "../../Models";
+import {
+  CSBout,
+  CSBracket,
+  CSMat,
+} from "@nsholmes/combat-stats-types/event.model";
 
 export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
   const bouts: CSBout[] = [];
@@ -16,6 +20,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         blueCorner: bracket.competitors[1],
         status: { state: "notStarted" },
         winner: null,
+        roundWinner: [],
       });
       break;
     }
@@ -30,6 +35,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         blueCorner: bracket.competitors[2],
         status: { state: "notStarted" },
         winner: null,
+        roundWinner: [],
       });
       bouts.push({
         boutId: `r2-${matNumber}-${bracketId}${competitors[0].participantId}-blueCorner`,
@@ -40,6 +46,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         blueCorner: null, // No blue corner for the second round
         status: { state: "notStarted" },
         winner: null,
+        roundWinner: [],
       });
       break;
     }
@@ -54,6 +61,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         blueCorner: bracket.competitors[1],
         status: { state: "notStarted" },
         winner: null,
+        roundWinner: [],
       });
       bouts.push({
         boutId: `r1-${matNumber}-${bracketId}${competitors[2].participantId}-${competitors[3].participantId}`,
@@ -64,6 +72,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         blueCorner: bracket.competitors[3],
         status: { state: "notStarted" },
         winner: null,
+        roundWinner: [],
       });
       bouts.push({
         boutId: `r2-${matNumber}-${bracketId}-semiFinal1`,
@@ -74,6 +83,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         blueCorner: null, // No blue corner for the second round
         status: { state: "notStarted" },
         winner: null,
+        roundWinner: [],
       });
       bouts.push({
         boutId: `r2-${matNumber}-${bracketId}-consolation1`,
@@ -84,6 +94,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         blueCorner: null, // No blue corner for the second round
         status: { state: "notStarted" },
         winner: null,
+        roundWinner: [],
       });
       break;
     }

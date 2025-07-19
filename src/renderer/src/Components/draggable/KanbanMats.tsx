@@ -21,6 +21,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { CSBracket, CSMat } from "@nsholmes/combat-stats-types/event.model";
 import { useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -31,7 +32,6 @@ import {
   updateBracketSequence,
 } from "../../Features/combatEvent.slice";
 import { matBrackets } from "../../Features/utils/EventBouts";
-import { CSBracket, CSMat } from "../../Models";
 
 type KanbanMatsProps = {
   setEventMats: (mats: CSMat[]) => void;

@@ -1,5 +1,13 @@
-import { ContextMenuType, PositionCoords } from "./";
-import { Bout, BracketEditState, CSBout, CSBracket } from "./event.model";
+import {
+  ContextMenuType,
+  PositionCoords,
+} from "@nsholmes/combat-stats-types/contextMenu.model";
+import {
+  Bout,
+  BracketEditState,
+  CSBout,
+  CSBracket,
+} from "@nsholmes/combat-stats-types/event.model";
 
 export type CreateEventProps = {
   addBout: (bout: Bout) => void;

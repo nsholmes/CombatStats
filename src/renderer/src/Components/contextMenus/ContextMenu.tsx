@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { ContextMenuProps } from "@nsholmes/combat-stats-types/contextMenu.model";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import {
@@ -7,7 +8,6 @@ import {
   SelectMenuCoords,
   setIsVisible,
 } from "../../Features/contextMenu.slice";
-import { ContextMenuProps } from "../../Models";
 import BracketSetupContextMenu from "./BracketSetupContextMenu";
 import MatchingContextMenu from "./MatchingContextMenu";
 

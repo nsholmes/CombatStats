@@ -3,6 +3,11 @@ import { connect } from "react-redux";
 
 import { Typography } from "@mui/material";
 
+import {
+  Bout,
+  BracketEditState,
+  CSBracket,
+} from "@nsholmes/combat-stats-types/event.model";
 import BracketSetupv2 from "../Components/BracketSetupv2";
 import BracketData from "../data/MarionBrackets_20231210.json";
 import {
@@ -11,7 +16,6 @@ import {
   setCBBrackets,
 } from "../Features/cbBracket.slice";
 import { addNewBout, SelectAllBouts } from "../Features/combatEvent.slice";
-import { Bout, BracketEditState, CSBracket } from "../Models/event.model";
 import { CreateEventProps } from "../Models/props.model";
 
 function mapStateToProps(state: any) {

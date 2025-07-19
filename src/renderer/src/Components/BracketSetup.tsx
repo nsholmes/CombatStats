@@ -1,5 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { BracketSetupProps, ContextMenuType, PositionCoords } from "../Models";
+import {
+  ContextMenuType,
+  PositionCoords,
+} from "@nsholmes/combat-stats-types/contextMenu.model";
+import { BracketSetupProps } from "@nsholmes/combat-stats-types/props.model";
 import { DragEvent, memo, MouseEvent, useEffect } from "react";
 import { connect } from "react-redux";
 import {
@@ -79,7 +83,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                         <Box
                           id={`${
                             bracket.bracketId
-                          }|${bracket.competitors[0].id.toString()}`}
+                          }|${bracket.competitors[0].participantId.toString()}`}
                           className={`seat ${
                             props.bracketEditState != "off"
                               ? "editSeat"
@@ -89,7 +93,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                           onContextMenu={showContextMenu}
                           onDragStart={dragBracket}>
                           {bracket.competitors[0]
-                            ? bracket.competitors[0].person.full_name
+                            ? `${bracket.competitors[0].firstName} ${bracket.competitors[0].lastName}`
                             : ". "}
                         </Box>
                         <Box
@@ -102,7 +106,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                           onContextMenu={showContextMenu}
                           onDragStart={dragBracket}>
                           {bracket.competitors[1]
-                            ? bracket.competitors[1].person.full_name
+                            ? `${bracket.competitors[1].firstName} ${bracket.competitors[1].lastName}`
                             : ". "}
                         </Box>
                       </Box>
@@ -118,7 +122,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                               draggable={true}
                               onContextMenu={showContextMenu}
                               onDragStart={dragBracket}>
-                              {bracket.competitors[2].person.full_name}
+                              {`${bracket.competitors[2].firstName} ${bracket.competitors[2].lastName}`}
                             </Box>
                             <Box
                               className={`seat ${
@@ -129,7 +133,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                               draggable={true}
                               onContextMenu={showContextMenu}
                               onDragStart={dragBracket}>
-                              {bracket.competitors[3].person.full_name}
+                              {`${bracket.competitors[3].firstName} ${bracket.competitors[3].lastName}`}
                             </Box>
                           </>
                         ) : (
@@ -161,7 +165,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                           <>
                             <Box className='seat seat5'>{"*"}</Box>
                             <Box className='seat seat6'>
-                              {bracket.competitors[2].person.full_name}
+                              {`${bracket.competitors[2].firstName} ${bracket.competitors[2].lastName}`}
                             </Box>
                           </>
                         ) : (
@@ -180,7 +184,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                           draggable={true}
                           onDragStart={dragBracket}>
                           {bracket.competitors[0]
-                            ? bracket.competitors[0].person.full_name
+                            ? `${bracket.competitors[0].firstName} ${bracket.competitors[0].lastName}`
                             : ". "}
                         </Box>
                         <Box
@@ -188,7 +192,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
                           draggable={true}
                           onDragStart={dragBracket}>
                           {bracket.competitors[1]
-                            ? bracket.competitors[1].person.full_name
+                            ? `${bracket.competitors[1].firstName} ${bracket.competitors[1].lastName}`
                             : ". "}
                         </Box>
                       </Box>

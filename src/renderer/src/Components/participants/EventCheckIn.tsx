@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   SelectAllParticipants,
   updateParticipantWeight,
 } from "../../Features/combatEvent.slice";
-import { IKFParticipant } from "../../Models/fighter.model";
 import { sortParticipantsForMatching } from "../../utils/participants";
 import CheckInParticipant from "./CheckInParticipant";
 
@@ -56,8 +56,9 @@ function EventCheckIn(props: CheckinProps) {
     <>
       <h4 className='text-4xl text-center mt-5'>[Event Check In]</h4>
       <div className='w-full max-w-sm min-w-[200px] relative mt-4 mb-4'>
+        <div>{`Participants (${filteredParticipants.length})`}</div>
         <label className='block mb-2 text-sm text-white-600'>
-          Seach by Name
+          Search by Name
         </label>
         <div className='relative'>
           <input

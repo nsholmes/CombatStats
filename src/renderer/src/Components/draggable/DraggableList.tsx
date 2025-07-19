@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { useState } from "react";
-import { CSBracket } from "../../Models";
 
 type DraggableListProps<T = any> = {
   itemList: T;

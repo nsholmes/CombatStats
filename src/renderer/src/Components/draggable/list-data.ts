@@ -1,4 +1,4 @@
-import { IKFParticipant } from "../../Models/fighter.model";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 
 export type TStatus = "todo" | "in-progress" | "done";
 export type TTask = { id: string; content: string; status: TStatus };

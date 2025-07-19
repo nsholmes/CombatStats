@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { BracketEditState, CSBracket, CSBrackets } from "../Models";
+import {
+  BracketEditState,
+  CSBracket,
+  CSBrackets,
+} from "@nsholmes/combat-stats-types/event.model";
 
 const initialState: CSBrackets = {
   brackets: [],
@@ -36,13 +40,10 @@ export const CSBracketSlice = createSlice({
         });
         const selectedCompetitor = selectedBracket?.competitors.find(
           (competitor) => {
-            if (competitor.id.toString() == selectedCompetitorId) {
-              console.log(
-                "Competitor has been Found: ",
-                competitor.person.first_name
-              );
+            if (competitor.participantId.toString() == selectedCompetitorId) {
+              console.log("Competitor has been Found: ", competitor.firstName);
             }
-            return competitor.id.toString() == selectedCompetitorId;
+            return competitor.participantId.toString() == selectedCompetitorId;
           }
         );
 
@@ -68,15 +69,15 @@ export const CSBracketSlice = createSlice({
             // remove competitor from selected bracket
             bracket.competitors.map((competitor, idx) => {
               if (
-                competitor.id.toString() === selectedCompetitorId &&
+                competitor.participantId.toString() === selectedCompetitorId &&
                 selectedCompetitor
               ) {
                 console.log(`bracket.bracketId: ${bracket.bracketId}`);
-                console.log(`${competitor.person.first_name}: ${idx}`);
+                console.log(`${competitor.firstName}: ${idx}`);
                 const removedCompetitor = bracket.competitors.splice(idx, 1);
                 console.log(
                   "Removed Competitor: ",
-                  removedCompetitor[0].person.full_name
+                  `${removedCompetitor[0].firstName} ${removedCompetitor[0].lastName}`
                 );
               }
             });
@@ -94,16 +95,7 @@ export const SelectBracketCompetitors = (state: any) => {
   );
   return competitors.flat();
 };
-export const SelectBracketCompetitorsById = (
-  state: any,
-  bracketId: number
-) => {
-  console.log(
-    state.CSBracket.brackets.filter((bracket: CSBracket) =>
-      bracket.competitors.find((compt) => compt.bracket.id == bracketId)
-    )
-  );
-};
+
 export const SelectBracketEditState = (state: any): BracketEditState => {
   return state.CSBracket.editState;
 };

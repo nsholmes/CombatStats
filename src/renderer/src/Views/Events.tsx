@@ -1,4 +1,7 @@
 import { Box, Button } from "@mui/material";
+import { EventBracket } from "@nsholmes/combat-stats-types/bracket.model";
+import { IKFEvent } from "@nsholmes/combat-stats-types/event.model";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -17,9 +20,6 @@ import {
   GET_PARTICIPANTS_FROM_FB,
   GetEventsFromFSI,
 } from "../Features/eventsAction";
-import { IKFEvent } from "../Models";
-import { EventBracket } from "../Models/bracket.model";
-import { IKFParticipant } from "../Models/fighter.model";
 
 type EventsProps = {
   // Define any props you need here

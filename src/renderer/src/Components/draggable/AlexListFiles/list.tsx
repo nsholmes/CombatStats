@@ -2,11 +2,11 @@ import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish
 import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { reorderWithEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { connect } from "react-redux";
 import { setSelectedParticipantIds } from "../../../Features/combatEvent.slice";
-import { CSBracket } from "../../../Models";
 import { Task } from "./task";
 import {
   getTasks,

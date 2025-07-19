@@ -2,7 +2,7 @@ import {
   CheckInPariticipantSort,
   IKFParticipant,
   WeightRange,
-} from "../Models/fighter.model";
+} from "@nsholmes/combat-stats-types/fighter.model";
 
 const weightRangeStep = 20;
 

@@ -1,4 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import {
+  CombatEvent,
+  CSBracket,
+  CSMat,
+} from "@nsholmes/combat-stats-types/event.model";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
@@ -18,8 +24,6 @@ import {
   SelectCurrentModal,
   setModalIsVisible,
 } from "../../Features/modal.slice";
-import { CombatEvent, CSBracket, CSMat } from "../../Models";
-import { IKFParticipant } from "../../Models/fighter.model";
 import { WeightClasses } from "../../utils/weightClasses";
 
 type CreateNewBracketModalProps = {

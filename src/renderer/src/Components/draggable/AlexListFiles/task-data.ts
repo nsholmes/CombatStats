@@ -1,5 +1,5 @@
-import { EventBracket } from "../../../Models/bracket.model";
-import { IKFParticipant } from "../../../Models/fighter.model";
+import { EventBracket } from "@nsholmes/combat-stats-types/bracket.model";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 
 export type TStatus = string;
 export type TTask = { id: string; content: string; status: TStatus };

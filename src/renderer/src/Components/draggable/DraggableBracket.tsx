@@ -1,8 +1,8 @@
 import { useDraggable } from "@dnd-kit/core";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { useEffect } from "react";
-import { CSBracket } from "../../Models";
 
 function DraggableBracket(props: { key: number; bracket: CSBracket }) {
   useEffect(() => {}, []);

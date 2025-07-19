@@ -1,14 +1,17 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ContextMenuType, PositionCoords } from '../Models';
+import {
+  ContextMenuType,
+  PositionCoords,
+} from "@nsholmes/combat-stats-types/contextMenu.model";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isVisible: false,
   currentMenu: "",
-  menuPosition: { xpos: 0, ypos: 0 }
+  menuPosition: { xpos: 0, ypos: 0 },
 };
 
 export const ContextMenuSlice = createSlice({
-  name: 'ContextMenu',
+  name: "ContextMenu",
   initialState,
   reducers: {
     setIsVisible(state, action: PayloadAction<boolean>) {
@@ -19,17 +22,15 @@ export const ContextMenuSlice = createSlice({
     },
     setMenuCoords(state, action: PayloadAction<PositionCoords>) {
       state.menuPosition = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const SelectIsVisible = (state: any) => state.ContextMenu.isVisible;
-export const SelectCurrentMenu = (state: any): ContextMenuType => state.ContextMenu.currentMenu;
+export const SelectCurrentMenu = (state: any): ContextMenuType =>
+  state.ContextMenu.currentMenu;
 export const SelectMenuCoords = (state: any) => state.ContextMenu.menuPosition;
-export const {
-  setIsVisible,
-  setCurrentMenu,
-  setMenuCoords
-} = ContextMenuSlice.actions;
+export const { setIsVisible, setCurrentMenu, setMenuCoords } =
+  ContextMenuSlice.actions;
 
 export const { reducer } = ContextMenuSlice;

@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
+import { eventModel } from "@nsholmes/combat-stats-types";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BracketList from "../Components/brackets/BracketList";
@@ -12,15 +13,15 @@ import {
   SelectSelectedEvent,
 } from "../Features/combatEvent.slice";
 import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
-import { CombatEvent, IKFEvent } from "../Models";
 import EventBouts from "./EventBouts";
 import EventDetails from "./EventDetails";
 
 type SelectedEventProps = {
-  selectedEvent: IKFEvent;
-  selectedCombatEvent: CombatEvent;
+  selectedEvent: eventModel.IKFEvent;
+  selectedCombatEvent: eventModel.CombatEvent;
   refreshParticipantsFromFSI: (eventUID: string, eventID: number) => void;
-  syncDBWithCombatEventSlice: (event: CombatEvent) => void;
+  syncDBWithCombatEventSlice: (event: eventModel.CombatEvent) => void;
+  resetCombatEvent: () => void;
 };
 
 function mapStateToProps(state: any) {
@@ -35,8 +36,9 @@ function mapDispatchToProps(dispatch: any) {
   return {
     refreshParticipantsFromFSI: (eventUID: string, eventID: number) =>
       dispatch(REFRESH_EVENT_PARTICIPANTS_FROM_FSI({ eventUID, eventID })),
-    syncDBWithCombatEventSlice: (event: CombatEvent) =>
+    syncDBWithCombatEventSlice: (event: eventModel.CombatEvent) =>
       dispatch(SYNC_COMBAT_EVENT(event)),
+    resetCombatEvent: () => dispatch({ type: "RESET_COMBAT_EVENT" }),
   };
 }
 
@@ -143,6 +145,14 @@ function SelectedEventView(props: SelectedEventProps) {
               subNavButtonClicked(4);
             }}>
             Event Details
+          </Button>
+          <Button
+            variant='outlined'
+            sx={{ fontSize: "18px" }}
+            onClick={() => {
+              props.resetCombatEvent();
+            }}>
+            Reset Event
           </Button>
           <Typography variant='h6'>
             {`${props.selectedEvent.eventName} - ${viewState}`}

@@ -6,6 +6,10 @@ import { connect } from "react-redux";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 import {
+  ContextMenuType,
+  PositionCoords,
+} from "@nsholmes/combat-stats-types/contextMenu.model";
+import {
   moveSelectedCompetitor,
   SelectAllCSBrackets,
   SelectBracketEditState,
@@ -17,13 +21,12 @@ import {
   setIsVisible,
   setMenuCoords,
 } from "../Features/contextMenu.slice";
+
 import {
   BracketCompetitor,
-  BracketSetupProps,
-  ContextMenuType,
   CSBracket,
-  PositionCoords,
-} from "../Models";
+} from "@nsholmes/combat-stats-types/event.model";
+import { BracketSetupProps } from "@nsholmes/combat-stats-types/props.model";
 
 function mapStateToProps(state: any) {
   return {
@@ -84,7 +87,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
             </Box>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
@@ -93,14 +96,14 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
           <Box className='bout'>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
             </Box>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
@@ -114,14 +117,14 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
           <Box className='bout'>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
             </Box>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
@@ -130,14 +133,14 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
           <Box className='bout'>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
             </Box>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
@@ -179,14 +182,14 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
           <Box className='bout'>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
             </Box>
             <Box
               onClick={(ev) => {
-                emptyBracketClicked(ev, bracket.bracketId);
+                emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
               }}
               className='seat seatSpace'>
               {" "}
@@ -264,14 +267,14 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
         <Box className='bout'>
           <Box
             onClick={(ev) => {
-              emptyBracketClicked(ev, bracket.bracketId);
+              emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
             }}
             className='seat seat5'>
             {"*"}
           </Box>
           <Box
             onClick={(ev) => {
-              emptyBracketClicked(ev, bracket.bracketId);
+              emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
             }}
             className='seat seat6'>
             {"*"}
@@ -314,7 +317,7 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
         <Box className='bout'>
           <Box
             onClick={(ev) => {
-              emptyBracketClicked(ev, bracket.bracketId);
+              emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
             }}
             className='seat seat5'>
             {"*"}
@@ -335,14 +338,14 @@ const BracketSetup = memo(function BracketSetup(props: BracketSetupProps) {
         <Box className='bout'>
           <Box
             onClick={(ev) => {
-              emptyBracketClicked(ev, bracket.bracketId);
+              emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
             }}
             className='seat seat5'>
             {"*"}
           </Box>
           <Box
             onClick={(ev) => {
-              emptyBracketClicked(ev, bracket.bracketId);
+              emptyBracketClicked(ev, parseInt(bracket.bracketId as string));
             }}
             className='seat seat6'>
             {"*"}

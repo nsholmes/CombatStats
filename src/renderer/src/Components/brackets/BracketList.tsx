@@ -1,9 +1,9 @@
+import { CSBracket, CSMat } from "@nsholmes/combat-stats-types/event.model";
 import { connect } from "react-redux";
 import {
   SelectAllBrackets,
   SelectMats,
 } from "../../Features/combatEvent.slice";
-import { CSBracket, CSMat } from "../../Models";
 import BracketsOrderView from "../draggable/BracketsOrderView";
 
 type BracketsListProps = {

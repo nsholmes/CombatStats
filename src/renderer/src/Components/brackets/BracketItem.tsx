@@ -1,7 +1,7 @@
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { SelectAllBrackets } from "../../Features/combatEvent.slice";
-import { CSBracket } from "../../Models";
 
 type BracketItemProps = {
   brackets: { [key: string]: CSBracket[] };

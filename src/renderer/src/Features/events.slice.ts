@@ -1,5 +1,5 @@
+import { IKFEvent } from "@nsholmes/combat-stats-types/event.model";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IKFEvent } from "../Models";
 
 type EventSliceState = {
   events: IKFEvent[];

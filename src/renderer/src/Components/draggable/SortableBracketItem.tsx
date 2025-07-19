@@ -1,7 +1,7 @@
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { CSBracket } from "../../Models";
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 
 export default function SortableItem({
   id,

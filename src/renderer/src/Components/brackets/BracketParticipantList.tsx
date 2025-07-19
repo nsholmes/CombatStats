@@ -18,13 +18,13 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Typography } from "@mui/material";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { useState } from "react";
 import { connect } from "react-redux";
 import {
   SelectParticipantsByIds,
   setSelectedParticipantIds,
 } from "../../Features/combatEvent.slice";
-import { IKFParticipant } from "../../Models/fighter.model";
 import { getAgeFromDOB } from "../../utils/participants";
 
 type BracketParticipantListProps = {

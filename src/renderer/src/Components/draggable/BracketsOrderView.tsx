@@ -15,6 +15,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -22,7 +23,6 @@ import {
   updateBracketOrder,
   updateBracketSequence,
 } from "../../Features/combatEvent.slice";
-import { CSBracket } from "../../Models";
 import Grid from "./Grid";
 import SortableBracketItem from "./SortableBracketItem";
 

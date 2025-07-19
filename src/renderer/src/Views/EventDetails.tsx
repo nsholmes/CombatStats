@@ -16,13 +16,17 @@ import Select from "@mui/material/Select";
 import { FC, useEffect, useState } from "react";
 
 import Grid from "@mui/material/Grid";
+import {
+  CSMat,
+  MatRoles,
+  MatRolesUpdate,
+} from "@nsholmes/combat-stats-types/event.model";
 import { connect } from "react-redux";
 import {
   SelectMats,
   setMats,
   updateMatRoles,
 } from "../Features/combatEvent.slice";
-import { CSMat, MatRoles, MatRolesUpdate } from "../Models";
 import { BootstrapInput } from "./StyledComps/BootstrapInput";
 
 type EventDetailsProps = {

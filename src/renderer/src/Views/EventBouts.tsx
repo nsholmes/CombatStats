@@ -1,4 +1,11 @@
-import { useEffect, useState } from "react";
+import {
+  CSBout,
+  CSBracket,
+  CSMat,
+} from "@nsholmes/combat-stats-types/event.model";
+import { EventMatDisplayProps } from "@nsholmes/combat-stats-types/props.model";
+import { getDatabase, onValue, ref } from "firebase/database";
+import { createContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import EventMatDisplay from "../Components/bouts/EventMatDisplay";
 import {
@@ -9,7 +16,6 @@ import {
   setMats,
   updateMatBouts,
 } from "../Features/combatEvent.slice";
-import { CSBout, CSBracket, CSMat, EventMatDisplayProps } from "../Models";
 
 type EventBoutsProps = {
   setEventMats: (mats: CSMat[]) => void;
@@ -41,22 +47,43 @@ function EventBouts(props: EventBoutsProps) {
   const [eventMatBouts, setEventMatBouts] = useState<EventMatDisplayProps[]>(
     []
   );
+  const EventMatsContext = createContext<EventMatDisplayProps[] | null>(null);
 
   useEffect(() => {
     props.setBouts(props.brackets);
     initMatCurrentBouts();
+    const db = getDatabase();
+    const matsRef = ref(db, "combatEvent/mats");
+
+    // when matsRef changes, update the mats in the store
+    onValue(matsRef, (snapshot) => {
+      const matsData = snapshot.val();
+      if (matsData) {
+        const mats: CSMat[] = Object.values(matsData);
+        console.log("Mats data updated:", mats);
+
+        props.setEventMats(mats);
+      }
+    });
   }, []);
+
+  useEffect(() => {
+    console.log("Event Mat Bouts Updated:", eventMatBouts);
+  }, [eventMatBouts]);
 
   function initMatCurrentBouts() {
     const eventMatBoutsArr: EventMatDisplayProps[] = [];
     const matCount = props.getEventMats.length;
     const bouts = props.getBouts;
-    if (bouts.length > 0 && matCount > 0) {
+    const availableBouts = bouts.filter(
+      (bout) => bout.status.state !== "completed"
+    );
+    if (availableBouts.length > 0 && matCount > 0) {
       for (let i = 0; i < matCount; i++) {
         const matDisplay: EventMatDisplayProps = {
-          currentBout: bouts[i],
-          onDeckBout: bouts[i + matCount],
-          inHoleBout: bouts[i + 2 * matCount],
+          currentBout: availableBouts[i],
+          onDeckBout: availableBouts[i + matCount],
+          inHoleBout: availableBouts[i + 2 * matCount],
           matId: i,
         };
         props.updateMatBouts(matDisplay);
@@ -67,44 +94,46 @@ function EventBouts(props: EventBoutsProps) {
   }
 
   return (
-    <div>
-      <h2 className='text-center font-black'>{`Event Bouts`}</h2>
-      <div className='flex flex-wrap justify-around gap-4'>
-        {eventMatBouts.map((mat, idx) => (
-          <EventMatDisplay
-            key={`${mat.matId}-${idx}-MatDisplay`}
-            matName={(mat.matId + 1).toString()}
-            currrentBout={
-              eventMatBouts[idx]?.currentBout &&
-              eventMatBouts[idx]?.currentBout.boutId
-                ? {
-                    ...eventMatBouts[idx].currentBout,
-                    status: { state: "queued" },
-                  }
-                : null
-            }
-            onDeckBout={
-              eventMatBouts[idx]?.onDeckBout &&
-              eventMatBouts[idx]?.onDeckBout.boutId
-                ? {
-                    ...eventMatBouts[idx].onDeckBout,
-                    status: { state: "queued" },
-                  }
-                : null
-            }
-            inHoleBout={
-              eventMatBouts[idx]?.inHoleBout &&
-              eventMatBouts[idx]?.inHoleBout.boutId
-                ? {
-                    ...eventMatBouts[idx].inHoleBout,
-                    status: { state: "queued" },
-                  }
-                : null
-            }
-          />
-        ))}
+    <EventMatsContext.Provider value={eventMatBouts}>
+      <div>
+        <h2 className='text-center font-black'>{`Event Bouts`}</h2>
+        <div className='flex flex-wrap justify-around gap-4'>
+          {eventMatBouts.map((mat, idx) => (
+            <EventMatDisplay
+              key={`${mat.matId}-${idx}-MatDisplay`}
+              matName={(mat.matId + 1).toString()}
+              currrentBout={
+                eventMatBouts[idx]?.currentBout &&
+                eventMatBouts[idx]?.currentBout.boutId
+                  ? {
+                      ...eventMatBouts[idx].currentBout,
+                      status: { state: "inProgress" },
+                    }
+                  : null
+              }
+              onDeckBout={
+                eventMatBouts[idx]?.onDeckBout &&
+                eventMatBouts[idx]?.onDeckBout.boutId
+                  ? {
+                      ...eventMatBouts[idx].onDeckBout,
+                      status: { state: "onDeck" },
+                    }
+                  : null
+              }
+              inHoleBout={
+                eventMatBouts[idx]?.inHoleBout &&
+                eventMatBouts[idx]?.inHoleBout.boutId
+                  ? {
+                      ...eventMatBouts[idx].inHoleBout,
+                      status: { state: "inHole" },
+                    }
+                  : null
+              }
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </EventMatsContext.Provider>
   );
 }
 

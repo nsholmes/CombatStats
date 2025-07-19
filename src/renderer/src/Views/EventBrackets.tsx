@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import { EventBracketsProps } from "@nsholmes/combat-stats-types/props.model";
 import { connect } from "react-redux";
 import { SelectAllCSBrackets } from "../Features/cbBracket.slice";
-import { EventBracketsProps } from "../Models";
 
 function mapStateToProps(state: any) {
   return {

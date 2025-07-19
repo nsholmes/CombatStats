@@ -1,4 +1,4 @@
-import { FSIWeightClasses } from "../Models/bracket.model";
+import { FSIWeightClasses } from "@nsholmes/combat-stats-types/bracket.model";
 
 export const WeightClasses: FSIWeightClasses[] = [
   {

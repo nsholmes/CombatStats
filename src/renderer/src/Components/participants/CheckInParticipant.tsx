@@ -1,5 +1,5 @@
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { ChangeEvent, useState } from "react";
-import { IKFParticipant } from "../../Models/fighter.model";
 import { getAgeFromDOB } from "../../utils/participants";
 
 function CheckInParticipant(props: {

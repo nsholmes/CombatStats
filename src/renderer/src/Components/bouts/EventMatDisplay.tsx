@@ -1,4 +1,4 @@
-import { CSBout } from "../../Models";
+import { CSBout } from "@nsholmes/combat-stats-types/event.model";
 
 function EventMatDisplay(props: {
   matName: string;

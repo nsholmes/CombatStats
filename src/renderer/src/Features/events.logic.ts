@@ -1,7 +1,7 @@
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { get, ref } from "firebase/database";
 import { createLogic } from "redux-logic";
 import { ikfpkbDB } from "../FirebaseConfig";
-import { IKFParticipant } from "../Models/fighter.model";
 import { setBrackets, setParticipants } from "./combatEvent.slice";
 import { setIKFEvents } from "./events.slice";
 import {

@@ -12,12 +12,13 @@ import {
   ListItemText,
 } from "@mui/material";
 
+import { BracketSetupMenuProps } from "@nsholmes/combat-stats-types/contextMenu.model";
+import { BracketEditState } from "@nsholmes/combat-stats-types/event.model";
 import {
   SelectBracketEditState,
   setBracketEditState,
 } from "../../Features/cbBracket.slice";
 import { setIsVisible } from "../../Features/contextMenu.slice";
-import { BracketEditState, BracketSetupMenuProps } from "../../Models";
 
 function mapStateToProps(state: any) {
   return {

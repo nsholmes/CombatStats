@@ -1,5 +1,8 @@
+import {
+  EventBracketRequest,
+  EventParticipantRequest,
+} from "@nsholmes/combat-stats-types/event.model";
 import { createAction } from "@reduxjs/toolkit";
-import { EventBracketRequest, EventParticipantRequest } from "../Models";
 
 export const GET_EVENTS_FROM_FB = createAction("GET_EVENTS_FROM_FB");
 export const GET_PARTICIPANTS_FROM_FB = createAction<EventParticipantRequest>(
