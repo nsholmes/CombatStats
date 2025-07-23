@@ -13,6 +13,7 @@ import {
   SelectAllBrackets,
   SelectMats,
   setBouts,
+  setBoutsFromDB,
   setMats,
   updateMatBouts,
 } from "../Features/combatEvent.slice";
@@ -20,6 +21,7 @@ import {
 type EventBoutsProps = {
   setEventMats: (mats: CSMat[]) => void;
   setBouts: (bouts: CSBracket[]) => void;
+  setBoutsFromDB: (bouts: CSBout[]) => void;
   updateMatBouts: (bouts: EventMatDisplayProps) => void;
   getEventMats: CSMat[];
   brackets: CSBracket[];
@@ -30,6 +32,7 @@ function mapDispatchToProps(dispatch: any) {
   return {
     setEventMats: (mats: CSMat[]) => dispatch(setMats(mats)),
     setBouts: (bouts: CSBracket[]) => dispatch(setBouts(bouts)),
+    setBoutsFromDB: (bouts: CSBout[]) => dispatch(setBoutsFromDB(bouts)),
     updateMatBouts: (bouts: EventMatDisplayProps) =>
       dispatch(updateMatBouts(bouts)),
   };
@@ -51,10 +54,19 @@ function EventBouts(props: EventBoutsProps) {
 
   useEffect(() => {
     props.setBouts(props.brackets);
-    initMatCurrentBouts();
+    setupMatBouts();
     const db = getDatabase();
     const matsRef = ref(db, "combatEvent/mats");
+    const boutsRef = ref(db, "combatEvent/bouts");
 
+    onValue(boutsRef, (snapshot) => {
+      const boutsData = snapshot.val();
+      if (boutsData) {
+        const bouts: CSBout[] = Object.values(boutsData);
+        console.log("Bouts data updated:", bouts);
+        props.setBoutsFromDB(bouts);
+      }
+    });
     // when matsRef changes, update the mats in the store
     onValue(matsRef, (snapshot) => {
       const matsData = snapshot.val();
@@ -71,7 +83,7 @@ function EventBouts(props: EventBoutsProps) {
     console.log("Event Mat Bouts Updated:", eventMatBouts);
   }, [eventMatBouts]);
 
-  function initMatCurrentBouts() {
+  function setupMatBouts() {
     const eventMatBoutsArr: EventMatDisplayProps[] = [];
     const matCount = props.getEventMats.length;
     const bouts = props.getBouts;
@@ -79,11 +91,17 @@ function EventBouts(props: EventBoutsProps) {
       (bout) => bout.status.state !== "completed"
     );
     if (availableBouts.length > 0 && matCount > 0) {
+      // check if the current bout status.state = "completed"
+      console.log(
+        "Setting up Mat Bouts with available bouts:",
+        availableBouts
+      );
+
       for (let i = 0; i < matCount; i++) {
         const matDisplay: EventMatDisplayProps = {
-          currentBout: availableBouts[i],
-          onDeckBout: availableBouts[i + matCount],
-          inHoleBout: availableBouts[i + 2 * matCount],
+          currentBoutId: availableBouts[i].boutId,
+          onDeckBoutId: availableBouts[i + matCount]?.boutId,
+          inHoleBoutId: availableBouts[i + 2 * matCount]?.boutId,
           matId: i,
         };
         props.updateMatBouts(matDisplay);
@@ -93,42 +111,22 @@ function EventBouts(props: EventBoutsProps) {
     }
   }
 
+  const getBoutById = (boutId: string | null) => {
+    return props.getBouts.find((bout) => bout.boutId === boutId) || null;
+  };
+
   return (
     <EventMatsContext.Provider value={eventMatBouts}>
       <div>
         <h2 className='text-center font-black'>{`Event Bouts`}</h2>
         <div className='flex flex-wrap justify-around gap-4'>
-          {eventMatBouts.map((mat, idx) => (
+          {eventMatBouts.map((bout, idx) => (
             <EventMatDisplay
-              key={`${mat.matId}-${idx}-MatDisplay`}
-              matName={(mat.matId + 1).toString()}
-              currrentBout={
-                eventMatBouts[idx]?.currentBout &&
-                eventMatBouts[idx]?.currentBout.boutId
-                  ? {
-                      ...eventMatBouts[idx].currentBout,
-                      status: { state: "inProgress" },
-                    }
-                  : null
-              }
-              onDeckBout={
-                eventMatBouts[idx]?.onDeckBout &&
-                eventMatBouts[idx]?.onDeckBout.boutId
-                  ? {
-                      ...eventMatBouts[idx].onDeckBout,
-                      status: { state: "onDeck" },
-                    }
-                  : null
-              }
-              inHoleBout={
-                eventMatBouts[idx]?.inHoleBout &&
-                eventMatBouts[idx]?.inHoleBout.boutId
-                  ? {
-                      ...eventMatBouts[idx].inHoleBout,
-                      status: { state: "inHole" },
-                    }
-                  : null
-              }
+              key={`${bout.matId}-${idx}-MatDisplay`}
+              matName={(bout.matId + 1).toString()}
+              currentBout={getBoutById(bout.currentBoutId)}
+              onDeckBout={getBoutById(bout.onDeckBoutId)}
+              inHoleBout={getBoutById(bout.inHoleBoutId)}
             />
           ))}
         </div>

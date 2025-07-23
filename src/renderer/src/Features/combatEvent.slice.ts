@@ -17,19 +17,19 @@ export const initialState: CombatEvent = {
   selectedParticipantIds: [],
   selectedBracketId: -1,
   participants: [],
-  brackets: [{} as CSBracket],
+  brackets: [],
   mats: [
     {
       id: 0,
       name: "Mat 1",
       roles: {
         referee: " ",
-        judges: [],
+        judges: [" "],
         timekeeper: " ",
       },
-      currentBout: null,
-      onDeckBout: null,
-      inHoleBout: null,
+      currentBoutId: null,
+      onDeckBoutId: null,
+      inHoleBoutId: null,
     },
     {
       id: 1,
@@ -39,9 +39,9 @@ export const initialState: CombatEvent = {
         judges: [],
         timekeeper: " ",
       },
-      currentBout: null,
-      onDeckBout: null,
-      inHoleBout: null,
+      currentBoutId: null,
+      onDeckBoutId: null,
+      inHoleBoutId: null,
     },
   ],
 };
@@ -74,6 +74,9 @@ export const CombatEventSlice = createSlice({
     },
     addNewBout(state, action: PayloadAction<CSBout>) {
       state.bouts = [...state.bouts, action.payload];
+    },
+    setBoutsFromDB(state, action: PayloadAction<CSBout[]>) {
+      state.bouts = action.payload;
     },
     setBouts(state, action: PayloadAction<CSBracket[]>) {
       // Set the bouts for the event
@@ -128,10 +131,24 @@ export const CombatEventSlice = createSlice({
       state.mats = action.payload;
     },
     updateMatBouts(state, action: PayloadAction<EventMatDisplayProps>) {
-      state.mats[action.payload.matId].currentBout =
-        action.payload.currentBout;
-      state.mats[action.payload.matId].onDeckBout = action.payload.onDeckBout;
-      state.mats[action.payload.matId].inHoleBout = action.payload.inHoleBout;
+      state.mats[action.payload.matId].currentBoutId =
+        action.payload.currentBoutId;
+      state.mats[action.payload.matId].onDeckBoutId =
+        action.payload.onDeckBoutId;
+      state.mats[action.payload.matId].inHoleBoutId =
+        action.payload.inHoleBoutId;
+      state.bouts.map((bout) => {
+        if (bout.boutId === action.payload.currentBoutId) {
+          bout.status.state = "inProgress";
+          bout.matId = action.payload.matId;
+        } else if (bout.boutId === action.payload.onDeckBoutId) {
+          bout.status.state = "onDeck";
+          bout.matId = action.payload.matId;
+        } else if (bout.boutId === action.payload.inHoleBoutId) {
+          bout.status.state = "inHole";
+          bout.matId = action.payload.matId;
+        }
+      });
     },
     updateMatRoles(state, action: PayloadAction<MatRolesUpdate>) {
       state.mats[action.payload.idx].roles = action.payload.roles;
@@ -226,8 +243,10 @@ export const SelectAllParticipants = (state: any) => {
   return state.combatEvent.participants ? state.combatEvent.participants : [];
 };
 
-export const SelectAllBrackets = (state: any) =>
-  state.combatEvent.brackets ? state.combatEvent.brackets : [];
+export const SelectAllBrackets = (state: any) => {
+  console.log("SelectAllBrackets: ", state.combatEvent.brackets);
+  return state.combatEvent.brackets ? state.combatEvent.brackets : [];
+};
 
 export const SelectMats = (state: any) => {
   return state.combatEvent.mats ? state.combatEvent.mats : [];
@@ -259,6 +278,7 @@ export const {
   updateBracketOrder,
   hydrateCombatEvent,
   resetCombatEvent,
+  setBoutsFromDB,
 } = CombatEventSlice.actions;
 
 export const { reducer } = CombatEventSlice;

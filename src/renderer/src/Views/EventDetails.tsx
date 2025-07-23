@@ -85,9 +85,9 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
             id: i,
             name: "",
             roles: defaultRoles[0],
-            currentBout: null,
-            onDeckBout: null,
-            inHoleBout: null,
+            currentBoutId: "",
+            onDeckBoutId: "",
+            inHoleBoutId: "",
           };
           newMats.push(cbMat);
           newRoles.push(defaultRoles[0]);
@@ -136,7 +136,9 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
   const handleAddJudge = (matIdx: number) => {
     setRoles((prev) => {
       const newMats = [...prev];
-      const judges = [...newMats[matIdx].judges, ""];
+      const judges = newMats[matIdx].judges
+        ? [...newMats[matIdx].judges, ""]
+        : [""];
       newMats[matIdx] = { ...newMats[matIdx], judges };
       return newMats;
     });
@@ -173,7 +175,7 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
         <Typography mt={1}>Current number of mats: {numMats}</Typography>
       </Box>
       <Grid container spacing={3}>
-        {roles.map((mat, matIdx) => (
+        {roles.map((role, matIdx) => (
           <Grid key={matIdx}>
             <Paper elevation={3} sx={{ p: 2 }}>
               <Typography variant='h6' gutterBottom>
@@ -182,7 +184,7 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
               <Box mb={2}>
                 <Typography>Referee:</Typography>
                 <TextField
-                  value={mat.referee}
+                  value={role.referee}
                   onChange={(e) =>
                     handleRoleChange(matIdx, "referee", e.target.value)
                   }
@@ -194,37 +196,16 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
               <Box mb={2}>
                 <Typography>Judges:</Typography>
                 <List dense>
-                  {mat.judges.map((judge, judgeIdx) => (
-                    <ListItem
-                      key={judgeIdx}
-                      disableGutters
-                      secondaryAction={
-                        <IconButton
-                          edge='end'
-                          aria-label='delete'
-                          onClick={() => handleRemoveJudge(matIdx, judgeIdx)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      }>
-                      <ListItemText
-                        primary={
-                          <TextField
-                            value={judge}
-                            onChange={(e) =>
-                              handleJudgeChange(
-                                matIdx,
-                                judgeIdx,
-                                e.target.value
-                              )
-                            }
-                            size='small'
-                            placeholder={`Judge ${judgeIdx + 1} Name`}
-                            fullWidth
-                          />
-                        }
-                      />
-                      {/* <ListItemSecondaryAction>
-                        {mat.judges.length > 1 && (
+                  {!role.judges ? (
+                    <ListItem>
+                      <ListItemText primary='No judges assigned' />
+                    </ListItem>
+                  ) : (
+                    role.judges.map((judge, judgeIdx) => (
+                      <ListItem
+                        key={judgeIdx}
+                        disableGutters
+                        secondaryAction={
                           <IconButton
                             edge='end'
                             aria-label='delete'
@@ -233,25 +214,41 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
                             }>
                             <DeleteIcon />
                           </IconButton>
-                        )}
-                      </ListItemSecondaryAction> */}
-                    </ListItem>
-                  ))}
+                        }>
+                        <ListItemText
+                          primary={
+                            <TextField
+                              value={judge}
+                              onChange={(e) =>
+                                handleJudgeChange(
+                                  matIdx,
+                                  judgeIdx,
+                                  e.target.value
+                                )
+                              }
+                              size='small'
+                              placeholder={`Judge ${judgeIdx + 1} Name`}
+                              fullWidth
+                            />
+                          }
+                        />
+                      </ListItem>
+                    ))
+                  )}
                 </List>
                 <Button
                   startIcon={<AddIcon />}
                   onClick={() => handleAddJudge(matIdx)}
                   size='small'
                   variant='outlined'
-                  sx={{ mt: 1 }}
-                  disabled={mat.judges.length >= 10}>
+                  sx={{ mt: 1 }}>
                   Add Judge
                 </Button>
               </Box>
               <Box mb={2}>
                 <Typography>Timekeeper:</Typography>
                 <TextField
-                  value={mat.timekeeper}
+                  value={role.timekeeper}
                   onChange={(e) =>
                     handleRoleChange(matIdx, "timekeeper", e.target.value)
                   }

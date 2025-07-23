@@ -53,9 +53,9 @@ const updateMatLogic = createLogic({
       if (
         action.payload == null ||
         action.payload.matId == null ||
-        action.payload.currentBout == null ||
-        action.payload.onDeckBout == null ||
-        action.payload.inHoleBout == null
+        action.payload.currentBoutId == null ||
+        action.payload.onDeckBoutId == null ||
+        action.payload.inHoleBoutId == null
       ) {
         console.error("Invalid payload for updating mat currentBout.");
         done();
@@ -80,10 +80,40 @@ const updateMatLogic = createLogic({
       );
       set(currentBoutRef, {
         ...currentBoutSnapshotValue,
-        currentBout: action.payload.currentBout,
-        onDeckBout: action.payload.onDeckBout,
-        inHoleBout: action.payload.inHoleBout,
+        currentBoutId: action.payload.currentBoutId,
+        onDeckBoutId: action.payload.onDeckBoutId,
+        inHoleBoutId: action.payload.inHoleBoutId,
+        matId: action.payload.matId,
       }).then(() => {
+        const updateBoutStatus = [
+          {
+            boutId: action.payload.currentBoutId,
+            boutStatus: "inProgress",
+            matId: action.payload.matId,
+          },
+          {
+            boutId: action.payload.onDeckBoutId,
+            boutStatus: "onDeck",
+            matId: action.payload.matId,
+          },
+          {
+            boutId: action.payload.inHoleBoutId,
+            boutStatus: "inHole",
+            matId: action.payload.matId,
+          },
+        ];
+        fetch(
+          "http://127.0.0.1:5002/ikfpkb-midwest/us-central1/updateBoutStatus",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              boutData: updateBoutStatus,
+            }),
+          }
+        );
         console.log("Mat currentBout successfully updated in Firebase.");
       });
     } catch (error) {

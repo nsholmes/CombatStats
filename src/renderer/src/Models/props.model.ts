@@ -5,7 +5,6 @@ import {
 import {
   Bout,
   BracketEditState,
-  CSBout,
   CSBracket,
 } from "@nsholmes/combat-stats-types/event.model";
 
@@ -44,8 +43,8 @@ export type FileUploadProps = {
 };
 
 export type EventMatDisplayProps = {
-  currentBout: CSBout;
-  onDeckBout: CSBout | null;
-  inHoleBout: CSBout | null;
+  currentBoutId: string | null;
+  onDeckBoutId: string | null;
+  inHoleBoutId: string | null;
   matId: number;
 };

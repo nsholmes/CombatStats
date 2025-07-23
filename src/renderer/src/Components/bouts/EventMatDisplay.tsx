@@ -2,7 +2,7 @@ import { CSBout } from "@nsholmes/combat-stats-types/event.model";
 
 function EventMatDisplay(props: {
   matName: string;
-  currrentBout: CSBout | null;
+  currentBout: CSBout | null;
   onDeckBout: CSBout | null;
   inHoleBout: CSBout | null;
 }) {
@@ -11,20 +11,20 @@ function EventMatDisplay(props: {
       <h2>Mat {props.matName}</h2>
       <div className='bg-white dark:border-gray-700 dark:bg-gray-800 p-3'>
         <h2>Current Bout</h2>
-        {props.currrentBout?.boutId}
-        {props.currrentBout ? (
+        {props.currentBout?.boutId}
+        {props.currentBout ? (
           <div className='flex flex-col gap-2'>
             <div className='text-red-700 text-4xl font-bold'>
-              {`${props.currrentBout.redCorner?.firstName} ${props.currrentBout.redCorner?.lastName}`}
+              {`${props.currentBout.redCorner?.firstName} ${props.currentBout.redCorner?.lastName}`}
             </div>
             <hr />
             <div className='text-blue-700 text-4xl font-bold'>
-              {`${props.currrentBout.blueCorner?.firstName} ${props.currrentBout.blueCorner?.lastName}`}
+              {`${props.currentBout.blueCorner?.firstName} ${props.currentBout.blueCorner?.lastName}`}
             </div>
           </div>
         ) : (
           <div className='text-gray-500'>
-            {props.currrentBout ? `${props.currrentBout}` : "No Current Bouts"}
+            {props.currentBout ? `${props.currentBout}` : "No Current Bouts"}
           </div>
         )}
       </div>
