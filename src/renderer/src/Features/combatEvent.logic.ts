@@ -1,22 +1,21 @@
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { get, ref, set } from "firebase/database";
 import { createLogic } from "redux-logic";
 import { ikfpkbDB } from "../FirebaseConfig";
 import {
-  ADD_BRACKET_TO_MAT,
+  ADD_BRACKET,
   READ_SELECTED_COMBAT_EVENT_FROM_FB,
   RESET_COMBAT_EVENT,
   SET_PARTICIPANTS_BRACKET_COUNT,
   SYNC_COMBAT_EVENT,
 } from "./combatEvent.actions";
 import {
-  addBracketToMatState,
-  addNewBout,
+  addBracket,
   hydrateCombatEvent,
   initialState,
   setSelectedBracketId,
   updateMatBouts,
 } from "./combatEvent.slice";
-import { addBoutsFromBracket } from "./utils/EventBouts";
 
 const syncCombatEvent = createLogic({
   type: SYNC_COMBAT_EVENT,
@@ -143,15 +142,66 @@ const GetCombatEventsFromFB = createLogic({
   },
 });
 
-const addBracketToMat = createLogic({
-  type: ADD_BRACKET_TO_MAT,
+const addBracketLogic = createLogic({
+  type: ADD_BRACKET,
   async process({ action }, dispatch, done) {
     void dispatch;
-    dispatch(addBracketToMatState(action.payload));
-    const bracketBouts = addBoutsFromBracket(action.payload);
-    bracketBouts.forEach((bout) => {
-      dispatch(addNewBout(bout));
-    });
+    const bracket: CSBracket = action.payload;
+    const db = ikfpkbDB();
+    const bracketRef = ref(db, `combatEvent/brackets`);
+    const bracketSnapshot = await get(bracketRef);
+    //#region: Update Brackets Realtime Database
+    // update the brackets in the Firebase Realtime Database
+    if (bracketSnapshot.exists()) {
+      const existingBrackets = bracketSnapshot.val();
+      // Check if the bracket already exists
+      const bracketExists = existingBrackets.some(
+        (b: CSBracket) => b.bracketId === bracket.bracketId
+      );
+      if (bracketExists) {
+        console.log("Bracket already exists:", bracket.bracketId);
+        done();
+        return;
+      }
+      set(bracketRef, [...existingBrackets, bracket]).then(() => {
+        console.log("Bracket added successfully:", bracket.bracketId);
+      });
+    }
+    dispatch(addBracket(action.payload));
+    //#endregion
+
+    //#region: Update Bouts in Realtime Database
+    // Update Bouts from the bracket
+    // This assumes that the action.payload contains the bracketId and other necessary data
+    // const boutsRef = ref(db, `combatEvent/bouts`);
+    // const boutsSnapshot = await get(boutsRef);
+    // if (boutsSnapshot.exists()) {
+    //   const existingBouts = boutsSnapshot.val();
+    //   // Add bouts from the bracket to the existing bouts
+    //   const bracketBouts = addBoutsFromBracket(action.payload);
+    //   const updatedBouts = [...existingBouts, ...bracketBouts];
+    //   set(boutsRef, updatedBouts).then(() => {
+    //     console.log(
+    //       "Bouts added successfully from bracket:",
+    //       action.payload.bracketId
+    //     );
+    //   });
+    // } else {
+    //   // If no existing bouts, just set the new bouts
+    //   const bracketBouts = addBoutsFromBracket(action.payload);
+    //   set(boutsRef, bracketBouts).then(() => {
+    //     console.log(
+    //       "Initial bouts added successfully from bracket:",
+    //       action.payload.bracketId
+    //     );
+    //   });
+    // }
+    //#endregion
+    // done();
+    // const bracketBouts = addBoutsFromBracket(action.payload);
+    // bracketBouts.forEach((bout) => {
+    //   dispatch(addNewBout(bout));
+    // });
     done();
   },
 });
@@ -191,7 +241,7 @@ const combatEventLogic = [
   syncCombatEvent,
   setParticipantsBracketCount,
   GetCombatEventsFromFB,
-  addBracketToMat,
+  addBracketLogic,
   setSelectedBracketIdLogic,
   updateMatLogic,
   ResetCombatEventLogic,

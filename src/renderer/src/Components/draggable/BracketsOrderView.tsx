@@ -16,13 +16,14 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   SelectAllBrackets,
   updateBracketOrder,
   updateBracketSequence,
 } from "../../Features/combatEvent.slice";
+import { EventContext } from "../../Views/SelectedEventView";
 import Grid from "./Grid";
 import SortableBracketItem from "./SortableBracketItem";
 
@@ -45,12 +46,28 @@ function mapDispatchToProps(dispatch: any) {
   };
 }
 function BracketsOrderView(props: BracketsOrderViewProps) {
-  const [brackets, setBrackets] = useState(props.selectBrackets);
+  const eventData = useContext(EventContext);
+
+  const [brackets, setBrackets] = useState(eventData?.brackets ?? []);
   const [activeId, setActiveId] = useState<string | null>(null);
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   void activeId;
 
-  const handleDrageStart = (event: DragStartEvent) => {
+  useEffect(() => {
+    // sort bracket by the number of competitors, if isPrimary is true, then it should be first regardless of the number of competitors
+    if (eventData?.bracketOrderComitted) {
+      setBrackets(eventData.brackets);
+    } else {
+      const sortedBrackets = eventData?.brackets.sort((a, b) => {
+        if (a.isPrimary && !b.isPrimary) return -1;
+        if (!a.isPrimary && b.isPrimary) return 1;
+        return a.competitors.length - b.competitors.length;
+      });
+      setBrackets(sortedBrackets ?? []);
+    }
+  }, [eventData?.brackets]);
+
+  const handleDragStart = (event: DragStartEvent) => {
     setActiveId(String(event.active.id));
   };
 
@@ -97,7 +114,7 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
-        onDragStart={handleDrageStart}
+        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancel}>
         <SortableContext
@@ -110,6 +127,7 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
                 bracket={bracket}
                 key={bracket.bracketId}
                 content={bracket.bracketDivisionName}
+                isPrimary={bracket.isPrimary}
               />
             ))}
           </Grid>

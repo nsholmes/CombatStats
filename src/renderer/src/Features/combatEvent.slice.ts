@@ -44,6 +44,7 @@ export const initialState: CombatEvent = {
       inHoleBoutId: null,
     },
   ],
+  bracketOrderComitted: false,
 };
 
 export const CombatEventSlice = createSlice({
@@ -89,13 +90,18 @@ export const CombatEventSlice = createSlice({
     },
     updateParticipantWeight(
       state,
-      action: PayloadAction<{ weight: number; participantId: number }>
+      action: PayloadAction<{
+        weight: number;
+        participantId: number;
+        isCheckedIn?: boolean;
+      }>
     ) {
-      const { weight, participantId } = action.payload;
+      const { weight, participantId, isCheckedIn } = action.payload;
       const idx = state.participants.findIndex(
         (p) => p.participantId === participantId
       );
       state.participants[idx].weight = weight;
+      state.participants[idx].checkedIn = isCheckedIn ?? false; // Default to false if not provided
     },
     setBrackets(state, action: PayloadAction<any[]>) {
       console.log("combatEvent.Slice: ", action.payload);
@@ -153,15 +159,9 @@ export const CombatEventSlice = createSlice({
     updateMatRoles(state, action: PayloadAction<MatRolesUpdate>) {
       state.mats[action.payload.idx].roles = action.payload.roles;
     },
-    addBracketToMatState(state, action: PayloadAction<CSBracket>) {
-      const matId = action.payload.matNumber;
-      const sequence = state.brackets.filter(
-        (b) => b.matNumber === matId
-      ).length;
+    addBracket(state, action: PayloadAction<CSBracket>) {
       state.brackets.push({
         ...action.payload,
-        bracketId: `${state.selectedEvent.id}-${state.brackets.length}`,
-        sequence,
       });
     },
     updateBracketOrder(state, action: PayloadAction<CSBracket[]>) {
@@ -271,7 +271,7 @@ export const {
   setMats,
   updateMatBouts,
   updateMatRoles,
-  addBracketToMatState,
+  addBracket,
   setParticipantsBracketCount,
   updateBracketMatNumber,
   updateBracketSequence,

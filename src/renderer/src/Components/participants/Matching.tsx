@@ -3,12 +3,15 @@ import {
   ContextMenuType,
   PositionCoords,
 } from "@nsholmes/combat-stats-types/contextMenu.model";
-import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
+import {
+  CombatEvent,
+  CSBracket,
+} from "@nsholmes/combat-stats-types/event.model";
 import {
   CheckInPariticipantSort,
   IKFParticipant,
 } from "@nsholmes/combat-stats-types/fighter.model";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
 import {
@@ -32,6 +35,7 @@ import {
   getAgeFromDOB,
   sortParticipantsForMatching,
 } from "../../utils/participants";
+import { EventContext } from "../../Views/SelectedEventView";
 
 type MatchingProps = {
   eventParticipants: IKFParticipant[];
@@ -79,18 +83,28 @@ function mapDispatchToProps(dispatch: any) {
 }
 
 function Matching(props: MatchingProps) {
+  const eventData = useContext(EventContext);
+  const { participants, brackets } = eventData as CombatEvent;
+  const [bracketCount, setBracketCount] = useState<number>(0);
+
   const [sortedParticipantsForMatching, setSortedParticipantsForMatching] =
     useState<CheckInPariticipantSort[]>([]);
+
   useEffect(() => {
     props.setCurrentContextMenu("matching");
-    console.log(props.selectAllBrackets);
   }, []);
 
   useEffect(() => {
     setSortedParticipantsForMatching(
-      sortParticipantsForMatching(props.eventParticipants)
+      sortParticipantsForMatching(participants)
     );
-  }, [props.eventParticipants]);
+  }, [participants]);
+
+  useEffect(() => {
+    // this will force a re-render when brackets change
+
+    setBracketCount(brackets ? brackets.length : 0);
+  }, [brackets]);
 
   //#region Event Handlers
   const showContextMenu = (ev: React.MouseEvent<HTMLDivElement>) => {
@@ -123,7 +137,7 @@ function Matching(props: MatchingProps) {
   const handleBracketSelect = (bracketId: { mat: number; id: number }) => {
     props.setSelectedBracketId(bracketId.id);
 
-    const brks = props.selectAllBrackets;
+    const brks = brackets;
 
     let selectedParticipants: number[] = [];
 
@@ -137,9 +151,9 @@ function Matching(props: MatchingProps) {
     props.setModalIsVisible(true);
     props.setCurrentModal("createBracket");
   };
+  // #endregion
 
   const getParticipantBrackets = (partId: number) => {
-    const brackets = props.selectAllBrackets;
     let selectedBracket: CSBracket;
     const bracketIds: { mat: number; id: number }[] = [];
     brackets.forEach((bracket) => {
@@ -263,7 +277,7 @@ function Matching(props: MatchingProps) {
                         </Box>
                       </Box>
                       <Box>
-                        {participant.bracketCount > 0 ? (
+                        {bracketCount > 0 ? (
                           <Box
                             sx={{
                               color: "gold",

@@ -1,17 +1,24 @@
 import Box from "@mui/material/Box";
 import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
-import { useEffect, useState } from "react";
+import { ref, set } from "firebase/database";
+import { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   SelectAllParticipants,
   updateParticipantWeight,
 } from "../../Features/combatEvent.slice";
+import { ikfpkbDB } from "../../FirebaseConfig";
 import { sortParticipantsForMatching } from "../../utils/participants";
+import { EventContext } from "../../Views/SelectedEventView";
 import CheckInParticipant from "./CheckInParticipant";
 
 type CheckinProps = {
   eventParticipants: IKFParticipant[];
-  updateParticipantWeight: (weight: number, participantId: number) => void;
+  updateParticipantWeight: (
+    weight: number,
+    participantId: number,
+    isCheckedIn: boolean
+  ) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -22,35 +29,66 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    updateParticipantWeight: (weight: number, participantId: number) => {
-      dispatch(updateParticipantWeight({ weight, participantId }));
+    updateParticipantWeight: (
+      weight: number,
+      participantId: number,
+      isCheckedIn: boolean
+    ) => {
+      dispatch(
+        updateParticipantWeight({ weight, participantId, isCheckedIn })
+      );
     },
   };
 }
 
 function EventCheckIn(props: CheckinProps) {
+  const eventData = useContext(EventContext);
   const [filteredParticipants, setFilteredParticipants] = useState<
     IKFParticipant[]
-  >(props.eventParticipants);
+  >(eventData ? eventData.participants : []);
   const [searchValue, setSearchValue] = useState<string>("");
+
   useEffect(() => {
     if (!searchValue) {
-      setFilteredParticipants(props.eventParticipants);
-      sortParticipantsForMatching(props.eventParticipants);
+      setFilteredParticipants(eventData ? eventData.participants : []);
+      sortParticipantsForMatching(eventData ? eventData.participants : []);
     } else {
       const lower = searchValue.toLowerCase();
       setFilteredParticipants(
-        props.eventParticipants.filter(
+        (eventData?.participants ?? []).filter(
           (p) =>
             p.firstName.toLowerCase().includes(lower) ||
             p.lastName.toLowerCase().includes(lower)
         )
       );
     }
-  }, [searchValue, props.eventParticipants]);
+  }, [searchValue, eventData]);
 
-  const weightUpdateFunction = (weight: number, participantId: number) => {
-    props.updateParticipantWeight(weight, participantId);
+  const weightUpdateFunction = (
+    weight: number,
+    participantId: number,
+    isCheckedIn: boolean
+  ) => {
+    props.updateParticipantWeight(weight, participantId, isCheckedIn);
+    const participantIdx = eventData?.participants.findIndex(
+      (p) => p.participantId === participantId
+    );
+    if (
+      participantIdx !== undefined &&
+      participantIdx !== -1 &&
+      eventData?.participants[participantIdx]
+    ) {
+      const db = ikfpkbDB();
+      const participantRef = ref(
+        db,
+        `combatEvent/participants/${participantIdx}`
+      );
+      set(participantRef, {
+        ...eventData.participants[participantIdx],
+        weight: weight,
+        checkedIn: true,
+      });
+    }
   };
   return (
     <>
@@ -76,9 +114,9 @@ function EventCheckIn(props: CheckinProps) {
               fill='currentColor'
               className='w-4 h-4'>
               <path
-                fill-rule='evenodd'
+                fillRule='evenodd'
                 d='M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z'
-                clip-rule='evenodd'
+                clipRule='evenodd'
               />
             </svg>
           </button>
@@ -98,8 +136,10 @@ function EventCheckIn(props: CheckinProps) {
           {filteredParticipants.map((participant) => {
             return participant.profileName === "Competitor" ? (
               <CheckInParticipant
+                key={participant.participantId}
                 participant={participant}
                 updateWeightFunc={weightUpdateFunction}
+                isCheckedIn={participant.checkedIn}
               />
             ) : (
               <></>

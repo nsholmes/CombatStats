@@ -9,7 +9,7 @@ import { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
 import {
-  ADD_BRACKET_TO_MAT,
+  ADD_BRACKET,
   SYNC_COMBAT_EVENT,
 } from "../../Features/combatEvent.actions";
 import {
@@ -33,7 +33,7 @@ type CreateNewBracketModalProps = {
   selectedParticipants: IKFParticipant[];
   selectedCombatEvent: CombatEvent;
   setModalIsVisible: (isVisible: boolean) => void;
-  addNewBracketToMat: (bracket: CSBracket) => void;
+  addNewBracket: (bracket: CSBracket) => void;
   clearSelectedParticipants: () => void;
   syncDBWithCombatEventSlice: (event: CombatEvent) => void;
   setParticipantsBracketCount: (ids: number[]) => void;
@@ -53,8 +53,7 @@ function mapDispatchToProps(dispatch: any) {
   return {
     setModalIsVisible: (isVisible: boolean) =>
       dispatch(setModalIsVisible(isVisible)),
-    addNewBracketToMat: (bracket: CSBracket) =>
-      dispatch(ADD_BRACKET_TO_MAT(bracket)),
+    addNewBracket: (bracket: CSBracket) => dispatch(ADD_BRACKET(bracket)),
     clearSelectedParticipants: () => dispatch(setSelectedParticipantIds([])),
     syncDBWithCombatEventSlice: (event: CombatEvent) =>
       dispatch(SYNC_COMBAT_EVENT(event)),
@@ -78,7 +77,7 @@ const ModalStyle = {
 function CreateNewBracketModal(props: CreateNewBracketModalProps) {
   const [weightClass, setWeightClass] = useState<string>("");
   const [matId, setMatId] = useState<number>(-1);
-  void setMatId;
+  const [isPrimaryBracket, setIsPrimaryBracket] = useState<boolean>(false);
   const bracketTitle = () => {
     switch (props.currentBracketType) {
       case "createBracket-MuayThai":
@@ -101,17 +100,24 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
 
   const createNewCSBracket = () => {
     const ids: number[] = [];
+
+    // create bracketIdString from the currentEventId and each selected participant's id
+    const currentEventId = props.selectedCombatEvent.selectedEvent.id;
+    const bracketIdString = `${currentEventId}-${props.selectedParticipants
+      .map((p) => p.participantId)
+      .join("-")}`;
     const newBracket: CSBracket = {
-      bracketId: 0,
+      bracketId: bracketIdString,
       divisionName: weightClass,
       discipline: bracketTitle(),
       bracketDivisionName: weightClass,
       competitors: props.selectedParticipants,
       matNumber: matId,
+      isPrimary: isPrimaryBracket,
       sequence: 0,
     };
     props.setModalIsVisible(false);
-    props.addNewBracketToMat(newBracket);
+    props.addNewBracket(newBracket);
     props.selectedParticipants.map((p) => {
       ids.push(p.participantId);
     });
@@ -147,6 +153,11 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                       </option>
                     ))}
                   </select>
+                  {weightClass === "" && (
+                    <span className='text-red-500 text-sm'>
+                      Please select a weight class
+                    </span>
+                  )}
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -170,8 +181,10 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                         onChange={() => {
                           console.log("Include Consolation Bracket");
                         }}
+                        value={isPrimaryBracket ? "true" : "false"}
                         type='checkbox'
-                        checked
+                        checked={isPrimaryBracket}
+                        onClick={() => setIsPrimaryBracket(!isPrimaryBracket)}
                         className='peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800'
                         id='check-2'
                       />
@@ -221,6 +234,7 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
                     <button
                       className='rounded-md bg-slate-800 py-1.5 px-3 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
                       color='primary'
+                      disabled={weightClass === "" ? true : false}
                       onClick={() => {
                         createNewCSBracket();
                       }}>

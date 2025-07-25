@@ -11,8 +11,6 @@ export const READ_SELECTED_COMBAT_EVENT_FROM_FB = createAction(
   "GET_SELECTED_COMBAT_EVENT"
 );
 
-export const ADD_BRACKET_TO_MAT = createAction<eventModel.CSBracket>(
-  "ADD_BRACKET_TO_MAT"
-);
+export const ADD_BRACKET = createAction<eventModel.CSBracket>("ADD_BRACKET");
 
 export const RESET_COMBAT_EVENT = createAction("RESET_COMBAT_EVENT");

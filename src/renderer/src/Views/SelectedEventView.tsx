@@ -1,6 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
 import { eventModel } from "@nsholmes/combat-stats-types";
-import { useEffect, useState } from "react";
+import { CombatEvent } from "@nsholmes/combat-stats-types/event.model";
+import { onValue, ref } from "firebase/database";
+import { createContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BracketList from "../Components/brackets/BracketList";
 import EventCheckIn from "../Components/participants/EventCheckIn";
@@ -13,6 +15,7 @@ import {
   SelectSelectedEvent,
 } from "../Features/combatEvent.slice";
 import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
+import { ikfpkbDB } from "../FirebaseConfig";
 import EventBouts from "./EventBouts";
 import EventDetails from "./EventDetails";
 
@@ -42,15 +45,32 @@ function mapDispatchToProps(dispatch: any) {
   };
 }
 
+export const EventContext = createContext<CombatEvent | null>(null);
+
 function SelectedEventView(props: SelectedEventProps) {
+  const [eventData, setEventData] = useState<CombatEvent | null>(null);
   const [viewState, setViewState] = useState("");
   useEffect(() => {
-    props.syncDBWithCombatEventSlice(props.selectedCombatEvent);
-    console.log("TODO: Check Need for this variable: ", props.selectedEvent);
+    // props.syncDBWithCombatEventSlice(props.selectedCombatEvent);
+    // console.log("TODO: Check Need for this variable: ", props.selectedEvent);
+    const db = ikfpkbDB();
+    const combatEventref = ref(db, "combatEvent");
+
+    let combatEvent: CombatEvent = {} as CombatEvent;
+
+    onValue(combatEventref, (snapshot) => {
+      if (snapshot.exists()) {
+        const objEvent = snapshot.val();
+        combatEvent = objEvent as CombatEvent;
+        setEventData(combatEvent);
+      } else {
+        console.log("No current event found.");
+      }
+    });
   }, []);
 
   const subNavButtonClicked = (vState: number) => {
-    props.syncDBWithCombatEventSlice(props.selectedCombatEvent);
+    // props.syncDBWithCombatEventSlice(props.selectedCombatEvent);
     switch (vState) {
       case 1: // Event CheckIn
         setViewState("Event CheckIn");
@@ -94,7 +114,7 @@ function SelectedEventView(props: SelectedEventProps) {
   };
 
   return (
-    <>
+    <EventContext.Provider value={eventData}>
       <div className=''>
         <Box
           sx={{
@@ -160,7 +180,7 @@ function SelectedEventView(props: SelectedEventProps) {
         </Box>
       </div>
       <div className='mt-26'>{renderViewState()}</div>
-    </>
+    </EventContext.Provider>
   );
 }
 
