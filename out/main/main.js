@@ -1,31 +1,18 @@
-"use strict";
-const child_process = require("child_process");
-const require$$0 = require("electron");
-const fs = require("fs");
-const require$$1 = require("path");
-const require$$3 = require("https");
-const require$$0$1 = require("stream");
-const require$$2 = require("events");
-const require$$0$2 = require("buffer");
-const require$$1$1 = require("util");
-function _interopNamespaceDefault(e) {
-  const n = Object.create(null, { [Symbol.toStringTag]: { value: "Module" } });
-  if (e) {
-    for (const k in e) {
-      if (k !== "default") {
-        const d = Object.getOwnPropertyDescriptor(e, k);
-        Object.defineProperty(n, k, d.get ? d : {
-          enumerable: true,
-          get: () => e[k]
-        });
-      }
-    }
-  }
-  n.default = e;
-  return Object.freeze(n);
-}
-const fs__namespace = /* @__PURE__ */ _interopNamespaceDefault(fs);
-const require$$1__namespace = /* @__PURE__ */ _interopNamespaceDefault(require$$1);
+import { spawn } from "child_process";
+import require$$0, { app, ipcMain, dialog, BrowserWindow } from "electron";
+import * as fs from "fs";
+import fs__default from "fs";
+import * as require$$1 from "path";
+import require$$1__default from "path";
+import require$$3 from "https";
+import require$$0$1 from "stream";
+import require$$2 from "events";
+import require$$0$2 from "buffer";
+import require$$1$1 from "util";
+import __cjs_mod__ from "node:module";
+const __filename = import.meta.filename;
+const __dirname = import.meta.dirname;
+const require2 = __cjs_mod__.createRequire(import.meta.url);
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var dist$1 = {};
 var downloadChromeExtension = {};
@@ -38,8 +25,8 @@ function requireUtils$1() {
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.changePermissions = exports.downloadFile = exports.getPath = void 0;
     const electron_1 = require$$0;
-    const fs$1 = fs;
-    const path = require$$1;
+    const fs2 = fs__default;
+    const path = require$$1__default;
     const https = require$$3;
     const getPath = () => {
       const savePath = electron_1.app.getPath("userData");
@@ -54,7 +41,7 @@ function requireUtils$1() {
           if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
             return (0, exports.downloadFile)(res.headers.location, to).then(resolve).catch(reject);
           }
-          res.pipe(fs$1.createWriteStream(to)).on("close", resolve);
+          res.pipe(fs2.createWriteStream(to)).on("close", resolve);
           res.on("error", reject);
         });
         req.on("error", reject);
@@ -63,11 +50,11 @@ function requireUtils$1() {
     };
     exports.downloadFile = downloadFile;
     const changePermissions = (dir, mode) => {
-      const files = fs$1.readdirSync(dir);
+      const files = fs2.readdirSync(dir);
       files.forEach((file) => {
         const filePath = path.join(dir, file);
-        fs$1.chmodSync(filePath, parseInt(`${mode}`, 8));
-        if (fs$1.statSync(filePath).isDirectory()) {
+        fs2.chmodSync(filePath, parseInt(`${mode}`, 8));
+        if (fs2.statSync(filePath).isDirectory()) {
           (0, exports.changePermissions)(filePath, mode);
         }
       });
@@ -314,7 +301,7 @@ function requireInherits() {
   if (hasRequiredInherits) return inherits.exports;
   hasRequiredInherits = 1;
   try {
-    var util2 = require("util");
+    var util2 = require2("util");
     if (typeof util2.inherits !== "function") throw "";
     inherits.exports = util2.inherits;
   } catch (e) {
@@ -9813,8 +9800,8 @@ var hasRequiredMkdirp;
 function requireMkdirp() {
   if (hasRequiredMkdirp) return mkdirp;
   hasRequiredMkdirp = 1;
-  var path = require$$1;
-  var fs$1 = fs;
+  var path = require$$1__default;
+  var fs2 = fs__default;
   var _0777 = parseInt("0777", 8);
   mkdirp = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
   function mkdirP(p, opts, f, made) {
@@ -9825,7 +9812,7 @@ function requireMkdirp() {
       opts = { mode: opts };
     }
     var mode = opts.mode;
-    var xfs = opts.fs || fs$1;
+    var xfs = opts.fs || fs2;
     if (mode === void 0) {
       mode = _0777;
     }
@@ -9864,7 +9851,7 @@ function requireMkdirp() {
       opts = { mode: opts };
     }
     var mode = opts.mode;
-    var xfs = opts.fs || fs$1;
+    var xfs = opts.fs || fs2;
     if (mode === void 0) {
       mode = _0777;
     }
@@ -10363,13 +10350,13 @@ var hasRequiredDist$1;
 function requireDist$1() {
   if (hasRequiredDist$1) return dist;
   hasRequiredDist$1 = 1;
-  var fs$1 = fs;
-  var path = require$$1;
+  var fs2 = fs__default;
+  var path = require$$1__default;
   var jszip = requireLib();
   var mkdirp2 = requireMkdirp();
   var promisify2 = requirePromisify();
-  var writeFile = promisify2(fs$1.writeFile);
-  var readFile = promisify2(fs$1.readFile);
+  var writeFile = promisify2(fs2.writeFile);
+  var readFile = promisify2(fs2.readFile);
   var mkdir = promisify2(mkdirp2);
   function crxToZip(buf) {
     function calcLength(a, b, c, d) {
@@ -10434,19 +10421,19 @@ function requireDownloadChromeExtension() {
   (function(exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.downloadChromeExtension = void 0;
-    const fs$1 = fs;
-    const path = require$$1;
+    const fs2 = fs__default;
+    const path = require$$1__default;
     const utils_1 = requireUtils$1();
     const unzip = requireDist$1();
     const downloadChromeExtension2 = async (chromeStoreID, { forceDownload = false, attempts = 5 } = {}) => {
       const extensionsStore = (0, utils_1.getPath)();
-      if (!fs$1.existsSync(extensionsStore)) {
-        await fs$1.promises.mkdir(extensionsStore, { recursive: true });
+      if (!fs2.existsSync(extensionsStore)) {
+        await fs2.promises.mkdir(extensionsStore, { recursive: true });
       }
       const extensionFolder = path.resolve(`${extensionsStore}/${chromeStoreID}`);
-      if (!fs$1.existsSync(extensionFolder) || forceDownload) {
-        if (fs$1.existsSync(extensionFolder)) {
-          await fs$1.promises.rmdir(extensionFolder, {
+      if (!fs2.existsSync(extensionFolder) || forceDownload) {
+        if (fs2.existsSync(extensionFolder)) {
+          await fs2.promises.rmdir(extensionFolder, {
             recursive: true
           });
         }
@@ -10459,7 +10446,7 @@ function requireDownloadChromeExtension() {
             (0, utils_1.changePermissions)(extensionFolder, 755);
             return extensionFolder;
           } catch (err) {
-            if (!fs$1.existsSync(path.resolve(extensionFolder, "manifest.json"))) {
+            if (!fs2.existsSync(path.resolve(extensionFolder, "manifest.json"))) {
               throw err;
             }
           }
@@ -10563,12 +10550,12 @@ var distExports = requireDist();
 let mainWindow;
 const isDev = process.env.NODE_ENV === "development";
 const createWindow = () => {
-  mainWindow = new require$$0.BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     webPreferences: {
       nodeIntegration: true,
-      preload: require$$1__namespace.join(`${__dirname}/../preload`, "preload.js"),
+      preload: require$$1.join(`${__dirname}/../preload`, "preload.js"),
       devTools: isDev
     }
   });
@@ -10578,68 +10565,68 @@ const createWindow = () => {
   }
   mainWindow.on("close", () => mainWindow = null);
 };
-require$$0.app.whenReady().then(() => {
+app.whenReady().then(() => {
   createWindow();
   distExports.installExtension(distExports.REDUX_DEVTOOLS).then((name) => console.log(`Added Extension:  ${name}`)).catch((err) => console.log("An error occurred: ", err)).finally(() => {
     mainWindow?.webContents.openDevTools();
   });
 });
-require$$0.app.on("window-all-closed", () => {
+app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
-    require$$0.app.quit();
+    app.quit();
   }
 });
-require$$0.app.on("activate", () => {
+app.on("activate", () => {
   if (mainWindow == null) {
     createWindow();
   }
 });
-require$$0.ipcMain.on("read-event-list", (event) => {
+ipcMain.on("read-event-list", (event) => {
   console.log("main: received read-event-list event");
-  const fileContent = fs__namespace.readFileSync(
+  const fileContent = fs.readFileSync(
     "C:\\Users\\metap\\development\\nhe-cli\\data\\eventsSummary",
     "utf8"
   );
   event.sender.send("read-event-list-success", fileContent);
   console.log("main: sent read-event-list-success event.");
 });
-require$$0.ipcMain.on("read-event-participants", (event, eventUID, eventId) => {
+ipcMain.on("read-event-participants", (event, eventUID, eventId) => {
   console.log(
     "main: Received read-event-participants event",
     `${eventUID}.${eventId}`
   );
   let fileContent;
   try {
-    fileContent = fs__namespace.readFileSync(
+    fileContent = fs.readFileSync(
       `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`,
       "utf8"
     );
     event.sender.send("read-event-participants-success", fileContent);
     console.log("Main: Received read-event-participants-success event.");
   } catch {
-    require$$0.dialog.showErrorBox(
+    dialog.showErrorBox(
       "File Not Found",
       `C:\\Users\\metap\\development\\nhe-cli\\data\\eventParticipants\\${eventUID}.${eventId}`
     );
   }
 });
-require$$0.ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
+ipcMain.on("read-event-brackets", (event, eventUID, eventId) => {
   console.log(
     "main: Received read-event-brackets event",
     `${eventUID}.${eventId}`
   );
   try {
-    const fileContent = fs__namespace.readFileSync(
+    const fileContent = fs.readFileSync(
       `C:\\Users\\metap\\development\\nhe-cli\\data\\eventBrackets\\${eventUID}.${eventId}`,
       "utf8"
     );
     event.sender.send("read-event-brackets-success", fileContent);
     console.log("Main: Received read-event-brackets-success event.");
   } catch {
-    require$$0.dialog.showErrorBox("File Not Found", "File Not Found");
+    dialog.showErrorBox("File Not Found", "File Not Found");
   }
 });
-require$$0.ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
+ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
   console.log("Event UID:", eventUID);
   console.log("Event ID:", eventId);
   console.log("event: ", event.type);
@@ -10647,10 +10634,10 @@ require$$0.ipcMain.on("refresh-event-participants", (event, eventUID, eventId) =
   console.log("main: Received refresh-event-participants event");
   try {
     console.log("Spawning nhe-cli command with args:", args);
-    const child = child_process.spawn("ls", ["-lh", "/usr"]);
+    const child = spawn("ls", ["-lh", "/usr"]);
     console.log(child);
   } catch (error) {
     console.error("Error spawning nhe-cli command:", error);
-    require$$0.dialog.showErrorBox("Command Error", "Failed to refresh participants.");
+    dialog.showErrorBox("Command Error", "Failed to refresh participants.");
   }
 });

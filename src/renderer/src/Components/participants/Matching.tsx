@@ -156,7 +156,7 @@ function Matching(props: MatchingProps) {
   const getParticipantBrackets = (partId: number) => {
     let selectedBracket: CSBracket;
     const bracketIds: { mat: number; id: number }[] = [];
-    brackets.forEach((bracket) => {
+    brackets?.forEach((bracket) => {
       if (
         bracket.competitors &&
         bracket.competitors.some((c) => c.participantId === partId)
@@ -242,6 +242,7 @@ function Matching(props: MatchingProps) {
                     <Container
                       sx={{
                         display: "flex",
+                        flexDirection: "column",
                         justifyContent: "space-between",
                       }}>
                       <Box

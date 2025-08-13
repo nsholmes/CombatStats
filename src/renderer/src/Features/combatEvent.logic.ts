@@ -1,19 +1,24 @@
-import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
+import { CSBout, CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { get, ref, set } from "firebase/database";
 import { createLogic } from "redux-logic";
 import { ikfpkbDB } from "../FirebaseConfig";
 import {
   ADD_BRACKET,
+  APPROVE_BOUT_RESULTS,
   READ_SELECTED_COMBAT_EVENT_FROM_FB,
   RESET_COMBAT_EVENT,
   SET_PARTICIPANTS_BRACKET_COUNT,
   SYNC_COMBAT_EVENT,
+  UPDATE_BRACKET_ORDER,
+  UPDATE_MAT_BOUTS,
 } from "./combatEvent.actions";
 import {
   addBracket,
+  approveBoutResults,
   hydrateCombatEvent,
   initialState,
   setSelectedBracketId,
+  updateBracketOrder,
   updateMatBouts,
 } from "./combatEvent.slice";
 
@@ -47,8 +52,6 @@ const updateMatLogic = createLogic({
     try {
       // write Mat currentBout to FB Realtime DB
       // action.payload should contain matId and currentBout
-      console.log("Updating mat currentBout in Firebase: ", action.payload);
-      // action.payload should be { matId: number, currentBout: CSBout }
       if (
         action.payload == null ||
         action.payload.matId == null ||
@@ -69,7 +72,6 @@ const updateMatLogic = createLogic({
       const currentBoutSnapshotValue = await get(currentBoutRef).then(
         (snapshot) => {
           if (snapshot.exists()) {
-            console.log("Current Bout Snapshot: ", snapshot.val());
             return snapshot.val();
           }
           console.error("No current bout found for the specified matId.");
@@ -113,7 +115,6 @@ const updateMatLogic = createLogic({
             }),
           }
         );
-        console.log("Mat currentBout successfully updated in Firebase.");
       });
     } catch (error) {
       console.error("Error updating mat currentBout: ", error);
@@ -142,30 +143,137 @@ const GetCombatEventsFromFB = createLogic({
   },
 });
 
+const updateMatBoutsLogic = createLogic({
+  type: UPDATE_MAT_BOUTS,
+  async process({ action }, dispatch, done) {
+    void action;
+    void dispatch;
+    const { matId, currentBoutId, onDeckBoutId, inHoleBoutId } =
+      action.payload;
+    void matId;
+
+    // update firebase realtime datebase, by setting the status of bouts as follows:
+    // set the currentBoutId to "inProgress" where boutId , onDeckBoutId to "onDeck" where boutId is onDeckBoutId, and inHoleBoutId to "inHole" where boutId is inHoleBoutId
+    try {
+      const db = ikfpkbDB();
+      const boutsRef = ref(db, "combatEvent/bouts");
+      const boutsSnapshot = await get(boutsRef);
+      if (!boutsSnapshot.exists()) {
+        console.error("No bouts found in the database.");
+        done();
+        return;
+      } else {
+        const boutsData = boutsSnapshot.val();
+        const bouts: CSBout[] = Object.values(boutsData);
+        const currentBoutIndex = bouts.findIndex(
+          (bout) => bout.boutId === currentBoutId
+        );
+        if (currentBoutIndex === -1) {
+          console.error("Current Bout not found in the bouts data.");
+          done();
+          return;
+        }
+        const currentBoutRef = ref(
+          db,
+          `combatEvent/bouts/${currentBoutIndex}/status/state`
+        );
+        set(currentBoutRef, "inProgress");
+        const onDeckBoutIndex = bouts.findIndex(
+          (bout) => bout.boutId === onDeckBoutId
+        );
+        if (onDeckBoutIndex === -1) {
+          console.error("OnDeck Bout not found in the bouts data.");
+          done();
+          return;
+        }
+        const onDeckBoutRef = ref(
+          db,
+          `combatEvent/bouts/${onDeckBoutIndex}/status/state`
+        );
+        set(onDeckBoutRef, "onDeck");
+        const inHoleBoutIndex = bouts.findIndex(
+          (bout) => bout.boutId === inHoleBoutId
+        );
+        if (inHoleBoutIndex === -1) {
+          console.error("InHole Bout not found in the bouts data.");
+          done();
+          return;
+        }
+        const inHoleBoutRef = ref(
+          db,
+          `combatEvent/bouts/${inHoleBoutIndex}/status/state`
+        );
+        set(inHoleBoutRef, "inHole");
+      }
+    } catch (error) {
+      console.error("Error updating mat bouts in Firebase: ", error);
+    }
+    try {
+      // Update the mat bouts in the Redux store
+      dispatch(updateMatBouts(action.payload));
+    } catch (error) {
+      console.error("Error updating mat bouts in Redux store: ", error);
+    }
+    done();
+  },
+});
+
+const updateBracketOrderLogic = createLogic({
+  type: UPDATE_BRACKET_ORDER,
+  async process({ action }, dispatch, done) {
+    void action;
+    void dispatch;
+    try {
+      dispatch(updateBracketOrder(action.payload));
+      // const db = ikfpkbDB();
+      // const bracketsRef = ref(db, `combatEvent/brackets`);
+      // // Update the brackets in the Firebase Realtime Database
+      // set(bracketsRef, action.payload).then(() => {
+      //   console.log("Bracket order updated successfully in Firebase.");
+      // });
+    } catch (error) {
+      console.error("Error updating bracket order in Firebase: ", error);
+    }
+    done();
+  },
+});
+
 const addBracketLogic = createLogic({
   type: ADD_BRACKET,
   async process({ action }, dispatch, done) {
     void dispatch;
     const bracket: CSBracket = action.payload;
     const db = ikfpkbDB();
-    const bracketRef = ref(db, `combatEvent/brackets`);
-    const bracketSnapshot = await get(bracketRef);
+    const combatRef = ref(db, `combatEvent`);
+    const combatSnapShot = await get(combatRef);
     //#region: Update Brackets Realtime Database
     // update the brackets in the Firebase Realtime Database
-    if (bracketSnapshot.exists()) {
-      const existingBrackets = bracketSnapshot.val();
-      // Check if the bracket already exists
-      const bracketExists = existingBrackets.some(
-        (b: CSBracket) => b.bracketId === bracket.bracketId
-      );
-      if (bracketExists) {
-        console.log("Bracket already exists:", bracket.bracketId);
-        done();
-        return;
+    if (combatSnapShot.exists()) {
+      const bracketsRef = ref(db, `combatEvent/brackets`);
+      const combatEvent = combatSnapShot.val();
+      const existingBrackets = combatEvent.brackets || [];
+      if (existingBrackets.length > 0) {
+        // Check if the bracket already exists
+        const bracketExists = existingBrackets.some(
+          (b: CSBracket) => b.bracketId === bracket.bracketId
+        );
+        if (bracketExists) {
+          console.log("Bracket already exists:", bracket.bracketId);
+          done();
+          return;
+        }
+        set(bracketsRef, [...existingBrackets, bracket]).then(() => {
+          console.log("Bracket added successfully:", bracket.bracketId);
+        });
+      } else {
+        // If no existing brackets, just set the new bracket
+        set(bracketsRef, [bracket]).then(() => {
+          console.log(
+            "Initial bracket added successfully:",
+            bracket.bracketId
+          );
+        });
       }
-      set(bracketRef, [...existingBrackets, bracket]).then(() => {
-        console.log("Bracket added successfully:", bracket.bracketId);
-      });
     }
     dispatch(addBracket(action.payload));
     //#endregion
@@ -237,6 +345,85 @@ const ResetCombatEventLogic = createLogic({
   },
 });
 
+const approveBoutResultsLogic = createLogic({
+  type: APPROVE_BOUT_RESULTS,
+  async process({ action }, dispatch, done) {
+    void dispatch;
+    console.log("Approving Bout Results: ", action.payload);
+    dispatch(approveBoutResults(action.payload));
+    const db = ikfpkbDB();
+    const { boutId } = action.payload;
+    const boutRef = ref(db, `combatEvent/bouts`);
+    const boutSnap = await get(boutRef);
+    const boutDataRef = boutSnap.val();
+    if (!boutDataRef) {
+      console.error("Bout to be approved not found");
+      return;
+    }
+
+    const matsRef = ref(db, `combatEvent/mats`);
+    const matsSnap = await get(matsRef);
+    const matsDataRef = matsSnap.val();
+    if (!matsDataRef) {
+      console.error("Mats data not found");
+      return;
+    }
+
+    const boutIndex = boutDataRef.findIndex((bout: CSBout) => {
+      if (bout.boutId === boutId) {
+        console.log("Approveing Bout: ", bout.boutId);
+      }
+      return bout.boutId === boutId;
+    });
+    if (boutIndex === -1) {
+      console.error("Bout to be approved not found");
+      return;
+    }
+    try {
+      // Update the bout status to "approved"
+      const selectedBoutRef = ref(db, `combatEvent/bouts/${boutIndex}`);
+      await set(selectedBoutRef, {
+        ...boutDataRef[boutIndex],
+        status: { state: "completed" },
+        isResultApproved: true,
+      });
+      console.log("Bout results approved successfully");
+    } catch (error) {
+      console.error("Error approving bout results: ", error);
+    }
+
+    try {
+      // Update the mat status to reflect the approved bout
+      const matId = boutDataRef[boutIndex].matId;
+
+      const nextBoutId = boutDataRef.find(
+        (bout: CSBout) => bout.status.state === "notStarted"
+      )?.boutId;
+      const currentBoutId = matsDataRef[matId].onDeckBoutId;
+      const onDeckBoutId = matsDataRef[matId].inHoleBoutId;
+      const inHoleBoutId = nextBoutId || null;
+
+      const selectedMatRef = ref(db, `combatEvent/mats/${matId}`);
+      await set(selectedMatRef, {
+        ...matsDataRef[matId],
+        currentBoutId,
+        onDeckBoutId,
+        inHoleBoutId,
+      });
+
+      dispatch(
+        UPDATE_MAT_BOUTS({ matId, currentBoutId, onDeckBoutId, inHoleBoutId })
+      );
+
+      console.log("Mat status updated successfully");
+    } catch (error) {
+      console.error("Error updating mat status: ", error);
+    }
+
+    done();
+  },
+});
+
 const combatEventLogic = [
   syncCombatEvent,
   setParticipantsBracketCount,
@@ -245,6 +432,9 @@ const combatEventLogic = [
   setSelectedBracketIdLogic,
   updateMatLogic,
   ResetCombatEventLogic,
+  updateBracketOrderLogic,
+  updateMatBoutsLogic,
+  approveBoutResultsLogic,
 ];
 
 export default combatEventLogic;

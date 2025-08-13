@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
 const pages = [{ linkText: "Events", url: "events" }];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+// const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function HeaderNav() {
   const navigator = useNavigate();

@@ -3,18 +3,19 @@ import {
   CSBracket,
   CSMat,
 } from "@nsholmes/combat-stats-types/event.model";
-import { ref, set } from "firebase/database";
+import { get, ref, set } from "firebase/database";
 import { ikfpkbDB } from "../../FirebaseConfig";
 
 export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
   const bouts: CSBout[] = [];
 
   const { competitors, bracketId, matNumber } = bracket;
+  void matNumber;
   switch (bracket.competitors.length) {
     case 2: {
       // create a single round one bout for two competitors
       bouts.push({
-        boutId: `r1-${bracketId}`,
+        boutId: `r1${bracket.isPrimary ? "P" : "S"}-${bracketId}`,
         bracketId: bracket.bracketId as number,
         matId: bracket.matNumber,
         roundNumber: 1,
@@ -23,6 +24,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         status: { state: "notStarted" },
         winner: null,
         roundWinner: [{ corner: null }, { corner: null }, { corner: null }],
+        isResultApproved: false,
       });
       break;
     }
@@ -38,9 +40,10 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         status: { state: "notStarted" },
         winner: null,
         roundWinner: [{ corner: null }, { corner: null }, { corner: null }],
+        isResultApproved: false,
       });
       bouts.push({
-        boutId: `r2-${bracketId}`,
+        boutId: `r2-${bracketId}-semiFinal1`,
         bracketId: bracket.bracketId as number,
         matId: bracket.matNumber,
         roundNumber: 2,
@@ -49,13 +52,14 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         status: { state: "notStarted" },
         winner: null,
         roundWinner: [{ corner: null }, { corner: null }, { corner: null }],
+        isResultApproved: false,
       });
       break;
     }
     case 4: {
       // create two round one bouts for competitors with indices 0 & 1 and 2 & 3, then create two round two bouts with null bluecorner and redcorner
       bouts.push({
-        boutId: `r1-${bracketId}`,
+        boutId: `r1-${bracketId}-1`,
         bracketId: bracket.bracketId as number,
         matId: bracket.matNumber,
         roundNumber: 1,
@@ -64,9 +68,10 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         status: { state: "notStarted" },
         winner: null,
         roundWinner: [{ corner: null }, { corner: null }, { corner: null }],
+        isResultApproved: false,
       });
       bouts.push({
-        boutId: `r1-${bracketId}`,
+        boutId: `r1-${bracketId}-2`,
         bracketId: bracket.bracketId as number,
         matId: bracket.matNumber,
         roundNumber: 1,
@@ -75,6 +80,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         status: { state: "notStarted" },
         winner: null,
         roundWinner: [{ corner: null }, { corner: null }, { corner: null }],
+        isResultApproved: false,
       });
       bouts.push({
         boutId: `r2-${bracketId}-semiFinal1`,
@@ -86,6 +92,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         status: { state: "notStarted" },
         winner: null,
         roundWinner: [{ corner: null }, { corner: null }, { corner: null }],
+        isResultApproved: false,
       });
       bouts.push({
         boutId: `r2-${bracketId}-consolation`,
@@ -97,6 +104,7 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
         status: { state: "notStarted" },
         winner: null,
         roundWinner: [{ corner: null }, { corner: null }, { corner: null }],
+        isResultApproved: false,
       });
       break;
     }
@@ -110,26 +118,50 @@ export function addBoutsFromBracket(bracket: CSBracket): CSBout[] {
   return bouts;
 }
 
-export function createBracketBouts(brackets: CSBracket[]): CSBout[] {
+export function saveBracketOrder(brackets: CSBracket[]): void {
+  const db = ikfpkbDB();
+  set(ref(db, "combatEvent/brackets"), brackets)
+    .then(() => {
+      console.log("Bracket order saved successfully.");
+    })
+    .catch((error) => {
+      console.error("Error saving bracket order:", error);
+    });
+}
+
+export async function createBracketBouts(brackets: CSBracket[]) {
   const bouts: CSBout[] = [];
-  console.log("Creating bouts from brackets:", brackets.length);
-  brackets.forEach((bracket) => {
+  brackets?.forEach((bracket) => {
     const bracketBouts = addBoutsFromBracket(bracket);
     bouts.push(...bracketBouts);
   });
   // write bout to firebase realtime database
-  console.log("Generated bouts:", bouts.length);
   if (bouts.length === 0) {
-    console.warn("No bouts generated from brackets.");
+    return [];
   }
   const sortedBouts = bouts.sort((a, b) => a.roundNumber - b.roundNumber);
   const db = ikfpkbDB();
+  const boutsRef = ref(db, "combatEvent/bouts");
+  const boutSnap = await get(boutsRef);
+  const boutDataRef = boutSnap.val();
+  void boutDataRef;
+  // any bout that's of a primary bracket regardless of the round number should be before any bout of a secondary bracket
+  sortedBouts.sort((a, b) => {
+    // if the bout belongs to a primary bracket, it should come before any secondary bracket bout
+    if (a.boutId.includes("P") && !b.boutId.includes("P")) {
+      return -1; // a comes before b
+    } else if (!a.boutId.includes("P") && b.boutId.includes("P")) {
+      return 1; // b comes before a
+    }
+    // If both are primary or both are secondary, sort by roundNumber
+    return a.roundNumber - b.roundNumber;
+  });
+
+  console.log("Sorted bouts:", sortedBouts);
+
   set(ref(db, "combatEvent/bouts"), sortedBouts)
     .then(() => {
-      console.log("Bouts saved to Firebase Realtime Database successfully.");
-      set(ref(db, "combatEvent/bracketOrderComitted"), true).then(() => {
-        console.log("Bracket order committed successfully.");
-      });
+      set(ref(db, "combatEvent/bracketOrderComitted"), true).then(() => {});
     })
     .catch((error) => {
       console.error(

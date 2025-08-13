@@ -1,6 +1,7 @@
 import {
   CombatEvent,
   CSBout,
+  CSBoutState,
   CSBracket,
   CSMat,
   IKFEvent,
@@ -9,6 +10,8 @@ import {
 import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { EventMatDisplayProps } from "@nsholmes/combat-stats-types/props.model";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ref, set } from "firebase/database";
+import { ikfpkbDB } from "../FirebaseConfig";
 import { createBracketBouts } from "./utils/EventBouts";
 
 export const initialState: CombatEvent = {
@@ -69,6 +72,17 @@ export const CombatEventSlice = createSlice({
       state.participants = participants ? participants : [];
       state.brackets = brackets ? brackets : [];
       state.mats = mats ? mats : [];
+
+      const db = ikfpkbDB();
+      set(ref(db, "combatEvent"), state)
+        .then(() => {
+          console.log(
+            "CombatEvent data successfully written to database. Show in Success Snack Bar"
+          );
+        })
+        .catch((error) => {
+          console.log("Error writing CombatEvent data to database:", error);
+        });
     },
     setSelectedEvent(state, action: PayloadAction<IKFEvent>) {
       state.selectedEvent = action.payload;
@@ -81,12 +95,18 @@ export const CombatEventSlice = createSlice({
     },
     setBouts(state, action: PayloadAction<CSBracket[]>) {
       // Set the bouts for the event
-      const newBouts = createBracketBouts(action.payload);
-      console.log("CombatEventSlice: setBouts", newBouts);
-      state.bouts = newBouts;
+      createBracketBouts(action.payload).then((bouts) => {
+        state.bouts = bouts;
+      });
     },
     setParticipants(state, action: PayloadAction<any[]>) {
       state.participants = action.payload;
+      const db = ikfpkbDB();
+      set(ref(db, "combatEvent/participants"), state.participants).then(() => {
+        console.log(
+          "CombatEvent participants successfully written to database. Show in Success Snack Bar"
+        );
+      });
     },
     updateParticipantWeight(
       state,
@@ -181,6 +201,7 @@ export const CombatEventSlice = createSlice({
       });
     },
     resetCombatEvent(state) {
+      void state;
       // Reset the combat event state to initial state
       state = initialState;
     },
@@ -193,12 +214,38 @@ export const CombatEventSlice = createSlice({
       state,
       action: PayloadAction<{ bracketId: number; matNumber: number }>
     ) {
+      void state;
       const { bracketId, matNumber } = action.payload;
       const bracketIndex = state.brackets.findIndex(
         (bracket) => bracket.bracketId === bracketId
       );
       if (bracketIndex !== -1) {
         state.brackets[bracketIndex].matNumber = matNumber;
+      }
+    },
+    updateCombatEvent(state, action: PayloadAction<CombatEvent>) {
+      void state;
+      state = action.payload;
+    },
+    updateBoutStatus(
+      state,
+      action: PayloadAction<{ boutId: string; status: CSBoutState }>
+    ) {
+      const { boutId, status } = action.payload;
+      const boutIndex = state.bouts.findIndex(
+        (bout) => bout.boutId === boutId
+      );
+      if (boutIndex !== -1) {
+        state.bouts[boutIndex].status.state = status;
+      }
+    },
+    approveBoutResults(state, action: PayloadAction<{ boutId: string }>) {
+      const { boutId } = action.payload;
+      const boutIndex = state.bouts.findIndex(
+        (bout) => bout.boutId === boutId
+      );
+      if (boutIndex !== -1) {
+        state.bouts[boutIndex].isResultApproved = true;
       }
     },
   },
@@ -244,7 +291,6 @@ export const SelectAllParticipants = (state: any) => {
 };
 
 export const SelectAllBrackets = (state: any) => {
-  console.log("SelectAllBrackets: ", state.combatEvent.brackets);
   return state.combatEvent.brackets ? state.combatEvent.brackets : [];
 };
 
@@ -279,6 +325,9 @@ export const {
   hydrateCombatEvent,
   resetCombatEvent,
   setBoutsFromDB,
+  updateBoutStatus,
+  updateCombatEvent,
+  approveBoutResults,
 } = CombatEventSlice.actions;
 
 export const { reducer } = CombatEventSlice;

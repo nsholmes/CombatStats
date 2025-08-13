@@ -13,6 +13,7 @@ import {
   SelectAllParticipants,
   SelectCombatEventState,
   SelectSelectedEvent,
+  updateCombatEvent,
 } from "../Features/combatEvent.slice";
 import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
 import { ikfpkbDB } from "../FirebaseConfig";
@@ -25,6 +26,7 @@ type SelectedEventProps = {
   refreshParticipantsFromFSI: (eventUID: string, eventID: number) => void;
   syncDBWithCombatEventSlice: (event: eventModel.CombatEvent) => void;
   resetCombatEvent: () => void;
+  updateCombatEvent: (event: CombatEvent) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -42,6 +44,8 @@ function mapDispatchToProps(dispatch: any) {
     syncDBWithCombatEventSlice: (event: eventModel.CombatEvent) =>
       dispatch(SYNC_COMBAT_EVENT(event)),
     resetCombatEvent: () => dispatch({ type: "RESET_COMBAT_EVENT" }),
+    updateCombatEvent: (event: CombatEvent) =>
+      dispatch(updateCombatEvent(event)),
   };
 }
 
@@ -60,9 +64,11 @@ function SelectedEventView(props: SelectedEventProps) {
 
     onValue(combatEventref, (snapshot) => {
       if (snapshot.exists()) {
+        console.log("Current event found in Firebase.");
         const objEvent = snapshot.val();
         combatEvent = objEvent as CombatEvent;
         setEventData(combatEvent);
+        props.updateCombatEvent(combatEvent);
       } else {
         console.log("No current event found.");
       }

@@ -18,11 +18,12 @@ import {
 import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { UPDATE_BRACKET_ORDER } from "../../Features/combatEvent.actions";
 import {
   SelectAllBrackets,
-  updateBracketOrder,
   updateBracketSequence,
 } from "../../Features/combatEvent.slice";
+import { saveBracketOrder } from "../../Features/utils/EventBouts";
 import { EventContext } from "../../Views/SelectedEventView";
 import Grid from "./Grid";
 import SortableBracketItem from "./SortableBracketItem";
@@ -42,7 +43,7 @@ function mapDispatchToProps(dispatch: any) {
     updateBracketSquence: (brackets: CSBracket[]) =>
       dispatch(updateBracketSequence(brackets)),
     updateBracketOrder: (brackets: CSBracket[]) =>
-      dispatch(updateBracketOrder(brackets)),
+      dispatch(UPDATE_BRACKET_ORDER(brackets)),
   };
 }
 function BracketsOrderView(props: BracketsOrderViewProps) {
@@ -54,17 +55,18 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
   void activeId;
 
   useEffect(() => {
+    console.log("Event Data in BracketsOrderView:", eventData?.brackets);
     // sort bracket by the number of competitors, if isPrimary is true, then it should be first regardless of the number of competitors
-    if (eventData?.bracketOrderComitted) {
-      setBrackets(eventData.brackets);
-    } else {
-      const sortedBrackets = eventData?.brackets.sort((a, b) => {
-        if (a.isPrimary && !b.isPrimary) return -1;
-        if (!a.isPrimary && b.isPrimary) return 1;
-        return a.competitors.length - b.competitors.length;
-      });
-      setBrackets(sortedBrackets ?? []);
-    }
+    // if (eventData?.bracketOrderComitted) {
+    //   setBrackets(eventData.brackets);
+    // } else {
+    //   const sortedBrackets = eventData?.brackets.sort((a, b) => {
+    //     if (a.isPrimary && !b.isPrimary) return -1;
+    //     if (!a.isPrimary && b.isPrimary) return 1;
+    //     return a.competitors.length - b.competitors.length;
+    //   });
+    //   setBrackets(sortedBrackets ?? []);
+    // }
   }, [eventData?.brackets]);
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -94,6 +96,7 @@ function BracketsOrderView(props: BracketsOrderViewProps) {
       const newArr = arrayMove(brackets, oldIndex, newIndex);
       setBrackets(newArr);
       props.updateBracketOrder(newArr);
+      saveBracketOrder(newArr);
       return;
     }
     setActiveId(null);

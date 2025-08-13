@@ -16,6 +16,7 @@ const firebaseConfig = {
   appId: "1:94594949326:web:d51372d8774d1336dff09f",
   measurementId: "G-TQLQK7C74K",
 };
+void firebaseConfig;
 export const ikfpkbDB = () => {
   const ikfpkbFirebaseConfig = {
     apiKey: "AIzaSyB4KkX-lY3mRmERgn6a0OEICQ6VYQ-PkhA",

@@ -110,6 +110,7 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
     setRoles((prev) => {
       const newRoles = [...prev];
       const newMats = [...props.mats];
+      void newMats;
       newRoles[matIdx] = { ...newRoles[matIdx], [role]: value };
       props.updateMatRoles({
         idx: matIdx,

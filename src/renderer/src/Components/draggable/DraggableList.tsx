@@ -8,6 +8,7 @@ type DraggableListProps<T = any> = {
 
 const DraggableList = (props: DraggableListProps) => {
   const [items, setItems] = useState(props.itemList);
+  void setItems;
 
   return (
     <Box sx={{ margin: "auto 0px", width: "420px" }}>
@@ -19,7 +20,7 @@ const DraggableList = (props: DraggableListProps) => {
         }}>
         {/* <List items={props.itemList} /> */}
         {items.map((item: CSBracket) => (
-          <></>
+          <div key={item.bracketId}></div>
         ))}
       </Box>
     </Box>

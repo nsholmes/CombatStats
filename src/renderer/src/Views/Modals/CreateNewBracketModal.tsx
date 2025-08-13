@@ -77,6 +77,7 @@ const ModalStyle = {
 function CreateNewBracketModal(props: CreateNewBracketModalProps) {
   const [weightClass, setWeightClass] = useState<string>("");
   const [matId, setMatId] = useState<number>(-1);
+  void setMatId;
   const [isPrimaryBracket, setIsPrimaryBracket] = useState<boolean>(false);
   const bracketTitle = () => {
     switch (props.currentBracketType) {
