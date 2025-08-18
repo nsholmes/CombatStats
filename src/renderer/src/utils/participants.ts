@@ -13,7 +13,7 @@ export const createWeightRanges = (
 ): WeightRange[] => {
   const ranges: WeightRange[] = [];
   for (let weightMin = start; weightMin < end; weightMin += weightRangeStep) {
-    const weightMax = weightMin + weightRangeStep - 1;
+    const weightMax = weightMin + weightRangeStep - 0.1;
     ranges.push({ weightMin, weightMax });
   }
   return ranges;
@@ -22,15 +22,51 @@ export const createWeightRanges = (
 export const weightRanges: WeightRange[] = createWeightRanges(50, 301);
 
 export const sortParticipantsForMatching = (
-  participants: IKFParticipant[]
+  participants: IKFParticipant[],
+  filterMode: "Juniors" | "Boys" | "Girls" | "F" | "M" | "All" = "All"
 ) => {
   const sortedParticipants: CheckInPariticipantSort[] = [];
 
   try {
     // null weight participants
     const nullWeightParticipants: IKFParticipant[] = participants.filter(
-      (p) => p.weight === null || p.weight === undefined
+      (p) => {
+        if (filterMode === "All") {
+          return p.weight === null || p.weight === undefined;
+        } else if (filterMode === "Juniors") {
+          return (
+            (p.weight === null || p.weight === undefined) &&
+            getAgeFromDOB(p.dob) < 18
+          );
+        } else if (filterMode === "Boys") {
+          return (
+            (p.weight === null || p.weight === undefined) &&
+            getAgeFromDOB(p.dob) < 18 &&
+            p.gender === "M"
+          );
+        } else if (filterMode === "Girls") {
+          return (
+            (p.weight === null || p.weight === undefined) &&
+            getAgeFromDOB(p.dob) < 18 &&
+            p.gender === "F"
+          );
+        } else if (filterMode === "F") {
+          return (
+            (p.weight === null || p.weight === undefined) &&
+            p.gender === "F" &&
+            getAgeFromDOB(p.dob) >= 18
+          );
+        } else if (filterMode === "M") {
+          return (
+            (p.weight === null || p.weight === undefined) &&
+            p.gender === "M" &&
+            getAgeFromDOB(p.dob) >= 18
+          );
+        }
+        return [];
+      }
     );
+
     if (nullWeightParticipants.length > 0) {
       sortedParticipants.push({
         weightMax: 0,
@@ -42,10 +78,60 @@ export const sortParticipantsForMatching = (
 
     weightRanges.forEach((range) => {
       const filteredParticipants: IKFParticipant[] = participants.filter(
-        (p) =>
-          p.weight !== null &&
-          p.weight >= range.weightMin &&
-          p.weight <= range.weightMax
+        (p) => {
+          if (filterMode === "All") {
+            return (
+              p.weight !== null &&
+              p.weight !== undefined &&
+              p.weight >= range.weightMin &&
+              p.weight <= range.weightMax
+            );
+          } else if (filterMode === "Juniors") {
+            return (
+              p.weight !== null &&
+              p.weight !== undefined &&
+              p.weight >= range.weightMin &&
+              p.weight <= range.weightMax &&
+              getAgeFromDOB(p.dob) < 18
+            );
+          } else if (filterMode === "Boys") {
+            return (
+              p.weight !== null &&
+              p.weight !== undefined &&
+              p.weight >= range.weightMin &&
+              p.weight <= range.weightMax &&
+              getAgeFromDOB(p.dob) < 18 &&
+              p.gender === "M"
+            );
+          } else if (filterMode === "Girls") {
+            return (
+              p.weight !== null &&
+              p.weight !== undefined &&
+              p.weight >= range.weightMin &&
+              p.weight <= range.weightMax &&
+              getAgeFromDOB(p.dob) < 18 &&
+              p.gender === "F"
+            );
+          } else if (filterMode === "F") {
+            return (
+              p.weight !== null &&
+              p.weight !== undefined &&
+              p.weight >= range.weightMin &&
+              p.weight <= range.weightMax &&
+              p.gender === "F" &&
+              getAgeFromDOB(p.dob) >= 18
+            );
+          } else if (filterMode === "M") {
+            return (
+              p.weight !== null &&
+              p.weight !== undefined &&
+              p.weight >= range.weightMin &&
+              p.weight <= range.weightMax &&
+              p.gender === "M" &&
+              getAgeFromDOB(p.dob) >= 18
+            );
+          }
+        }
       );
 
       filteredParticipants.sort((a, b) => {
@@ -55,6 +141,13 @@ export const sortParticipantsForMatching = (
         if (b.gender.toLocaleLowerCase() < a.gender.toLocaleLowerCase())
           return 1;
         return 0;
+      });
+
+      // Sort filteredParticipants by Age (ascending)
+      filteredParticipants.sort((a, b) => {
+        const ageA = getAgeFromDOB(a.dob);
+        const ageB = getAgeFromDOB(b.dob);
+        return ageA - ageB;
       });
 
       if (filteredParticipants.length > 0) {

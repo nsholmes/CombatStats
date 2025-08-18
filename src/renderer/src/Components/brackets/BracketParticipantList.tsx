@@ -128,7 +128,9 @@ function BracketParticipantList(props: BracketParticipantListProps) {
   };
   return (
     <div>
-      <Typography variant='h4'>Fighters</Typography>
+      <Typography sx={{ marginBottom: "5px" }} variant='h4'>
+        Fighters
+      </Typography>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}

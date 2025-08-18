@@ -24,6 +24,10 @@ export const UPDATE_BRACKET_ORDER = createAction<CSBracket[]>(
   "UPDATE_BRACKET_ORDER"
 );
 
+// TODO: CREATE LOGIC TO HANDLE BRACKET UPDATES and BRACKET DELETION
+export const UPDATE_BRACKET = createAction<CSBracket>("UPDATE_BRACKET");
+export const DELETE_BRACKET = createAction<string>("DELETE_BRACKET");
+
 export const UPDATE_MAT_BOUTS =
   createAction<EventMatDisplayProps>("UPDATE_MAT_BOUTS");
 

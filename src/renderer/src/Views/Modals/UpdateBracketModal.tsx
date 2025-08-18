@@ -1,131 +1,70 @@
 import { Box, Typography } from "@mui/material";
-import {
-  CombatEvent,
-  CSBracket,
-  CSMat,
-} from "@nsholmes/combat-stats-types/event.model";
+import { CSBracket } from "@nsholmes/combat-stats-types/event.model";
 import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
 import { ChangeEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BracketParticipantList from "../../Components/brackets/BracketParticipantList";
+import MainButton from "../../Components/MainButton";
 import {
-  ADD_BRACKET,
-  SYNC_COMBAT_EVENT,
+  DELETE_BRACKET,
+  UPDATE_BRACKET,
 } from "../../Features/combatEvent.actions";
 import {
   SelectBracketBySelectedId,
-  SelectCombatEventState,
-  SelectMatCount,
-  SelectMats,
   SelectParticipantsByIds,
-  setParticipantsBracketCount,
   setSelectedParticipantIds,
 } from "../../Features/combatEvent.slice";
-import {
-  SelectCurrentModal,
-  setModalIsVisible,
-} from "../../Features/modal.slice";
+import { setModalIsVisible } from "../../Features/modal.slice";
 import { WeightClasses } from "../../utils/weightClasses";
 import { CreateUpdateModalStyle } from "../StyledComps/ModalStyles";
 
-type CreateNewBracketModalProps = {
-  currentBracketType: string;
-  matCount: number;
-  csMats: CSMat[];
-  selectedParticipants: IKFParticipant[];
-  selectedCombatEvent: CombatEvent;
+type UpdateBracketModalProps = {
   selectedBracket: CSBracket | undefined;
+  selectedParticipants: IKFParticipant[];
   setModalIsVisible: (isVisible: boolean) => void;
-  addNewBracket: (bracket: CSBracket) => void;
+  updateBracket: (updatedBracket: CSBracket) => void;
+  deleteBracket: (bracketId: string | number) => void;
   clearSelectedParticipants: () => void;
-  syncDBWithCombatEventSlice: (event: CombatEvent) => void;
-  setParticipantsBracketCount: (ids: number[]) => void;
 };
-
 function mapStateToProps(state: any) {
   return {
-    currentBracketType: SelectCurrentModal(state),
-    matCount: SelectMatCount(state),
-    csMats: SelectMats(state),
-    selectedParticipants: SelectParticipantsByIds(state),
-    selectedCombatEvent: SelectCombatEventState(state),
     selectedBracket: SelectBracketBySelectedId(state),
+    selectedParticipants: SelectParticipantsByIds(state),
   };
 }
-
 function mapDispatchToProps(dispatch: any) {
   return {
+    deleteBracket: (bracketId: string | number) =>
+      dispatch(DELETE_BRACKET(bracketId as string)),
+    updateBracket: (updatedBracket: CSBracket) =>
+      dispatch(UPDATE_BRACKET(updatedBracket)),
     setModalIsVisible: (isVisible: boolean) =>
       dispatch(setModalIsVisible(isVisible)),
-    addNewBracket: (bracket: CSBracket) => dispatch(ADD_BRACKET(bracket)),
     clearSelectedParticipants: () => dispatch(setSelectedParticipantIds([])),
-    syncDBWithCombatEventSlice: (event: CombatEvent) =>
-      dispatch(SYNC_COMBAT_EVENT(event)),
-    setParticipantsBracketCount: (ids: number[]) =>
-      dispatch(setParticipantsBracketCount(ids)),
   };
 }
 
-function CreateNewBracketModal(props: CreateNewBracketModalProps) {
-  const [weightClass, setWeightClass] = useState<string>("");
+function UpdateBracketModal(props: UpdateBracketModalProps) {
+  const [weightClass, setWeightClass] = useState<string>(
+    props.selectedBracket?.divisionName ?? ""
+  );
   const [matId, setMatId] = useState<number>(-1);
   void setMatId;
   const [isPrimaryBracket, setIsPrimaryBracket] = useState<boolean>(false);
+  const [discipline, setDiscipline] = useState<string>("");
 
   useEffect(() => {
-    console.log("selectedBracket", props.selectedBracket);
     if (props.selectedBracket) {
       setWeightClass(props.selectedBracket.divisionName);
       setMatId(props.selectedBracket.matNumber);
       setIsPrimaryBracket(props.selectedBracket.isPrimary);
+      setDiscipline(props.selectedBracket.discipline);
     }
   }, [props.selectedBracket]);
-
-  const bracketTitle = () => {
-    switch (props.currentBracketType) {
-      case "createBracket-MuayThai":
-        return "Muay Thai";
-      case "createBracket-Boxing":
-        return "Boxing";
-      case "createBracket-Intl":
-        return "International";
-      case "createBracket-Unified":
-        return "Unified";
-      default:
-        return "Bracket";
-    }
-  };
 
   const handleWeightChange = (event: ChangeEvent<HTMLSelectElement>) => {
     console.log(event.target.value);
     setWeightClass(event.target.value);
-  };
-
-  const handleCreateBracketButtonClick = () => {
-    const ids: number[] = [];
-
-    // create bracketIdString from the currentEventId and each selected participant's id
-    const currentEventId = props.selectedCombatEvent.selectedEvent.id;
-    const bracketIdString = `${currentEventId}-${props.selectedParticipants
-      .map((p) => p.participantId)
-      .join("-")}`;
-    const newBracket: CSBracket = {
-      bracketId: bracketIdString,
-      divisionName: weightClass,
-      discipline: bracketTitle(),
-      bracketDivisionName: weightClass,
-      competitors: props.selectedParticipants,
-      matNumber: matId,
-      isPrimary: isPrimaryBracket,
-      sequence: 0,
-    };
-    props.setModalIsVisible(false);
-    props.addNewBracket(newBracket);
-    props.selectedParticipants.map((p) => {
-      ids.push(p.participantId);
-    });
-    props.setParticipantsBracketCount(ids);
-    props.clearSelectedParticipants();
   };
 
   const handleCancelButtonClick = () => {
@@ -133,15 +72,40 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
     props.clearSelectedParticipants();
   };
 
+  const handleDeleteBracketButtonClick = () => {
+    if (!props.selectedBracket) return;
+    props.deleteBracket(props.selectedBracket?.bracketId);
+    props.setModalIsVisible(false);
+    props.clearSelectedParticipants();
+  };
+
+  const handleUpdateBracketButtonClick = () => {
+    if (!props.selectedBracket) return;
+    const newBracket: CSBracket = {
+      bracketId: props.selectedBracket?.bracketId ?? "",
+      divisionName: weightClass,
+      discipline: props.selectedBracket?.discipline ?? "",
+      bracketDivisionName: weightClass,
+      competitors: props.selectedParticipants,
+      matNumber: matId,
+      isPrimary: isPrimaryBracket,
+      sequence: 0,
+    };
+    props.updateBracket(newBracket);
+    props.setModalIsVisible(false);
+    props.clearSelectedParticipants();
+  };
+
   return (
     <Box sx={CreateUpdateModalStyle}>
-      <Typography variant='h4'>{bracketTitle()}</Typography>
+      <Typography variant='h4'>{`${discipline} - ${props.selectedBracket?.bracketId}`}</Typography>
+
       <div>
         <div className='flex gap-4 mt-5'>
           <BracketParticipantList />
           <div className='flex flex-col gap-3 justify-between w-full max-w-sm min-w-[200px]'>
             <div>
-              <label className=' mb-4 block text-3xl text-white-800'>
+              <label className='mb-4 block text-3xl text-white-800'>
                 Weight Class
               </label>
               <div className='relative'>
@@ -220,20 +184,22 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
               </div>
             </div>
             <div className='mt-2 flex flex-row gap-2 justify-end'>
-              <button
-                className='rounded-md bg-slate-800 py-1.5 px-3 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
-                onClick={handleCancelButtonClick}>
-                Cancel Create
-              </button>
-              <button
-                className='rounded-md bg-slate-800 py-1.5 px-3 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
-                color='primary'
-                disabled={weightClass === "" ? true : false}
-                onClick={() => {
-                  handleCreateBracketButtonClick();
-                }}>
-                Create Bracket
-              </button>
+              <MainButton
+                label='Cancel Update'
+                onClickCb={handleCancelButtonClick}
+                variant='primary'
+              />
+              <MainButton
+                label='Delete Bracket'
+                onClickCb={handleDeleteBracketButtonClick}
+                variant='danger'
+              />
+              <MainButton
+                label='Update Bracket'
+                onClickCb={handleUpdateBracketButtonClick}
+                variant='success'
+                // disabled={weightClass === "" ? true : false}
+              />
             </div>
           </div>
         </div>
@@ -245,4 +211,4 @@ function CreateNewBracketModal(props: CreateNewBracketModalProps) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateNewBracketModal);
+)(UpdateBracketModal);

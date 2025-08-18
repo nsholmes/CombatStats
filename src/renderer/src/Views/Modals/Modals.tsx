@@ -5,6 +5,7 @@ import {
   SelectIsVisible,
 } from "../../Features/modal.slice";
 import CreateNewBracketModal from "./CreateNewBracketModal";
+import UpdateBracketModal from "./UpdateBracketModal";
 
 type ModalsProps = {
   // Define any props that you might need here
@@ -24,6 +25,12 @@ function Modals(props: ModalsProps) {
       return (
         <div>
           <CreateNewBracketModal />
+        </div>
+      );
+    } else if (props.currentModal.indexOf("updateBracket") > -1) {
+      return (
+        <div>
+          <UpdateBracketModal />
         </div>
       );
     } else {

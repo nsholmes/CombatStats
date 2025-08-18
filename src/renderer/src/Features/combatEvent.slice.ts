@@ -261,11 +261,21 @@ export const SelectSelectedParticipants = (state: any) => {
 export const SelectParticipantsByIds = (state: any) => {
   const participants = state.combatEvent.participants as IKFParticipant[];
   const participantsIds = state.combatEvent.selectedParticipantIds as number[];
+
   const retVal: IKFParticipant[] = [];
   participantsIds.map((pID) => {
-    const item = participants.find((p) => p.participantId === pID);
+    console.log("SelectParticipantsByIds: ", pID);
+    const item = participants.find((p) => {
+      if (pID === p.participantId) {
+        console.log("found participant: ", p);
+      }
+      return p.participantId == pID;
+    });
+    console.log("item: ", item);
     if (item) retVal.push(item);
   });
+
+  console.log("SelectParticipantsByIds: ", participantsIds);
   return retVal;
 };
 

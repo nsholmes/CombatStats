@@ -5,10 +5,12 @@ import { ikfpkbDB } from "../FirebaseConfig";
 import {
   ADD_BRACKET,
   APPROVE_BOUT_RESULTS,
+  DELETE_BRACKET,
   READ_SELECTED_COMBAT_EVENT_FROM_FB,
   RESET_COMBAT_EVENT,
   SET_PARTICIPANTS_BRACKET_COUNT,
   SYNC_COMBAT_EVENT,
+  UPDATE_BRACKET,
   UPDATE_BRACKET_ORDER,
   UPDATE_MAT_BOUTS,
 } from "./combatEvent.actions";
@@ -138,6 +140,75 @@ const GetCombatEventsFromFB = createLogic({
       }
     } catch (error) {
       console.error("Error reading combat events from Firebase: ", error);
+    }
+    done();
+  },
+});
+
+const deleteBracketLogic = createLogic({
+  type: DELETE_BRACKET,
+  async process({ action }, dispatch, done) {
+    void action;
+    void dispatch;
+    const db = ikfpkbDB();
+    const bracketsRef = ref(db, `combatEvent/brackets`);
+    try {
+      const snapshot = await get(bracketsRef);
+      if (snapshot.exists()) {
+        const brackets = snapshot.val();
+        const bracketIndex = brackets.findIndex(
+          (bracket: CSBracket) => bracket.bracketId === action.payload
+        );
+        if (bracketIndex !== -1) {
+          // Remove the bracket from the array
+          brackets.splice(bracketIndex, 1);
+          // Write the updated brackets back to Firebase
+          set(bracketsRef, brackets).then(() => {
+            console.log("Bracket deleted successfully in Firebase.");
+          });
+        } else {
+          console.error("Bracket not found in the database.");
+        }
+      } else {
+        console.error("No brackets found in the database.");
+      }
+    } catch (error) {
+      console.error("Error reading brackets from Firebase: ", error);
+    }
+    done();
+  },
+});
+
+const updateBracketLogic = createLogic({
+  type: UPDATE_BRACKET,
+  async process({ action }, dispatch, done) {
+    void action;
+    void dispatch;
+    const db = ikfpkbDB();
+    const bracketsRef = ref(db, `combatEvent/brackets`);
+
+    try {
+      const snapshot = await get(bracketsRef);
+      if (snapshot.exists()) {
+        const brackets = snapshot.val();
+        const bracketIndex = brackets.findIndex(
+          (bracket: CSBracket) =>
+            bracket.bracketId === action.payload.bracketId
+        );
+
+        if (bracketIndex !== -1) {
+          // Update the bracket in the array
+          brackets[bracketIndex] = action.payload;
+          // Write the updated brackets back to Firebase
+          set(bracketsRef, brackets).then(() => {
+            console.log("Bracket updated successfully in Firebase.");
+          });
+        }
+
+        // dispatch(updateBracket(brackets));
+      }
+    } catch (error) {
+      console.error("Error reading brackets from Firebase: ", error);
     }
     done();
   },
@@ -435,6 +506,8 @@ const combatEventLogic = [
   updateBracketOrderLogic,
   updateMatBoutsLogic,
   approveBoutResultsLogic,
+  updateBracketLogic,
+  deleteBracketLogic,
 ];
 
 export default combatEventLogic;
