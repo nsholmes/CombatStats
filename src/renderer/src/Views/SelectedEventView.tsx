@@ -19,6 +19,7 @@ import { REFRESH_EVENT_PARTICIPANTS_FROM_FSI } from "../Features/eventsAction";
 import { ikfpkbDB } from "../FirebaseConfig";
 import EventBouts from "./EventBouts";
 import EventDetails from "./EventDetails";
+import EventResults from "./EventResults";
 
 type SelectedEventProps = {
   selectedEvent: eventModel.IKFEvent;
@@ -93,6 +94,9 @@ function SelectedEventView(props: SelectedEventProps) {
       case 5: //Event Details
         setViewState("Event Bouts");
         break;
+      case 6: // Event Results
+        setViewState("Event Results");
+        break;
       default:
         setViewState("");
     }
@@ -110,6 +114,8 @@ function SelectedEventView(props: SelectedEventProps) {
         return <EventDetails />;
       case "Event Bouts": //Event Details
         return <EventBouts />;
+      case "Event Results": // Event Results
+        return <EventResults />;
       default:
         return (
           <Box>
@@ -171,6 +177,14 @@ function SelectedEventView(props: SelectedEventProps) {
               subNavButtonClicked(4);
             }}>
             Event Details
+          </Button>
+          <Button
+            variant='outlined'
+            sx={{ fontSize: "18px" }}
+            onClick={() => {
+              subNavButtonClicked(6);
+            }}>
+            Event Results
           </Button>
           <Button
             variant='outlined'
