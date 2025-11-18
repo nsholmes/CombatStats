@@ -28,7 +28,7 @@
     "@mui/material": "^7.1.1",
     "@nsholmes/combat-stats-types": "^1.0.12",
     "@reduxjs/toolkit": "^2.8.2",
-    "@tailwindcss/vite": "^4.1.11",
+    "@tailwindcss/postcss": "^4.1.13",
     "electron": "^36.4.0",
     "electron-devtools-installer": "^4.0.0",
     "electron-vite": "^3.1.0",

@@ -1,6 +1,5 @@
 import { spawn } from "child_process";
 import { app, BrowserWindow, dialog, ipcMain } from "electron";
-import { installExtension, REDUX_DEVTOOLS } from "electron-devtools-installer";
 import * as fs from "fs";
 import * as path from "path";
 let mainWindow: BrowserWindow | null;
@@ -13,6 +12,7 @@ const createWindow = () => {
     height: 800,
     webPreferences: {
       nodeIntegration: true,
+      sandbox: false,
       preload: path.join(`${__dirname}/../preload`, "preload.js"),
       devTools: isDev,
     },
@@ -28,14 +28,10 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   createWindow();
-  // Errors are thrown if the dev tools are opened
-  // before the DOM is ready
-  installExtension(REDUX_DEVTOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log("An error occurred: ", err))
-    .finally(() => {
-      mainWindow?.webContents.openDevTools();
-    });
+  // Open DevTools without installing extensions in development
+  if (isDev) {
+    mainWindow?.webContents.openDevTools();
+  }
 });
 
 app.on("window-all-closed", () => {

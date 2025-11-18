@@ -68,8 +68,8 @@ function SelectedEventView(props: SelectedEventProps) {
         console.log("Current event found in Firebase.");
         const objEvent = snapshot.val();
         combatEvent = objEvent as CombatEvent;
-        setEventData(combatEvent);
-        props.updateCombatEvent(combatEvent);
+        setEventData(combatEvent?.participants?.length > 0 ? combatEvent : null);
+        props.updateCombatEvent(combatEvent?.participants?.length > 0 ? combatEvent : {} as CombatEvent);
       } else {
         console.log("No current event found.");
       }

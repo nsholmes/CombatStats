@@ -5,7 +5,7 @@ import {
   CSMat,
 } from "@nsholmes/combat-stats-types/event.model";
 import { EventMatDisplayProps } from "@nsholmes/combat-stats-types/props.model";
-import { getDatabase, onValue, ref } from "firebase/database";
+import { DataSnapshot, getDatabase, onValue, ref } from "firebase/database";
 import { createContext, useContext, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import EventMatDisplay from "../Components/bouts/EventMatDisplay";
@@ -114,14 +114,14 @@ function EventBouts(props: EventBoutsProps) {
     const boutsRef = ref(db, "combatEvent/bouts");
     void boutsRef;
 
-    // onValue(boutsRef, (snapshot: DataSnapshot) => {
-    //   const boutsData = snapshot.val();
-    //   if (boutsData) {
-    //     const bouts: CSBout[] = Object.values(boutsData);
-    //     // console.log("Bouts data updated:", bouts);
-    //     props.setBoutsFromDB(bouts);
-    //   }
-    // });
+    onValue(boutsRef, (snapshot: DataSnapshot) => {
+      const boutsData = snapshot.val();
+      if (boutsData) {
+        const bouts: CSBout[] = Object.values(boutsData);
+        // console.log("Bouts data updated:", bouts);
+        props.setBoutsFromDB(bouts);
+      }
+    });
     // when matsRef changes, update the mats in the store
     onValue(matsRef, (snapshot) => {
       const matsData = snapshot.val();

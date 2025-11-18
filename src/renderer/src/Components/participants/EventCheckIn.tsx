@@ -1,6 +1,3 @@
-import Box from "@mui/material/Box";
-import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
-import { ref, set } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -11,6 +8,9 @@ import { ikfpkbDB } from "../../FirebaseConfig";
 import { sortParticipantsForMatching } from "../../utils/participants";
 import { EventContext } from "../../Views/SelectedEventView";
 import CheckInParticipant from "./CheckInParticipant";
+import { IKFParticipant } from "@nsholmes/combat-stats-types/fighter.model";
+import Box from "@mui/material/Box";
+import { ref, set } from "@firebase/database";
 
 type CheckinProps = {
   eventParticipants: IKFParticipant[];
@@ -49,9 +49,9 @@ function EventCheckIn(props: CheckinProps) {
   const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
-    if (!searchValue) {
-      setFilteredParticipants(eventData ? eventData.participants : []);
-      sortParticipantsForMatching(eventData ? eventData.participants : []);
+    if (!searchValue && eventData?.participants?.length) {
+      setFilteredParticipants(eventData.participants);
+      sortParticipantsForMatching(eventData.participants);
     } else {
       const lower = searchValue.toLowerCase();
       setFilteredParticipants(
@@ -94,7 +94,7 @@ function EventCheckIn(props: CheckinProps) {
     <>
       <h4 className='text-4xl text-center mt-5'>[Event Check In]</h4>
       <div className='w-full max-w-sm min-w-[200px] relative mt-4 mb-4'>
-        <div>{`Participants (${filteredParticipants.length})`}</div>
+        <div>{`Participants (${filteredParticipants ? filteredParticipants.length : 'No Participants found for this event'})`}</div>
         <label className='block mb-2 text-sm text-white-600'>
           Search by Name
         </label>
@@ -133,18 +133,22 @@ function EventCheckIn(props: CheckinProps) {
             backgroundColor: "#2D3E40",
             padding: 3,
           }}>
-          {filteredParticipants.map((participant) => {
-            return participant.profileName === "Competitor" ? (
-              <CheckInParticipant
-                key={participant.participantId}
-                participant={participant}
-                updateWeightFunc={weightUpdateFunction}
-                isCheckedIn={participant.checkedIn}
-              />
-            ) : (
-              <></>
-            );
-          })}
+          {filteredParticipants?.length > 0 ? (
+            filteredParticipants.map((participant) =>
+              participant.profileName === "Competitor" ? (
+                <CheckInParticipant
+                  key={participant.participantId}
+                  participant={participant}
+                  updateWeightFunc={weightUpdateFunction}
+                  isCheckedIn={participant.checkedIn}
+                />
+              ) : null
+            )
+          ) : (
+            <Box sx={{ textAlign: "center", width: "100%", padding: 3 }}>
+              No Competitors were loaded for this event!
+            </Box>
+          )}
         </Box>
       </Box>
     </>

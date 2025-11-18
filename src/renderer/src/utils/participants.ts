@@ -29,7 +29,7 @@ export const sortParticipantsForMatching = (
 
   try {
     // null weight participants
-    const nullWeightParticipants: IKFParticipant[] = participants.filter(
+    const nullWeightParticipants: IKFParticipant[] = participants?.filter(
       (p) => {
         if (filterMode === "All") {
           return p.weight === null || p.weight === undefined;
@@ -67,7 +67,7 @@ export const sortParticipantsForMatching = (
       }
     );
 
-    if (nullWeightParticipants.length > 0) {
+    if (nullWeightParticipants?.length > 0) {
       sortedParticipants.push({
         weightMax: 0,
         weightMin: 0,
@@ -77,7 +77,7 @@ export const sortParticipantsForMatching = (
     }
 
     weightRanges.forEach((range) => {
-      const filteredParticipants: IKFParticipant[] = participants.filter(
+      const filteredParticipants: IKFParticipant[] = participants?.filter(
         (p) => {
           if (filterMode === "All") {
             return (
@@ -134,7 +134,7 @@ export const sortParticipantsForMatching = (
         }
       );
 
-      filteredParticipants.sort((a, b) => {
+      filteredParticipants?.sort((a, b) => {
         // Sort by gender first
         if (a.gender.toLocaleLowerCase() < b.gender.toLocaleLowerCase())
           return -1;
@@ -144,13 +144,13 @@ export const sortParticipantsForMatching = (
       });
 
       // Sort filteredParticipants by Age (ascending)
-      filteredParticipants.sort((a, b) => {
+      filteredParticipants?.sort((a, b) => {
         const ageA = getAgeFromDOB(a.dob);
         const ageB = getAgeFromDOB(b.dob);
         return ageA - ageB;
       });
 
-      if (filteredParticipants.length > 0) {
+      if (filteredParticipants?.length > 0) {
         sortedParticipants.push({
           weightMax: range.weightMax,
           weightMin: range.weightMin,

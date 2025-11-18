@@ -82,6 +82,7 @@ const GetParticipantsFromFB = createLogic({
           : Object.values(participants);
         dispatch(setParticipants(participantsArray));
       } else {
+        dispatch(setParticipants([]));
         console.log("No Participants found in Firebase");
       }
     } catch (error) {

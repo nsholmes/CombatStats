@@ -27,10 +27,7 @@ import {
   setIsVisible,
   setMenuCoords,
 } from "../../Features/contextMenu.slice";
-import {
-  setCurrentModal,
-  setModalIsVisible,
-} from "../../Features/modal.slice";
+import { setCurrentModal, setModalIsVisible } from "../../Features/modal.slice";
 import {
   getAgeFromDOB,
   sortParticipantsForMatching,
@@ -66,8 +63,7 @@ function mapDispatchToProps(dispatch: any) {
   return {
     setCurrentContextMenu: (menuName: ContextMenuType) =>
       dispatch(setCurrentMenu(menuName)),
-    setMenuIsVisible: (isVisible: boolean) =>
-      dispatch(setIsVisible(isVisible)),
+    setMenuIsVisible: (isVisible: boolean) => dispatch(setIsVisible(isVisible)),
     setMenuPosition: (coords: PositionCoords) =>
       dispatch(setMenuCoords(coords)),
     moveSelectedCompetitor: (competitorId: string | null) =>
@@ -85,7 +81,7 @@ function mapDispatchToProps(dispatch: any) {
 
 function Matching(props: MatchingProps) {
   const eventData = useContext(EventContext);
-  const { participants, brackets } = eventData as CombatEvent;
+  const { participants, brackets } = eventData as CombatEvent || {participants: [], brackets: []};
   const [bracketCount, setBracketCount] = useState<number>(0);
   const [filterMode, setFilterMode] = useState<
     "Juniors" | "Boys" | "Girls" | "F" | "M" | "All"
@@ -172,8 +168,8 @@ function Matching(props: MatchingProps) {
     const bracketIds: { mat: number; id: number }[] = [];
     brackets?.forEach((bracket) => {
       if (
-        bracket.competitors &&
-        bracket.competitors.some((c) => c.participantId === partId)
+        bracket?.competitors &&
+        bracket?.competitors?.some((c) => c.participantId === partId)
       ) {
         selectedBracket = bracket;
         bracketIds.push({
@@ -186,7 +182,7 @@ function Matching(props: MatchingProps) {
     return bracketIds.map((br) => (
       <Typography
         key={`shortBracketId-${br.id}`}
-        variant='caption'
+        variant="caption"
         sx={{
           cursor: "pointer",
           ":hover": {
@@ -198,7 +194,8 @@ function Matching(props: MatchingProps) {
         }}
         onClick={() => {
           handleBracketSelect(br);
-        }}>
+        }}
+      >
         {`${selectedBracket.divisionName}`}
       </Typography>
     ));
@@ -218,7 +215,7 @@ function Matching(props: MatchingProps) {
       if (part.toLowerCase() === searchValue.toLowerCase()) {
         console.log("Parts:", parts);
         return (
-          <span key={index} className='highlight'>
+          <span key={index} className="highlight">
             {part}
           </span>
         );
@@ -230,111 +227,119 @@ function Matching(props: MatchingProps) {
   };
   // #endregion
   return (
-    <div className='pt-2 bg-gray-100 dark:bg-gray-900'>
-      <div className='sticky top-0 z-10 bg-gray-500 p-5'>
-        <h2 className='text-center'>Match Participants</h2>
-        <div className='flex flex-row justify-center gap-2 mb-2'>
+    <div className="pt-2 bg-gray-100 dark:bg-gray-900">
+      <div className="sticky top-0 z-10 bg-gray-500 p-5">
+        <h2 className="text-center">Match Participants</h2>
+        <div className="flex flex-row justify-center gap-2 mb-2">
           {/* <SearchBox setSearchValue={setSearchValueCb} /> */}
           <MainButton
-            label='Juniors'
+            label="Juniors"
             onClickCb={() => setFilterMode("Juniors")}
-            variant='primary'
+            variant="primary"
           />
           <MainButton
-            label='Boys'
+            label="Boys"
             onClickCb={() => setFilterMode("Boys")}
-            variant='primary'
+            variant="primary"
           />
           <MainButton
-            label='Girls'
+            label="Girls"
             onClickCb={() => setFilterMode("Girls")}
-            variant='primary'
+            variant="primary"
           />
           <MainButton
-            label='Women'
+            label="Women"
             onClickCb={() => setFilterMode("F")}
-            variant='primary'
+            variant="primary"
           />
           <MainButton
-            label='Men'
+            label="Men"
             onClickCb={() => setFilterMode("M")}
-            variant='primary'
+            variant="primary"
           />
           <MainButton
-            label='All'
+            label="All"
             onClickCb={() => setFilterMode("All")}
-            variant='primary'
+            variant="primary"
           />
           <MainButton
-            label='Deselect All'
-            variant='danger'
+            label="Deselect All"
+            variant="danger"
             onClickCb={() => props.setSelectedParticipant([])}
           />
         </div>
       </div>
-      <div className='flex justify-center flex-row gap-2 flex-wrap bg-[#2D3E40]'>
-        {sortedParticipantsForMatching.map((weightRange, idx) => (
-          <div
-            className='bg-white p-2 dark:border-gray-700 dark:bg-gray-800'
-            key={`WeightRange-${idx}`}
-            onContextMenu={showContextMenu}>
-            {weightRange.weightMin === 0 && weightRange.weightMax === 0 ? (
-              <div>
-                <span className='text-xl font-semibold'>Weight Unknown</span>
-              </div>
-            ) : (
-              <div>
-                <h3>{`${weightRange.weightMin}lbs - ${weightRange.weightMax}lbs`}</h3>
-              </div>
-            )}
-            {weightRange.participants.map((participant, idx) => {
-              const isSelected =
-                props.selectedParticipantIds.findIndex(
-                  (p) => participant.participantId === p
-                ) !== -1;
-              return participant.profileName === "Competitor" ? (
-                <div
-                  className={`mb-1 p-1 border-b ${
-                    participant.bracketCount > 0
-                      ? "border-b-4 border-[#2D3E40]"
-                      : "border-b border-[#E4F2E7]"
-                  } text-white`}
-                  key={`Participant-${idx}`}>
-                  <div className='flex flex-col justify-between'>
-                    <div
-                      onClick={() => {
-                        participantSelected(participant.participantId);
-                      }}
-                      className={`hover:underline hover:cursor-pointer p-1 rounded-lg ${
-                        isSelected ? "bg-blue-700" : ""
-                      }`}>
-                      {`${idx + 1}. ${participant.firstName} ${
-                        participant.lastName
-                      }`}{" "}
-                      &nbsp;
-                      <span
-                        className={`inline ${
-                          participant.gender === "F" ? "text-pink-400" : ""
-                        }`}>{`(${participant.gender})`}</span>
+      <div className="flex justify-center flex-row gap-2 flex-wrap bg-[#2D3E40]">
+        {sortedParticipantsForMatching.length > 0 ? (
+          sortedParticipantsForMatching.map((weightRange, idx) => (
+            <div
+              className="bg-white p-2 dark:border-gray-700 dark:bg-gray-800"
+              key={`WeightRange-${idx}`}
+              onContextMenu={showContextMenu}
+            >
+              {weightRange.weightMin === 0 && weightRange.weightMax === 0 ? (
+                <div>
+                  <span className="text-xl font-semibold">Weight Unknown</span>
+                </div>
+              ) : (
+                <div>
+                  <h3>{`${weightRange.weightMin}lbs - ${weightRange.weightMax}lbs`}</h3>
+                </div>
+              )}
+              {weightRange.participants.map((participant, idx) => {
+                const isSelected =
+                  props.selectedParticipantIds.findIndex(
+                    (p) => participant.participantId === p
+                  ) !== -1;
+                return participant.profileName === "Competitor" ? (
+                  <div
+                    className={`mb-1 p-1 border-b ${
+                      participant.bracketCount > 0
+                        ? "border-b-4 border-[#2D3E40]"
+                        : "border-b border-[#E4F2E7]"
+                    } text-white`}
+                    key={`Participant-${idx}`}
+                  >
+                    <div className="flex flex-col justify-between">
+                      <div
+                        onClick={() => {
+                          participantSelected(participant.participantId);
+                        }}
+                        className={`hover:underline hover:cursor-pointer p-1 rounded-lg ${
+                          isSelected ? "bg-blue-700" : ""
+                        }`}
+                      >
+                        {`${idx + 1}. ${participant.firstName} ${
+                          participant.lastName
+                        }`}{" "}
+                        &nbsp;
+                        <span
+                          className={`inline ${
+                            participant.gender === "F" ? "text-pink-400" : ""
+                          }`}
+                        >{`(${participant.gender})`}</span>
+                        <div>
+                          {`(${getAgeFromDOB(participant.dob)} yo) (${
+                            participant.weight === null ? 0 : participant.weight
+                          }lbs)`}
+                        </div>
+                      </div>
                       <div>
-                        {`(${getAgeFromDOB(participant.dob)} yo) (${
-                          participant.weight === null ? 0 : participant.weight
-                        }lbs)`}
+                        {bracketCount > 0 ? (
+                          <div className="text-yellow-400 text-center">
+                            {getParticipantBrackets(participant.participantId)}
+                          </div>
+                        ) : null}
                       </div>
                     </div>
-                    <div>
-                      {bracketCount > 0 ? (
-                        <div className='text-yellow-400 text-center'>
-                          {getParticipantBrackets(participant.participantId)}
-                        </div>
-                      ) : null}
-                    </div>
                   </div>
-                </div>
-              ) : null;
-            })}
-          </div>
-        ))}
+                ) : null;
+              })}
+            </div>
+          ))
+        ) : (
+          <>There are no Participants to match!</>
+        )}
       </div>
     </div>
   );
