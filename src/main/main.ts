@@ -2,7 +2,10 @@ import { spawn } from "child_process";
 import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import * as fs from "fs";
 import * as path from "path";
+import { IKFService } from "./services/ikfService";
+
 let mainWindow: BrowserWindow | null;
+let ikfService: IKFService;
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -28,6 +31,8 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   createWindow();
+  // Initialize IKF Service
+  ikfService = new IKFService();
   // Open DevTools without installing extensions in development
   if (isDev) {
     mainWindow?.webContents.openDevTools();
@@ -113,5 +118,167 @@ ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
     dialog.showErrorBox("Command Error", "Failed to refresh participants.");
   }
 });
+
+// #region IKF Service IPC Handlers
+
+// Events
+ipcMain.handle('ikf:fetch-events', async () => {
+  try {
+    const events = await ikfService.fetchEventsFromFSI();
+    return { success: true, data: events };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:read-events', async () => {
+  try {
+    const events = ikfService.readEventsFromFile();
+    return { success: true, data: events };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+// Participants
+ipcMain.handle('ikf:fetch-participants', async (_, eventUID: string, eventID: number) => {
+  try {
+    const participants = await ikfService.fetchEventParticipants(eventUID, eventID);
+    return { success: true, data: participants };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:read-participants', async (_, eventUID: string, eventID: number) => {
+  try {
+    const participants = ikfService.readParticipantsFromFile(eventUID, eventID);
+    return { success: true, data: participants };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:fetch-all-participants', async (event) => {
+  try {
+    const result = await ikfService.fetchAllParticipants(
+      (current, total, eventName) => {
+        event.sender.send('ikf:fetch-all-participants-progress', {
+          current,
+          total,
+          eventName,
+        });
+      }
+    );
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+// Brackets
+ipcMain.handle('ikf:fetch-brackets', async (_, eventUID: string, eventID: number) => {
+  try {
+    const brackets = await ikfService.fetchEventBrackets(eventUID, eventID);
+    return { success: true, data: brackets };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:read-brackets', async (_, eventUID: string, eventID: number) => {
+  try {
+    const brackets = ikfService.readBracketsFromFile(eventUID, eventID);
+    return { success: true, data: brackets };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+// Enrichment
+ipcMain.handle('ikf:enrich-participants', async (event, eventId?: string, forceUpdate?: boolean) => {
+  try {
+    const result = await ikfService.enrichParticipantsWithProfileId(
+      eventId,
+      forceUpdate,
+      (current, total, participantName) => {
+        event.sender.send('ikf:enrich-participants-progress', {
+          current,
+          total,
+          participantName,
+        });
+      }
+    );
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+// Status
+ipcMain.handle('ikf:get-participant-status', async () => {
+  try {
+    const status = ikfService.getParticipantStatus();
+    return { success: true, data: status };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:validate-token', async () => {
+  try {
+    const result = await ikfService.validateToken();
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:update-token', async (_, token: string) => {
+  try {
+    ikfService.updateAccessToken(token);
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+// Firebase Sync
+ipcMain.handle('ikf:sync-events-to-firebase', async (event) => {
+  try {
+    const result = await ikfService.syncEventsToFirebase(
+      (current, total, eventName) => {
+        event.sender.send('ikf:sync-events-progress', {
+          current,
+          total,
+          eventName,
+        });
+      }
+    );
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:sync-participants-to-firebase', async (_, eventUID: string, eventID: number) => {
+  try {
+    const result = await ikfService.syncParticipantsToFirebase(eventUID, eventID);
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:sync-brackets-to-firebase', async (_, eventUID: string, eventID: number) => {
+  try {
+    const result = await ikfService.syncBracketsToFirebase(eventUID, eventID);
+    return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+// #endregion IKF Service IPC Handlers
 
 // #endregion IPC Handlers

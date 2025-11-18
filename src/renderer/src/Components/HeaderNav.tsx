@@ -1,7 +1,10 @@
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
-const pages = [{ linkText: "Events", url: "events" }];
+const pages = [
+  { linkText: "Events", url: "events" },
+  { linkText: "IKF Management", url: "ikf-management" },
+];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function HeaderNav() {
