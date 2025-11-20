@@ -102,7 +102,7 @@ declare global {
 // Fetch Events Logic
 const fetchEventsLogic = createLogic({
   type: FETCH_IKF_EVENTS,
-  async process({ action }, dispatch, done) {
+  async process({ action }, dispatch: any, done) {
     dispatch(setEventsLoading(true));
     try {
       const result = await window.api.ikf.fetchEvents();
@@ -123,7 +123,7 @@ const fetchEventsLogic = createLogic({
 // Read Events Logic
 const readEventsLogic = createLogic({
   type: READ_IKF_EVENTS,
-  async process({ action }, dispatch, done) {
+  async process({ action }, dispatch: any, done) {
     dispatch(setEventsLoading(true));
     try {
       const result = await window.api.ikf.readEvents();
@@ -144,7 +144,7 @@ const readEventsLogic = createLogic({
 // Fetch Participants Logic
 const fetchParticipantsLogic = createLogic({
   type: FETCH_IKF_PARTICIPANTS,
-  async process({ action }: any, dispatch, done) {
+  async process({ action }: any, dispatch: any, done) {
     dispatch(setEventsLoading(true));
     try {
       const { eventUID, eventID } = action.payload;
@@ -166,7 +166,7 @@ const fetchParticipantsLogic = createLogic({
 // Read Participants Logic
 const readParticipantsLogic = createLogic({
   type: READ_IKF_PARTICIPANTS,
-  async process({ action }: any, dispatch, done) {
+  async process({ action }: any, dispatch: any, done) {
     dispatch(setEventsLoading(true));
     try {
       const { eventUID, eventID } = action.payload;
@@ -188,7 +188,7 @@ const readParticipantsLogic = createLogic({
 // Fetch All Participants Logic
 const fetchAllParticipantsLogic = createLogic({
   type: FETCH_ALL_IKF_PARTICIPANTS,
-  async process({ action }, dispatch, done) {
+  async process({ action }, dispatch: any, done) {
     dispatch(setFetchAllStatus('running'));
 
     // Setup progress listener
@@ -223,7 +223,7 @@ const fetchAllParticipantsLogic = createLogic({
 // Fetch Brackets Logic
 const fetchBracketsLogic = createLogic({
   type: FETCH_IKF_BRACKETS,
-  async process({ action }: any, dispatch, done) {
+  async process({ action }: any, dispatch: any, done) {
     dispatch(setEventsLoading(true));
     try {
       const { eventUID, eventID } = action.payload;
@@ -245,7 +245,7 @@ const fetchBracketsLogic = createLogic({
 // Read Brackets Logic
 const readBracketsLogic = createLogic({
   type: READ_IKF_BRACKETS,
-  async process({ action }: any, dispatch, done) {
+  async process({ action }: any, dispatch: any, done) {
     dispatch(setEventsLoading(true));
     try {
       const { eventUID, eventID } = action.payload;
@@ -267,7 +267,7 @@ const readBracketsLogic = createLogic({
 // Enrich Participants Logic
 const enrichParticipantsLogic = createLogic({
   type: ENRICH_IKF_PARTICIPANTS,
-  async process({ action }: any, dispatch, done) {
+  async process({ action }: any, dispatch: any, done) {
     dispatch(setEnrichmentStatus('running'));
 
     // Setup progress listener
@@ -303,7 +303,7 @@ const enrichParticipantsLogic = createLogic({
 // Get Participant Status Logic
 const getParticipantStatusLogic = createLogic({
   type: GET_PARTICIPANT_STATUS,
-  async process({ action }, dispatch, done) {
+  async process({ action }, dispatch: any, done) {
     try {
       const result = await window.api.ikf.getParticipantStatus();
       if (result.success) {
@@ -322,7 +322,7 @@ const getParticipantStatusLogic = createLogic({
 // Validate Token Logic
 const validateTokenLogic = createLogic({
   type: VALIDATE_IKF_TOKEN,
-  async process({ action }, dispatch, done) {
+  async process({ action }, dispatch: any, done) {
     try {
       const result = await window.api.ikf.validateToken();
       if (result.success) {
@@ -341,7 +341,7 @@ const validateTokenLogic = createLogic({
 // Sync Events to Firebase Logic
 const syncEventsToFirebaseLogic = createLogic({
   type: SYNC_EVENTS_TO_FIREBASE,
-  async process({ action }, dispatch, done) {
+  async process({ action }, dispatch: any, done) {
     dispatch(setSyncEventsStatus('running'));
     dispatch(setEventsSyncStatus('loading'));
 
@@ -380,7 +380,7 @@ const syncEventsToFirebaseLogic = createLogic({
 // Sync Participants to Firebase Logic
 const syncParticipantsToFirebaseLogic = createLogic({
   type: SYNC_PARTICIPANTS_TO_FIREBASE,
-  async process({ action }: any, dispatch, done) {
+  async process({ action }: any, dispatch: any, done) {
     dispatch(setParticipantsSyncStatus('loading'));
     try {
       const { eventUID, eventID } = action.payload;
@@ -408,14 +408,16 @@ const syncParticipantsToFirebaseLogic = createLogic({
 // Sync Brackets to Firebase Logic
 const syncBracketsToFirebaseLogic = createLogic({
   type: SYNC_BRACKETS_TO_FIREBASE,
-  async process({ action }: any, dispatch, done) {
+  async process({ action }: any, dispatch: any, done) {
     dispatch(setBracketsSyncStatus('loading'));
     try {
       const { eventUID, eventID } = action.payload;
       const result = await window.api.ikf.syncBracketsToFirebase(eventUID, eventID);
       if (result.success) {
+        console.log('Bracket sync result:', result);
         dispatch(setBracketsSyncStatus('success'));
       } else {
+        console.error('Bracket sync error:', result.error);
         dispatch(setError(result.error || 'Failed to sync brackets to Firebase'));
         dispatch(setBracketsSyncStatus('error'));
       }

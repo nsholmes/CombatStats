@@ -44,13 +44,32 @@ export class IKFService {
 
   constructor() {
     this.dataPath = IKF_CONFIG.DATA_FILE_PATH;
-    this.accessToken = IKF_CONFIG.FSI_ACCESS_TOKEN;
+    // Try to get token from localStorage first, fall back to config
+    const storedToken = this.getStoredToken();
+    this.accessToken = storedToken || IKF_CONFIG.FSI_ACCESS_TOKEN;
     this.ensureDirectories();
     this.initializeFirebase();
   }
 
+  private getStoredToken(): string | null {
+    // Try to read from a token file
+    const tokenFilePath = path.join(this.dataPath, '.fsi_token');
+    if (fs.existsSync(tokenFilePath)) {
+      return fs.readFileSync(tokenFilePath, 'utf8').trim();
+    }
+    return null;
+  }
+
+  private saveToken(token: string): void {
+    // Save token to a file for persistence
+    const tokenFilePath = path.join(this.dataPath, '.fsi_token');
+    fs.writeFileSync(tokenFilePath, token, 'utf8');
+  }
+
   public updateAccessToken(token: string): void {
     this.accessToken = token;
+    this.saveToken(token);
+    console.log('Access token updated and saved');
   }
 
   public getAccessToken(): string {

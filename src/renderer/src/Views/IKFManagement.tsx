@@ -88,6 +88,13 @@ function IKFManagement(props: IKFManagementProps) {
     props.validateToken();
   }, []);
 
+  useEffect(() => {
+    // Sync local state with selected event from props
+    if (props.selectedEvent) {
+      setSelectedEventId(props.selectedEvent.id.toString());
+    }
+  }, [props.selectedEvent]);
+
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
@@ -703,7 +710,7 @@ function IKFManagement(props: IKFManagementProps) {
       </Typography>
 
       {props.error && (
-        <Alert severity="error" sx={{ m: 3 }}>
+        <Alert closeText='X' severity="error" sx={{ m: 3 }}>
           {props.error}
         </Alert>
       )}

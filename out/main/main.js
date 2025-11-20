@@ -14012,12 +14012,26 @@ class IKFService {
   accessToken;
   constructor() {
     this.dataPath = IKF_CONFIG.DATA_FILE_PATH;
-    this.accessToken = IKF_CONFIG.FSI_ACCESS_TOKEN;
+    const storedToken = this.getStoredToken();
+    this.accessToken = storedToken || IKF_CONFIG.FSI_ACCESS_TOKEN;
     this.ensureDirectories();
     this.initializeFirebase();
   }
+  getStoredToken() {
+    const tokenFilePath = path.join(this.dataPath, ".fsi_token");
+    if (fs.existsSync(tokenFilePath)) {
+      return fs.readFileSync(tokenFilePath, "utf8").trim();
+    }
+    return null;
+  }
+  saveToken(token) {
+    const tokenFilePath = path.join(this.dataPath, ".fsi_token");
+    fs.writeFileSync(tokenFilePath, token, "utf8");
+  }
   updateAccessToken(token) {
     this.accessToken = token;
+    this.saveToken(token);
+    console.log("Access token updated and saved");
   }
   getAccessToken() {
     return this.accessToken;
