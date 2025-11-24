@@ -11,7 +11,7 @@ import {
   CheckInPariticipantSort,
   IKFParticipant,
 } from "@nsholmes/combat-stats-types/fighter.model";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
 import {
@@ -34,6 +34,7 @@ import {
 } from "../../utils/participants";
 import { EventContext } from "../../Views/SelectedEventView";
 import MainButton from "../MainButton";
+import SearchBox from "../SearchBox";
 
 type MatchingProps = {
   eventParticipants: IKFParticipant[];
@@ -89,13 +90,15 @@ function Matching(props: MatchingProps) {
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortedParticipantsForMatching, setSortedParticipantsForMatching] =
     useState<CheckInPariticipantSort[]>([]);
+  const [highlightedBracketId, setHighlightedBracketId] = useState<number | null>(null);
+  const trimmedSearch = useMemo(() => searchValue.trim(), [searchValue]);
 
   useEffect(() => {
     props.setCurrentContextMenu("matching");
   }, []);
 
   useEffect(() => {
-    console.log(searchValue);
+    // no-op: state used for client-side filtering and highlighting
   }, [searchValue]);
 
   useEffect(() => {
@@ -195,35 +198,45 @@ function Matching(props: MatchingProps) {
         onClick={() => {
           handleBracketSelect(br);
         }}
+        onMouseEnter={() => {
+          setHighlightedBracketId(br.id);
+        }}
+        onMouseLeave={() => {
+          setHighlightedBracketId(null);
+        }}
       >
         {`${selectedBracket.divisionName}`}
       </Typography>
     ));
   };
 
+  const isParticipantInHighlightedBracket = (participantId: number): boolean => {
+    if (!highlightedBracketId) return false;
+    
+    const bracket = brackets?.find(b => b.bracketId === highlightedBracketId);
+    if (!bracket?.competitors) return false;
+    
+    return bracket.competitors.some(c => c.participantId === participantId);
+  };
+  
   const setSearchValueCb = (value: string) => {
     setSearchValue(value);
-    // This function can be used to filter participants based on search input
-    // For now, it just logs the search value
   };
 
+  const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
   const highlightText = (text: string) => {
-    if (searchValue === "") return text;
-    const regex = new RegExp(`(${searchValue})`, "gi");
-    const parts = text.split(regex);
-    const highlightedParts = parts.map((part, index) => {
-      if (part.toLowerCase() === searchValue.toLowerCase()) {
-        console.log("Parts:", parts);
-        return (
-          <span key={index} className="highlight">
-            {part}
-          </span>
-        );
-      }
-      return part;
-    });
-    console.log("Highlighted Parts:", highlightedParts);
-    return highlightedParts;
+    if (trimmedSearch === "") return text;
+    const regex = new RegExp(`(${escapeRegExp(trimmedSearch)})`, "gi");
+    return text.split(regex).map((part, index) =>
+      part.toLowerCase() === trimmedSearch.toLowerCase() ? (
+        <mark key={index} className="bg-yellow-300 text-black px-1 rounded">
+          {part}
+        </mark>
+      ) : (
+        <span key={index}>{part}</span>
+      )
+    );
   };
   // #endregion
   return (
@@ -231,7 +244,7 @@ function Matching(props: MatchingProps) {
       <div className="sticky top-0 z-10 bg-gray-500 p-5">
         <h2 className="text-center">Match Participants</h2>
         <div className="flex flex-row justify-center gap-2 mb-2">
-          {/* <SearchBox setSearchValue={setSearchValueCb} /> */}
+          <SearchBox setSearchValue={setSearchValueCb} />
           <MainButton
             label="Juniors"
             onClickCb={() => setFilterMode("Juniors")}
@@ -291,13 +304,16 @@ function Matching(props: MatchingProps) {
                   props.selectedParticipantIds.findIndex(
                     (p) => participant.participantId === p
                   ) !== -1;
+                const isHighlighted = isParticipantInHighlightedBracket(participant.participantId);
                 return participant.profileName === "Competitor" ? (
                   <div
                     className={`mb-1 p-1 border-b ${
                       participant.bracketCount > 0
                         ? "border-b-4 border-[#2D3E40]"
                         : "border-b border-[#E4F2E7]"
-                    } text-white`}
+                    } text-white transition-colors duration-200 ${
+                      isHighlighted ? "bg-yellow-500/30 ring-2 ring-yellow-400" : ""
+                    }`}
                     key={`Participant-${idx}`}
                   >
                     <div className="flex flex-col justify-between">
@@ -309,9 +325,8 @@ function Matching(props: MatchingProps) {
                           isSelected ? "bg-blue-700" : ""
                         }`}
                       >
-                        {`${idx + 1}. ${participant.firstName} ${
-                          participant.lastName
-                        }`}{" "}
+                        {`${idx + 1}. `}
+                        {highlightText(`${participant.firstName} ${participant.lastName}`)}
                         &nbsp;
                         <span
                           className={`inline ${
