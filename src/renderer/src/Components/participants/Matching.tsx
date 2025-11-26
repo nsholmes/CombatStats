@@ -11,7 +11,7 @@ import {
   CheckInPariticipantSort,
   IKFParticipant,
 } from "@nsholmes/combat-stats-types/fighter.model";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { moveSelectedCompetitor } from "../../Features/cbBracket.slice";
 import {
@@ -82,7 +82,10 @@ function mapDispatchToProps(dispatch: any) {
 
 function Matching(props: MatchingProps) {
   const eventData = useContext(EventContext);
-  const { participants, brackets } = eventData as CombatEvent || {participants: [], brackets: []};
+  const { participants, brackets } = (eventData as CombatEvent) || {
+    participants: [],
+    brackets: [],
+  };
   const [bracketCount, setBracketCount] = useState<number>(0);
   const [filterMode, setFilterMode] = useState<
     "Juniors" | "Boys" | "Girls" | "F" | "M" | "All"
@@ -90,7 +93,11 @@ function Matching(props: MatchingProps) {
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortedParticipantsForMatching, setSortedParticipantsForMatching] =
     useState<CheckInPariticipantSort[]>([]);
-  const [highlightedBracketId, setHighlightedBracketId] = useState<number | null>(null);
+  const [highlightedBracketId, setHighlightedBracketId] = useState<
+    number | null
+  >(null);
+  const [currentResultIndex, setCurrentResultIndex] = useState<number>(0);
+  const participantRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const trimmedSearch = useMemo(() => searchValue.trim(), [searchValue]);
 
   useEffect(() => {
@@ -210,15 +217,17 @@ function Matching(props: MatchingProps) {
     ));
   };
 
-  const isParticipantInHighlightedBracket = (participantId: number): boolean => {
+  const isParticipantInHighlightedBracket = (
+    participantId: number
+  ): boolean => {
     if (!highlightedBracketId) return false;
-    
-    const bracket = brackets?.find(b => b.bracketId === highlightedBracketId);
+
+    const bracket = brackets?.find((b) => b.bracketId === highlightedBracketId);
     if (!bracket?.competitors) return false;
-    
-    return bracket.competitors.some(c => c.participantId === participantId);
+
+    return bracket.competitors.some((c) => c.participantId === participantId);
   };
-  
+
   const setSearchValueCb = (value: string) => {
     setSearchValue(value);
   };
@@ -238,48 +247,128 @@ function Matching(props: MatchingProps) {
       )
     );
   };
+
+  // Calculate match count and matched participant IDs when searching
+  const { matchCount, matchedParticipantIds } = useMemo(() => {
+    if (!trimmedSearch) return { matchCount: 0, matchedParticipantIds: [] };
+
+    const lowerSearch = trimmedSearch.toLowerCase();
+    const ids: number[] = [];
+
+    sortedParticipantsForMatching.forEach((weightRange) => {
+      weightRange.participants.forEach((participant) => {
+        if (participant.profileName === "Competitor") {
+          const fullName =
+            `${participant.firstName} ${participant.lastName}`.toLowerCase();
+          if (fullName.includes(lowerSearch)) {
+            ids.push(participant.participantId);
+          }
+        }
+      });
+    });
+
+    return { matchCount: ids.length, matchedParticipantIds: ids };
+  }, [sortedParticipantsForMatching, trimmedSearch]);
+
+  // Reset current index when search changes
+  useEffect(() => {
+    setCurrentResultIndex(0);
+  }, [trimmedSearch]);
+
+  // Navigation functions
+  const goToNextResult = () => {
+    if (matchedParticipantIds.length === 0) return;
+    const nextIndex = (currentResultIndex + 1) % matchedParticipantIds.length;
+    setCurrentResultIndex(nextIndex);
+    scrollToParticipant(matchedParticipantIds[nextIndex]);
+  };
+
+  const goToPreviousResult = () => {
+    if (matchedParticipantIds.length === 0) return;
+    const prevIndex = currentResultIndex === 0 ? matchedParticipantIds.length - 1 : currentResultIndex - 1;
+    setCurrentResultIndex(prevIndex);
+    scrollToParticipant(matchedParticipantIds[prevIndex]);
+  };
+
+  const scrollToParticipant = (participantId: number) => {
+    const element = participantRefs.current.get(participantId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
   // #endregion
   return (
     <div className="pt-2 bg-gray-100 dark:bg-gray-900">
       <div className="sticky top-0 z-10 bg-gray-500 p-5">
         <h2 className="text-center">Match Participants</h2>
-        <div className="flex flex-row justify-center gap-2 mb-2">
-          <SearchBox setSearchValue={setSearchValueCb} />
-          <MainButton
-            label="Juniors"
-            onClickCb={() => setFilterMode("Juniors")}
-            variant="primary"
-          />
-          <MainButton
-            label="Boys"
-            onClickCb={() => setFilterMode("Boys")}
-            variant="primary"
-          />
-          <MainButton
-            label="Girls"
-            onClickCb={() => setFilterMode("Girls")}
-            variant="primary"
-          />
-          <MainButton
-            label="Women"
-            onClickCb={() => setFilterMode("F")}
-            variant="primary"
-          />
-          <MainButton
-            label="Men"
-            onClickCb={() => setFilterMode("M")}
-            variant="primary"
-          />
-          <MainButton
-            label="All"
-            onClickCb={() => setFilterMode("All")}
-            variant="primary"
-          />
-          <MainButton
-            label="Deselect All"
-            variant="danger"
-            onClickCb={() => props.setSelectedParticipant([])}
-          />
+        <div className="flex flex-row justify-center items-center gap-2 mb-2">
+          <div>
+            <SearchBox setSearchValue={setSearchValueCb} />
+            <div className="flex items-center justify-center gap-2 text-white text-sm h-6">
+              {trimmedSearch.length > 0 ? (
+                <>
+                  <button
+                    onClick={goToPreviousResult}
+                    disabled={matchCount === 0}
+                    className="px-2 py-1 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:opacity-50 rounded transition-colors"
+                    title="Previous result"
+                  >
+                    ↑
+                  </button>
+                  <span>
+                    {matchCount > 0 ? currentResultIndex + 1 : 0} / {matchCount}
+                  </span>
+                  <button
+                    onClick={goToNextResult}
+                    disabled={matchCount === 0}
+                    className="px-2 py-1 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:opacity-50 rounded transition-colors"
+                    title="Next result"
+                  >
+                    ↓
+                  </button>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+          <div>
+            <MainButton
+              label="Juniors"
+              onClickCb={() => setFilterMode("Juniors")}
+              variant="primary"
+            />
+            <MainButton
+              label="Boys"
+              onClickCb={() => setFilterMode("Boys")}
+              variant="primary"
+            />
+            <MainButton
+              label="Girls"
+              onClickCb={() => setFilterMode("Girls")}
+              variant="primary"
+            />
+            <MainButton
+              label="Women"
+              onClickCb={() => setFilterMode("F")}
+              variant="primary"
+            />
+            <MainButton
+              label="Men"
+              onClickCb={() => setFilterMode("M")}
+              variant="primary"
+            />
+            <MainButton
+              label="All"
+              onClickCb={() => setFilterMode("All")}
+              variant="primary"
+            />
+            <MainButton
+              label="Deselect All"
+              variant="danger"
+              onClickCb={() => props.setSelectedParticipant([])}
+            />
+          </div>
         </div>
       </div>
       <div className="flex justify-center flex-row gap-2 flex-wrap bg-[#2D3E40]">
@@ -304,15 +393,32 @@ function Matching(props: MatchingProps) {
                   props.selectedParticipantIds.findIndex(
                     (p) => participant.participantId === p
                   ) !== -1;
-                const isHighlighted = isParticipantInHighlightedBracket(participant.participantId);
+                const isHighlighted = isParticipantInHighlightedBracket(
+                  participant.participantId
+                );
+                const isCurrentSearchResult = trimmedSearch && 
+                  matchedParticipantIds[currentResultIndex] === participant.participantId;
                 return participant.profileName === "Competitor" ? (
                   <div
+                    ref={(el) => {
+                      if (el) {
+                        participantRefs.current.set(participant.participantId, el);
+                      } else {
+                        participantRefs.current.delete(participant.participantId);
+                      }
+                    }}
                     className={`mb-1 p-1 border-b ${
                       participant.bracketCount > 0
                         ? "border-b-4 border-[#2D3E40]"
                         : "border-b border-[#E4F2E7]"
                     } text-white transition-colors duration-200 ${
-                      isHighlighted ? "bg-yellow-500/30 ring-2 ring-yellow-400" : ""
+                      isHighlighted
+                        ? "bg-yellow-500/30 ring-2 ring-yellow-400"
+                        : ""
+                    } ${
+                      isCurrentSearchResult
+                        ? "bg-blue-500/40 ring-2 ring-blue-400"
+                        : ""
                     }`}
                     key={`Participant-${idx}`}
                   >
@@ -326,7 +432,9 @@ function Matching(props: MatchingProps) {
                         }`}
                       >
                         {`${idx + 1}. `}
-                        {highlightText(`${participant.firstName} ${participant.lastName}`)}
+                        {highlightText(
+                          `${participant.firstName} ${participant.lastName}`
+                        )}
                         &nbsp;
                         <span
                           className={`inline ${
