@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { initializeApp } from 'firebase/app';
 import { Database, getDatabase, ref, set } from 'firebase/database';
-import { IKF_CONFIG, getOptions } from '../../renderer/src/config/ikf.config';
+import { IKF_CONFIG, getOptions } from '../config/ikf.config';
 
 // Import types from combat-stats-types package
 import { EventBracket } from '@nsholmes/combat-stats-types/bracket.model';

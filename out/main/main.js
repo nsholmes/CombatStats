@@ -13991,13 +13991,13 @@ const IKF_CONFIG = {
   RESPONSE_COUNT: 100,
   FIREBASE_DATABASE_URL: "https://ikfpkb-midwest.firebaseio.com",
   // Data paths
-  DATA_FILE_PATH: "/Users/nazeerholmes/Desktop/Development/nhe-cli/data/",
+  DATA_FILE_PATH: "/Users/nazeerholmes/Development/nhe-cli/data/",
   // Auth - should be moved to environment variables in production
   AUTH_REQUEST_BODY: {
     email: "ikfmidwest.api@ikffightplatform.com",
     password: "yR$<l!_}09uBakR4]"
   },
-  FSI_ACCESS_TOKEN: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYyNjU1ODYwLCJpYXQiOjE3NjE3OTE4NjAsImp0aSI6IjQyMGI1ODdkNDQ3ZjQ3ODQ5ODIyM2UyNjE0MTYyMWM1IiwidXNlcl9pZCI6Mjc2OCwiaXNfcHJlbWl1bSI6bnVsbCwicGVyc29uX2lkIjoyNzY4LCJpc19zdGFmZiI6ZmFsc2UsImlzX3Byb21vdGVycmVwIjp0cnVlLCJpc19wcm9tb3RlciI6dHJ1ZSwicHJvbW90ZXJfb3JnX2lkcyI6Wzk0LDg5LDE1MiwxNDRdLCJ0cmFpbmluZ19mYWNpbGl0eV9vcmdfaWRzIjpbMF0sImlzX3N1cGVydXNlciI6ZmFsc2V9.NrIha6bWYSDXFNrmOhqkkiT3Xt7uvuhZ5ks56TquOg8`
+  FSI_ACCESS_TOKEN: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5MDU0NDY4LCJpYXQiOjE3NjgxOTA0NjgsImp0aSI6ImI3ZTg5Mzc1ZjkzMTQ3NTU4NDgzYjhmNTgyZGQxZmQ0IiwidXNlcl9pZCI6Mjc2OCwiaXNfcHJlbWl1bSI6bnVsbCwicGVyc29uX2lkIjoyNzY4LCJpc19zdGFmZiI6ZmFsc2UsImlzX3Byb21vdGVycmVwIjp0cnVlLCJpc19wcm9tb3RlciI6dHJ1ZSwicHJvbW90ZXJfb3JnX2lkcyI6Wzk0LDg5LDE1MiwxNDRdLCJ0cmFpbmluZ19mYWNpbGl0eV9vcmdfaWRzIjpbMF0sImlzX3N1cGVydXNlciI6ZmFsc2V9.eg0xjh4ZscWeW-A2oRdvBG_AzWhHksAAj1PL71Ce0CM`
 };
 const getOptions = {
   method: "GET",
