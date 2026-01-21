@@ -22,6 +22,7 @@ import {
   setSelectedBracketId,
   setSelectedParticipantIds,
 } from "../../Features/combatEvent.slice";
+import { selectIKFBrackets } from "../../Features/ikf.slice";
 import {
   setCurrentMenu,
   setIsVisible,
@@ -40,6 +41,7 @@ type MatchingProps = {
   eventParticipants: IKFParticipant[];
   selectedParticipantIds: number[];
   selectAllBrackets: CSBracket[];
+  ikfBrackets: any[]; // EventBracket[] from FSI API with fighterGym
   selectedBracket: CSBracket;
   setSelectedBracketId: (bracketId: number) => void;
   moveSelectedCompetitor: (competitorId: string | null) => void;
@@ -56,6 +58,7 @@ function mapStateToProps(state: any) {
     eventParticipants: SelectAllParticipants(state),
     selectedParticipantIds: SelectSelectedParticipants(state),
     selectAllBrackets: SelectAllBrackets(state),
+    ikfBrackets: selectIKFBrackets(state), // EventBracket[] from FSI with fighterGym
     selectedBracket: SelectBracketBySelectedId(state),
   };
 }
@@ -86,6 +89,8 @@ function Matching(props: MatchingProps) {
     participants: [],
     brackets: [],
   };
+  // Use IKF Redux brackets for gym data (EventBracket[] from FSI has fighterGym)
+  const ikfBrackets = props.ikfBrackets;
   const [bracketCount, setBracketCount] = useState<number>(0);
   const [filterMode, setFilterMode] = useState<
     "Juniors" | "Boys" | "Girls" | "F" | "M" | "All"
@@ -172,6 +177,36 @@ function Matching(props: MatchingProps) {
     props.setCurrentModal("updateBracket");
   };
   // #endregion
+
+  const getParticipantGym = (competitorId: number): string | null => {
+    // Look through IKF Redux brackets (EventBracket[] from FSI) for gym name
+    // Note: ikfBrackets are EventBracket[] which have fighterGym field
+    // Firebase brackets are CSBracket[] which don't have fighterGym
+    for (const bracket of ikfBrackets || []) {
+      if (bracket.fighterGym) {
+        const gymEntry = bracket.fighterGym.find(
+          (fg: any) => fg.competitorId === competitorId || fg.competitor_id === competitorId
+        );
+        if (gymEntry && gymEntry.gymName) {
+          return gymEntry.gymName;
+        }
+      }
+    }
+    return null;
+  };
+
+  const getParticipantDisciplines = (competitorId: number): string[] => {
+    // Look through IKF brackets to find all disciplines for this competitor
+    const disciplines: string[] = [];
+    for (const bracket of ikfBrackets || []) {
+      if (bracket.fighterIds && bracket.fighterIds.includes(competitorId)) {
+        if (bracket.discipline && bracket.discipline.name) {
+          disciplines.push(bracket.discipline.name);
+        }
+      }
+    }
+    return disciplines;
+  };
 
   const getParticipantBrackets = (partId: number) => {
     let selectedBracket: CSBracket;
@@ -446,6 +481,21 @@ function Matching(props: MatchingProps) {
                             participant.weight === null ? 0 : participant.weight
                           }lbs)`}
                         </div>
+                        {(() => {
+                          const gym = getParticipantGym(participant.competitorId);
+                          const disciplines = getParticipantDisciplines(participant.competitorId);
+                          
+                          return (gym || disciplines.length > 0) ? (
+                            <div className="text-xs text-gray-300 mt-1">
+                              {gym && <div className="italic">{gym}</div>}
+                              {disciplines.length > 0 && (
+                                <div className="text-yellow-300">
+                                  {disciplines.join(', ')}
+                                </div>
+                              )}
+                            </div>
+                          ) : null;
+                        })()}
                       </div>
                       <div>
                         {bracketCount > 0 ? (

@@ -3,12 +3,17 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
   InputLabel,
   LinearProgress,
   MenuItem,
   Paper,
   Select,
+  Snackbar,
   Tab,
   Tabs,
   TextField,
@@ -27,6 +32,7 @@ import {
   fetchIKFBrackets,
   fetchIKFEvents,
   fetchIKFParticipants,
+  getAllIKFParticipants,
   getParticipantStatus,
   readIKFEvents,
   syncBracketsToFirebase,
@@ -35,6 +41,8 @@ import {
   validateIKFToken,
 } from '../Features/ikf.actions';
 import {
+  selectAllParticipants,
+  selectAllParticipantsLoading,
   selectEnrichmentProgress,
   selectFetchAllProgress,
   selectIKFBrackets,
@@ -49,11 +57,14 @@ import {
   selectTokenValidation,
   setSelectedEvent,
 } from '../Features/ikf.slice';
+import AllParticipantsList from '../Components/participants/AllParticipantsList';
 
 interface IKFManagementProps {
   events: IKFEvent[];
   selectedEvent: IKFEvent | null;
   participants: IKFParticipant[];
+  allParticipants: Array<IKFParticipant & { eventCount: number; eventIds: number[] }>;
+  allParticipantsLoading: boolean;
   brackets: any[];
   loading: boolean;
   error: string | null;
@@ -68,6 +79,7 @@ interface IKFManagementProps {
   setSelectedEvent: (event: IKFEvent | null) => void;
   fetchParticipants: (eventUID: string, eventID: number) => void;
   fetchAllParticipants: () => void;
+  getAllParticipants: () => void;
   fetchBrackets: (eventUID: string, eventID: number) => void;
   enrichParticipants: (eventId?: string, forceUpdate?: boolean) => void;
   syncEventsToFirebase: () => void;
@@ -81,6 +93,9 @@ function IKFManagement(props: IKFManagementProps) {
   const [tabValue, setTabValue] = useState(0);
   const [selectedEventId, setSelectedEventId] = useState<string>('');
   const [newToken, setNewToken] = useState<string>('');
+  const [showAllParticipants, setShowAllParticipants] = useState(false);
+  const [showEmailsModal, setShowEmailsModal] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
     // Load events on mount
@@ -103,6 +118,70 @@ function IKFManagement(props: IKFManagementProps) {
     setSelectedEventId(eventId);
     const event = props.events.find((e) => e.id.toString() === eventId);
     props.setSelectedEvent(event || null);
+  };
+
+  const handleViewAllParticipants = () => {
+    setShowAllParticipants(true);
+    props.getAllParticipants();
+  };
+
+  const handleParticipantClick = async (participant: IKFParticipant & { eventCount: number }) => {
+    try {
+      await window.api.participant.openDetailWindow(participant.competitorId);
+    } catch (error) {
+      console.error('Error opening participant detail window:', error);
+    }
+  };
+
+  const getEmailsList = () => {
+    return props.participants
+      .filter(p => p.email && p.email.trim())
+      .map(p => p.email)
+      .join(', ');
+  };
+
+  const handleCopyEmails = async () => {
+    const emailsList = getEmailsList();
+    try {
+      await navigator.clipboard.writeText(emailsList);
+      setCopySuccess(true);
+    } catch (error) {
+      console.error('Failed to copy emails:', error);
+    }
+  };
+
+  const handleExportCsv = async () => {
+    const participantsWithEmail = props.participants.filter(p => p.email && p.email.trim());
+    
+    // Create CSV content with headers
+    const headers = ['First Name', 'Last Name', 'Email', 'Weight', 'Height', 'Competitor ID'];
+    const csvRows = [headers.join(',')];
+    
+    // Add participant data
+    participantsWithEmail.forEach(p => {
+      const row = [
+        `"${p.firstName || ''}",`,
+        `"${p.lastName || ''}",`,
+        `"${p.email || ''}",`,
+        `"${p.weight || ''}",`,
+        `"${p.height || ''}",`,
+        `"${p.competitorId}"`
+      ].join('');
+      csvRows.push(row);
+    });
+    
+    const csvContent = csvRows.join('\n');
+    const eventName = props.selectedEvent?.eventName.replace(/[^a-z0-9]/gi, '_') || 'participants';
+    const defaultFileName = `${eventName}_participants.csv`;
+    
+    try {
+      const result = await window.api.file.saveCsv(csvContent, defaultFileName);
+      if (result.success) {
+        setCopySuccess(true);
+      }
+    } catch (error) {
+      console.error('Failed to export CSV:', error);
+    }
   };
 
   // Events Tab
@@ -342,6 +421,27 @@ function IKFManagement(props: IKFManagementProps) {
           }>
           Sync to Firebase
         </Button>
+        <Button
+          variant="contained"
+          color="info"
+          onClick={handleViewAllParticipants}
+          disabled={props.allParticipantsLoading}>
+          View All Participants
+        </Button>
+        {showAllParticipants && (
+          <Button
+            variant="outlined"
+            onClick={() => setShowAllParticipants(false)}>
+            Back to Event View
+          </Button>
+        )}
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={() => setShowEmailsModal(true)}
+          disabled={props.participants.length === 0}>
+          Copy Emails
+        </Button>
       </Box>
 
       {props.syncStatus?.participants === 'success' && (
@@ -387,11 +487,19 @@ function IKFManagement(props: IKFManagementProps) {
         </Box>
       )}
 
-      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }} gutterBottom>
-        Loaded Participants: {props.participants.length}
-      </Typography>
+      {showAllParticipants ? (
+        <AllParticipantsList
+          participants={props.allParticipants}
+          loading={props.allParticipantsLoading}
+          onParticipantClick={handleParticipantClick}
+        />
+      ) : (
+        <>
+          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }} gutterBottom>
+            Loaded Participants: {props.participants.length}
+          </Typography>
 
-      {props.participants.length > 0 && (
+          {props.participants.length > 0 && (
         <Paper sx={{ maxHeight: 400, overflow: 'auto', mt: 2, bgcolor: '#2d2d2d' }}>
           {props.participants.map((p) => (
             <Box
@@ -428,6 +536,8 @@ function IKFManagement(props: IKFManagementProps) {
             </Box>
           ))}
         </Paper>
+          )}
+        </>
       )}
     </Box>
   );
@@ -709,6 +819,60 @@ function IKFManagement(props: IKFManagementProps) {
         IKF Management
       </Typography>
 
+      {/* Emails Preview Modal */}
+      <Dialog
+        open={showEmailsModal}
+        onClose={() => setShowEmailsModal(false)}
+        maxWidth="md"
+        fullWidth>
+        <DialogTitle>Participant Emails</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
+            {props.participants.filter(p => p.email && p.email.trim()).length} emails found
+          </Typography>
+          <TextField
+            fullWidth
+            multiline
+            rows={10}
+            value={getEmailsList()}
+            variant="outlined"
+            InputProps={{
+              readOnly: true,
+            }}
+            sx={{
+              '& .MuiInputBase-root': {
+                fontFamily: 'monospace',
+                fontSize: '0.9rem',
+              },
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowEmailsModal(false)}>Close</Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleExportCsv}>
+            Export as CSV
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCopyEmails}>
+            Copy to Clipboard
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Copy Success Snackbar */}
+      <Snackbar
+        open={copySuccess}
+        autoHideDuration={3000}
+        onClose={() => setCopySuccess(false)}
+        message="Emails copied to clipboard!"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
+
       {props.error && (
         <Alert closeText='X' severity="error" sx={{ m: 3 }}>
           {props.error}
@@ -746,6 +910,8 @@ const mapStateToProps = (state: any) => ({
   events: selectIKFEvents(state),
   selectedEvent: selectSelectedEvent(state),
   participants: selectIKFParticipants(state),
+  allParticipants: selectAllParticipants(state),
+  allParticipantsLoading: selectAllParticipantsLoading(state),
   brackets: selectIKFBrackets(state),
   loading: selectIKFLoading(state),
   error: selectIKFError(state),
@@ -764,6 +930,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchParticipants: (eventUID: string, eventID: number) =>
     dispatch(fetchIKFParticipants(eventUID, eventID)),
   fetchAllParticipants: () => dispatch(fetchAllIKFParticipants()),
+  getAllParticipants: () => dispatch(getAllIKFParticipants()),
   fetchBrackets: (eventUID: string, eventID: number) =>
     dispatch(fetchIKFBrackets(eventUID, eventID)),
   enrichParticipants: (eventId?: string, forceUpdate?: boolean) =>

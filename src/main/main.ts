@@ -5,6 +5,7 @@ import * as path from "path";
 import { IKFService } from "./services/ikfService";
 
 let mainWindow: BrowserWindow | null;
+let participantDetailWindow: BrowserWindow | null = null;
 let ikfService: IKFService;
 
 const isDev = process.env.NODE_ENV === "development";
@@ -27,6 +28,40 @@ const createWindow = () => {
     console.log("--DEVELOPMENT--");
   }
   mainWindow.on("close", () => (mainWindow = null));
+};
+
+const createParticipantDetailWindow = (competitorId: number) => {
+  // Close existing detail window if open
+  if (participantDetailWindow) {
+    participantDetailWindow.close();
+  }
+
+  participantDetailWindow = new BrowserWindow({
+    width: 900,
+    height: 700,
+    webPreferences: {
+      nodeIntegration: true,
+      sandbox: false,
+      preload: path.join(`${__dirname}/../preload`, "preload.js"),
+      devTools: isDev,
+    },
+    title: "Participant Details",
+  });
+
+  // Load the main page with a special route/hash for participant details
+  if (isDev) {
+    participantDetailWindow.loadURL(
+      `http://localhost:5173/#/participant-detail/${competitorId}`
+    );
+    participantDetailWindow.webContents.openDevTools();
+  } else {
+    participantDetailWindow.loadFile(
+      path.join(__dirname, "../renderer/index.html"),
+      { hash: `/participant-detail/${competitorId}` }
+    );
+  }
+
+  participantDetailWindow.on("close", () => (participantDetailWindow = null));
 };
 
 app.whenReady().then(() => {
@@ -121,6 +156,29 @@ ipcMain.on("refresh-event-participants", (event, eventUID, eventId) => {
 
 // #region IKF Service IPC Handlers
 
+// File Operations
+ipcMain.handle('file:save-csv', async (_, csvContent: string, defaultFileName: string) => {
+  try {
+    const result = await dialog.showSaveDialog({
+      title: 'Save CSV File',
+      defaultPath: defaultFileName,
+      filters: [
+        { name: 'CSV Files', extensions: ['csv'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    });
+
+    if (!result.canceled && result.filePath) {
+      fs.writeFileSync(result.filePath, csvContent, 'utf8');
+      return { success: true, filePath: result.filePath };
+    }
+
+    return { success: false, canceled: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
 // Events
 ipcMain.handle('ikf:fetch-events', async () => {
   try {
@@ -171,6 +229,33 @@ ipcMain.handle('ikf:fetch-all-participants', async (event) => {
       }
     );
     return { success: true, data: result };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('ikf:get-all-participants', async () => {
+  try {
+    const participants = ikfService.getAllParticipantsAcrossEvents();
+    return { success: true, data: participants };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('participant:get-firebase-details', async (_, competitorId: number) => {
+  try {
+    const details = await ikfService.getParticipantFirebaseDetails(competitorId);
+    return { success: true, data: details };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('participant:open-detail-window', async (_, competitorId: number) => {
+  try {
+    createParticipantDetailWindow(competitorId);
+    return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
   }

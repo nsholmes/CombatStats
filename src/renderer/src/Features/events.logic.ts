@@ -20,6 +20,10 @@ declare const window: {
     readEventParticipants: any;
     readEventBrackets: any;
     refreshEventParticipantsFromFSI: any;
+    ikf: {
+      fetchParticipants: (eventUID: string, eventID: number) => Promise<any>;
+      fetchBrackets: (eventUID: string, eventID: number) => Promise<any>;
+    };
   };
 };
 
@@ -95,21 +99,41 @@ const GetParticipantsFromFB = createLogic({
 const GetFSIEventParticipants = createLogic({
   type: GET_FSI_EVENT_PARTICIPANTS,
   async process({ action }, dispatch, done) {
-    window.api
-      .readEventParticipants(action.payload.eventUID, action.payload.eventID)
-      .then((resp: any) => {
-        const participants = JSON.parse(resp.data);
+    try {
+      // Use IKF Service to fetch participants from FSI API
+      const result = await window.api.ikf.fetchParticipants(
+        action.payload.eventUID,
+        action.payload.eventID
+      );
+
+      if (result.success) {
+        const participants = result.data;
         participants.sort((a: IKFParticipant, b: IKFParticipant) => {
           return a.weight - b.weight;
         });
-        console.log(`participants ${participants}`);
+        console.log(`participants: ${participants.length} loaded from FSI API`);
         dispatch(setParticipants(participants));
         dispatch({
           type: "GET_FSI_EVENT_PARTICIPANTS_SUCCESS",
           payload: participants,
         });
-        done();
+      } else {
+        console.error('Failed to fetch participants:', result.error);
+        dispatch(setParticipants([]));
+        dispatch({
+          type: "GET_FSI_EVENT_PARTICIPANTS_FAILURE",
+          payload: result.error,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching participants from FSI:', error);
+      dispatch(setParticipants([]));
+      dispatch({
+        type: "GET_FSI_EVENT_PARTICIPANTS_FAILURE",
+        payload: error,
       });
+    }
+    done();
   },
 });
 
@@ -165,18 +189,38 @@ const GetFSIEventBrackets = createLogic({
   type: GET_FSI_EVENT_BRACKETS,
   async process({ action }, dispatch, done) {
     console.log("GET_FSI_EVENT_BRACKETS: ", action.payload.eventUID);
-    window.api
-      .readEventBrackets(action.payload.eventUID, action.payload.eventID)
-      .then((resp: any) => {
-        const brackets = JSON.parse(resp.data);
+    try {
+      // Use IKF Service to fetch brackets from FSI API
+      const result = await window.api.ikf.fetchBrackets(
+        action.payload.eventUID,
+        action.payload.eventID
+      );
+
+      if (result.success) {
+        const brackets = result.data;
         console.log("Brackets: ", brackets.length);
         dispatch(setBrackets(brackets));
         dispatch({
           type: "GET_FSI_EVENT_BRACKETS_SUCCESS",
           payload: brackets,
         });
-        done();
+      } else {
+        console.error('Failed to fetch brackets:', result.error);
+        dispatch(setBrackets([]));
+        dispatch({
+          type: "GET_FSI_EVENT_BRACKETS_FAILURE",
+          payload: result.error,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching brackets from FSI:', error);
+      dispatch(setBrackets([]));
+      dispatch({
+        type: "GET_FSI_EVENT_BRACKETS_FAILURE",
+        payload: error,
       });
+    }
+    done();
   },
 });
 

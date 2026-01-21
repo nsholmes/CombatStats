@@ -9,6 +9,8 @@ export type IKFSliceState = {
   events: IKFEvent[];
   selectedEvent: IKFEvent | null;
   participants: IKFParticipant[];
+  allParticipants: Array<IKFParticipant & { eventCount: number; eventIds: number[] }>;
+  allParticipantsLoading: boolean;
   brackets: EventBracket[];
   loading: boolean;
   error: string | null;
@@ -50,6 +52,8 @@ const initialState: IKFSliceState = {
   events: [],
   selectedEvent: null,
   participants: [],
+  allParticipants: [],
+  allParticipantsLoading: false,
   brackets: [],
   loading: false,
   error: null,
@@ -110,6 +114,17 @@ export const IKFSlice = createSlice({
     },
     setParticipantsSyncStatus(state, action: PayloadAction<SyncStatus>) {
       state.syncStatus.participants = action.payload;
+    },
+    setAllParticipants(
+      state,
+      action: PayloadAction<Array<IKFParticipant & { eventCount: number; eventIds: number[] }>>
+    ) {
+      state.allParticipants = action.payload;
+      state.allParticipantsLoading = false;
+      state.error = null;
+    },
+    setAllParticipantsLoading(state, action: PayloadAction<boolean>) {
+      state.allParticipantsLoading = action.payload;
     },
 
     // Brackets
@@ -239,6 +254,8 @@ export const IKFSlice = createSlice({
 export const selectIKFEvents = (state: any) => state.IKF.events;
 export const selectSelectedEvent = (state: any) => state.IKF.selectedEvent;
 export const selectIKFParticipants = (state: any) => state.IKF.participants;
+export const selectAllParticipants = (state: any) => state.IKF.allParticipants;
+export const selectAllParticipantsLoading = (state: any) => state.IKF.allParticipantsLoading;
 export const selectIKFBrackets = (state: any) => state.IKF.brackets;
 export const selectIKFLoading = (state: any) => state.IKF.loading;
 export const selectIKFError = (state: any) => state.IKF.error;
@@ -260,6 +277,8 @@ export const {
   setEventsSyncStatus,
   setParticipants,
   setParticipantsSyncStatus,
+  setAllParticipants,
+  setAllParticipantsLoading,
   setBrackets,
   setBracketsSyncStatus,
   setError,

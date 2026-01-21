@@ -59,6 +59,7 @@ contextBridge.exposeInMainWorld("api", {
       ipcRenderer.on('ikf:fetch-all-participants-progress', (_, data) => callback(data));
       return () => ipcRenderer.removeAllListeners('ikf:fetch-all-participants-progress');
     },
+    getAllParticipants: () => ipcRenderer.invoke('ikf:get-all-participants'),
 
     // Brackets
     fetchBrackets: (eventUID: string, eventID: number) =>
@@ -89,5 +90,19 @@ contextBridge.exposeInMainWorld("api", {
       ipcRenderer.invoke('ikf:sync-participants-to-firebase', eventUID, eventID),
     syncBracketsToFirebase: (eventUID: string, eventID: number) =>
       ipcRenderer.invoke('ikf:sync-brackets-to-firebase', eventUID, eventID),
+  },
+
+  // Participant Management API
+  participant: {
+    openDetailWindow: (competitorId: number) =>
+      ipcRenderer.invoke('participant:open-detail-window', competitorId),
+    getFirebaseDetails: (competitorId: number) =>
+      ipcRenderer.invoke('participant:get-firebase-details', competitorId),
+  },
+
+  // File Operations
+  file: {
+    saveCsv: (csvContent: string, defaultFileName: string) =>
+      ipcRenderer.invoke('file:save-csv', csvContent, defaultFileName),
   },
 });

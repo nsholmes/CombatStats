@@ -4,6 +4,7 @@ export const READ_IKF_EVENTS = 'READ_IKF_EVENTS';
 export const FETCH_IKF_PARTICIPANTS = 'FETCH_IKF_PARTICIPANTS';
 export const READ_IKF_PARTICIPANTS = 'READ_IKF_PARTICIPANTS';
 export const FETCH_ALL_IKF_PARTICIPANTS = 'FETCH_ALL_IKF_PARTICIPANTS';
+export const GET_ALL_IKF_PARTICIPANTS = 'GET_ALL_IKF_PARTICIPANTS';
 export const FETCH_IKF_BRACKETS = 'FETCH_IKF_BRACKETS';
 export const READ_IKF_BRACKETS = 'READ_IKF_BRACKETS';
 export const ENRICH_IKF_PARTICIPANTS = 'ENRICH_IKF_PARTICIPANTS';
@@ -31,6 +32,10 @@ export const readIKFParticipants = (eventUID: string, eventID: number) => ({
 
 export const fetchAllIKFParticipants = () => ({
   type: FETCH_ALL_IKF_PARTICIPANTS,
+});
+
+export const getAllIKFParticipants = () => ({
+  type: GET_ALL_IKF_PARTICIPANTS,
 });
 
 export const fetchIKFBrackets = (eventUID: string, eventID: number) => ({

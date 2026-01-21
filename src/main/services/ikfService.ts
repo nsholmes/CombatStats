@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { initializeApp } from 'firebase/app';
-import { Database, getDatabase, ref, set } from 'firebase/database';
+import { Database, getDatabase, ref, set, get } from 'firebase/database';
 import { IKF_CONFIG, getOptions } from '../config/ikf.config';
 
 // Import types from combat-stats-types package
@@ -262,6 +262,69 @@ export class IKFService {
     }
 
     return { success: successCount, skipped: skippedCount, errors: errorCount };
+  }
+
+  /**
+   * Get all participants across all events without duplicates
+   * Deduplicates by competitorId and includes event count
+   */
+  getAllParticipantsAcrossEvents(): Array<IKFParticipant & { eventCount: number; eventIds: number[] }> {
+    const participantsDir = path.join(this.dataPath, 'eventParticipants');
+    const events = this.readEventsFromFile();
+    
+    if (!fs.existsSync(participantsDir)) {
+      return [];
+    }
+
+    const participantFiles = fs.readdirSync(participantsDir);
+    const participantMap = new Map<number, IKFParticipant & { eventCount: number; eventIds: number[] }>();
+
+    // Create a map of filename to event for event ID lookup
+    const eventMap = new Map<string, IKFEvent>();
+    events.forEach(event => {
+      const fileName = `${event.eventUid.replace(/\|/g, '')}.${event.id}`;
+      eventMap.set(fileName, event);
+    });
+
+    for (const file of participantFiles) {
+      const filePath = path.join(participantsDir, file);
+      if (!fs.statSync(filePath).isFile()) continue;
+
+      try {
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const participants: IKFParticipant[] = JSON.parse(fileContent);
+        const event = eventMap.get(file);
+        const eventId = event?.id || -1;
+
+        for (const participant of participants) {
+          const existing = participantMap.get(participant.competitorId);
+          
+          if (existing) {
+            // Participant already exists, increment event count
+            existing.eventCount++;
+            if (eventId !== -1 && !existing.eventIds.includes(eventId)) {
+              existing.eventIds.push(eventId);
+            }
+          } else {
+            // New participant
+            participantMap.set(participant.competitorId, {
+              ...participant,
+              eventCount: 1,
+              eventIds: eventId !== -1 ? [eventId] : [],
+            });
+          }
+        }
+      } catch (error) {
+        console.error(`Error reading participant file ${file}:`, error);
+      }
+    }
+
+    // Convert map to array and sort by last name
+    return Array.from(participantMap.values()).sort((a, b) => {
+      const lastNameCompare = a.lastName.localeCompare(b.lastName);
+      if (lastNameCompare !== 0) return lastNameCompare;
+      return a.firstName.localeCompare(b.firstName);
+    });
   }
 
   // ===== BRACKET METHODS =====
@@ -649,5 +712,165 @@ export class IKFService {
     }
 
     return { success: successCount, errors: errorCount };
+  }
+
+  // ===== FIREBASE QUERY METHODS =====
+
+  /**
+   * Get comprehensive Firebase details for a participant
+   * Includes bouts, wins/losses, events participated in, and gym name
+   */
+  async getParticipantFirebaseDetails(competitorId: number): Promise<{
+    participant: IKFParticipant | null;
+    bouts: Array<{
+      boutId: string;
+      eventId: number;
+      eventName: string;
+      opponent: string;
+      result: 'won' | 'lost' | 'pending';
+      corner: 'red' | 'blue';
+    }>;
+    wins: number;
+    losses: number;
+    events: Array<{ id: number; name: string }>;
+    gymName: string | null;
+  }> {
+    if (!this.fbDatabase) {
+      throw new Error('Firebase not initialized');
+    }
+
+    const result = {
+      participant: null as IKFParticipant | null,
+      bouts: [] as Array<{
+        boutId: string;
+        eventId: number;
+        eventName: string;
+        opponent: string;
+        result: 'won' | 'lost' | 'pending';
+        corner: 'red' | 'blue';
+      }>,
+      wins: 0,
+      losses: 0,
+      events: [] as Array<{ id: number; name: string }>,
+      gymName: null as string | null,
+    };
+
+    try {
+      // Get all events to build event name map
+      const events = this.readEventsFromFile();
+      const eventMap = new Map<number, IKFEvent>();
+      events.forEach(event => eventMap.set(event.id, event));
+
+      // Find participant in local files
+      const participantsDir = path.join(this.dataPath, 'eventParticipants');
+      if (fs.existsSync(participantsDir)) {
+        const files = fs.readdirSync(participantsDir);
+        for (const file of files) {
+          const filePath = path.join(participantsDir, file);
+          if (!fs.statSync(filePath).isFile()) continue;
+          
+          const participants: IKFParticipant[] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+          const found = participants.find(p => p.competitorId === competitorId);
+          if (found && !result.participant) {
+            result.participant = found;
+          }
+        }
+      }
+
+      // Query Firebase for bouts
+      const boutsRef = ref(this.fbDatabase, 'combatEvent/bouts');
+      const boutsSnapshot = await get(boutsRef);
+      
+      if (boutsSnapshot.exists()) {
+        const bouts = boutsSnapshot.val();
+        const boutArray = Array.isArray(bouts) ? bouts : Object.values(bouts);
+
+        boutArray.forEach((bout: any) => {
+          if (!bout) return;
+
+          let isParticipant = false;
+          let corner: 'red' | 'blue' | null = null;
+          let opponent = 'Unknown';
+          let boutResult: 'won' | 'lost' | 'pending' = 'pending';
+
+          // Check if participant is in this bout
+          if (bout.redCorner && bout.redCorner.competitorId === competitorId) {
+            isParticipant = true;
+            corner = 'red';
+            opponent = bout.blueCorner 
+              ? `${bout.blueCorner.firstName} ${bout.blueCorner.lastName}`
+              : 'Unknown';
+          } else if (bout.blueCorner && bout.blueCorner.competitorId === competitorId) {
+            isParticipant = true;
+            corner = 'blue';
+            opponent = bout.redCorner
+              ? `${bout.redCorner.firstName} ${bout.redCorner.lastName}`
+              : 'Unknown';
+          }
+
+          if (isParticipant && corner) {
+            // Determine result
+            if (bout.winner && bout.winner.boutWinnerId) {
+              if (bout.winner.boutWinnerId === competitorId) {
+                boutResult = 'won';
+                result.wins++;
+              } else {
+                boutResult = 'lost';
+                result.losses++;
+              }
+            }
+
+            // Get event info
+            const eventId = bout.bracketId ? parseInt(String(bout.bracketId)) : -1;
+            const event = eventMap.get(eventId);
+            const eventName = event?.eventName || 'Unknown Event';
+
+            // Add event to events list if not already there
+            if (event && !result.events.find(e => e.id === event.id)) {
+              result.events.push({ id: event.id, name: event.eventName });
+            }
+
+            result.bouts.push({
+              boutId: bout.boutId,
+              eventId,
+              eventName,
+              opponent,
+              result: boutResult,
+              corner,
+            });
+          }
+        });
+      }
+
+      // Get gym name from bracket data
+      const bracketsDir = path.join(this.dataPath, 'eventBrackets');
+      if (fs.existsSync(bracketsDir)) {
+        const files = fs.readdirSync(bracketsDir);
+        for (const file of files) {
+          const filePath = path.join(bracketsDir, file);
+          if (!fs.statSync(filePath).isFile()) continue;
+          
+          const brackets: EventBracket[] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+          for (const bracket of brackets) {
+            if (bracket.fighterGym) {
+              const gymEntry = bracket.fighterGym.find(
+                (fg: any) => fg.competitorId === competitorId
+              );
+              if (gymEntry && gymEntry.gymName) {
+                result.gymName = gymEntry.gymName;
+                break;
+              }
+            }
+          }
+          if (result.gymName) break;
+        }
+      }
+
+    } catch (error) {
+      console.error('Error getting participant Firebase details:', error);
+      throw error;
+    }
+
+    return result;
   }
 }

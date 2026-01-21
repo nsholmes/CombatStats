@@ -51,6 +51,7 @@ electron.contextBridge.exposeInMainWorld("api", {
       electron.ipcRenderer.on("ikf:fetch-all-participants-progress", (_, data) => callback(data));
       return () => electron.ipcRenderer.removeAllListeners("ikf:fetch-all-participants-progress");
     },
+    getAllParticipants: () => electron.ipcRenderer.invoke("ikf:get-all-participants"),
     // Brackets
     fetchBrackets: (eventUID, eventID) => electron.ipcRenderer.invoke("ikf:fetch-brackets", eventUID, eventID),
     readBrackets: (eventUID, eventID) => electron.ipcRenderer.invoke("ikf:read-brackets", eventUID, eventID),
@@ -72,5 +73,14 @@ electron.contextBridge.exposeInMainWorld("api", {
     },
     syncParticipantsToFirebase: (eventUID, eventID) => electron.ipcRenderer.invoke("ikf:sync-participants-to-firebase", eventUID, eventID),
     syncBracketsToFirebase: (eventUID, eventID) => electron.ipcRenderer.invoke("ikf:sync-brackets-to-firebase", eventUID, eventID)
+  },
+  // Participant Management API
+  participant: {
+    openDetailWindow: (competitorId) => electron.ipcRenderer.invoke("participant:open-detail-window", competitorId),
+    getFirebaseDetails: (competitorId) => electron.ipcRenderer.invoke("participant:get-firebase-details", competitorId)
+  },
+  // File Operations
+  file: {
+    saveCsv: (csvContent, defaultFileName) => electron.ipcRenderer.invoke("file:save-csv", csvContent, defaultFileName)
   }
 });

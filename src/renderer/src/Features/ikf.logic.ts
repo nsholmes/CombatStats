@@ -5,6 +5,7 @@ import {
   FETCH_IKF_PARTICIPANTS,
   READ_IKF_PARTICIPANTS,
   FETCH_ALL_IKF_PARTICIPANTS,
+  GET_ALL_IKF_PARTICIPANTS,
   FETCH_IKF_BRACKETS,
   READ_IKF_BRACKETS,
   ENRICH_IKF_PARTICIPANTS,
@@ -18,6 +19,8 @@ import {
   setEvents,
   setEventsLoading,
   setParticipants,
+  setAllParticipants,
+  setAllParticipantsLoading,
   setBrackets,
   setError,
   setEnrichmentProgress,
@@ -53,6 +56,11 @@ declare global {
           error?: string;
         }>;
         onFetchAllProgress: (callback: (data: any) => void) => () => void;
+        getAllParticipants: () => Promise<{
+          success: boolean;
+          data?: any;
+          error?: string;
+        }>;
         fetchBrackets: (
           eventUID: string,
           eventID: number
@@ -338,6 +346,27 @@ const validateTokenLogic = createLogic({
   },
 });
 
+// Get All Participants Logic
+const getAllParticipantsLogic = createLogic({
+  type: GET_ALL_IKF_PARTICIPANTS,
+  async process({ action }, dispatch: any, done) {
+    dispatch(setAllParticipantsLoading(true));
+    try {
+      const result = await window.api.ikf.getAllParticipants();
+      if (result.success) {
+        dispatch(setAllParticipants(result.data));
+      } else {
+        dispatch(setError(result.error || 'Failed to get all participants'));
+      }
+    } catch (error: any) {
+      dispatch(setError(error.message || 'Failed to get all participants'));
+    } finally {
+      dispatch(setAllParticipantsLoading(false));
+      done();
+    }
+  },
+});
+
 // Sync Events to Firebase Logic
 const syncEventsToFirebaseLogic = createLogic({
   type: SYNC_EVENTS_TO_FIREBASE,
@@ -437,6 +466,7 @@ export default [
   fetchParticipantsLogic,
   readParticipantsLogic,
   fetchAllParticipantsLogic,
+  getAllParticipantsLogic,
   fetchBracketsLogic,
   readBracketsLogic,
   enrichParticipantsLogic,
