@@ -30,7 +30,6 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/postcss": "^4.1.13",
     "electron": "^36.4.0",
-    "electron-devtools-installer": "^4.0.0",
     "electron-vite": "^3.1.0",
     "firebase": "^11.9.1",
     "lucide-react": "^0.514.0",

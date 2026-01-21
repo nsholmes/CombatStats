@@ -106,7 +106,7 @@ const updateMatLogic = createLogic({
           },
         ];
         fetch(
-          "http://127.0.0.1:5002/ikfpkb-midwest/us-central1/updateBoutStatus",
+          "http://127.0.0.1:5002/ikfpkb-midwest/us-central1/updateCurrentBoutStatus",
           {
             method: "POST",
             headers: {
