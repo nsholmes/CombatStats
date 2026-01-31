@@ -199,13 +199,13 @@ function EventBouts(props: EventBoutsProps) {
           </div>
         ) : null}
         <div className='flex flex-wrap justify-around gap-4'>
-          {eventMatBouts.map((bout, idx) => (
+          {props.getEventMats.map((mat, idx) => (
             <EventMatDisplay
-              key={`${bout.matId}-${idx}-MatDisplay`}
-              matName={(bout.matId + 1).toString()}
-              currentBout={getBoutById(bout.currentBoutId)}
-              onDeckBout={getBoutById(bout.onDeckBoutId)}
-              inHoleBout={getBoutById(bout.inHoleBoutId)}
+              key={`${mat.id}-${idx}-MatDisplay`}
+              matName={(mat.id + 1).toString()}
+              currentBout={getBoutById(mat.currentBoutId)}
+              onDeckBout={getBoutById(mat.onDeckBoutId)}
+              inHoleBout={getBoutById(mat.inHoleBoutId)}
               approveClickHandler={approveResultsClicked}
             />
           ))}

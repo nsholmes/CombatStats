@@ -82,7 +82,7 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
       if (value > prev.length) {
         for (let i = prev.length; i < value; i++) {
           const cbMat: CSMat = {
-            id: i,
+            id: newMats.length,
             name: "",
             roles: defaultRoles[0],
             currentBoutId: "",
@@ -96,7 +96,12 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
         newRoles.length = value;
         newMats.length = value;
       }
-      props.setMats(newMats);
+      // Re-index all mat IDs to match their array position
+      const reindexedMats = newMats.map((mat, index) => ({
+        ...mat,
+        id: index,
+      }));
+      props.setMats(reindexedMats);
       return newRoles;
     });
   };
@@ -130,6 +135,10 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
       const judges = [...newMats[matIdx].judges];
       judges[judgeIdx] = value;
       newMats[matIdx] = { ...newMats[matIdx], judges };
+      props.updateMatRoles({
+        idx: matIdx,
+        roles: newMats[matIdx],
+      });
       return newMats;
     });
   };
@@ -141,6 +150,10 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
         ? [...newMats[matIdx].judges, ""]
         : [""];
       newMats[matIdx] = { ...newMats[matIdx], judges };
+      props.updateMatRoles({
+        idx: matIdx,
+        roles: newMats[matIdx],
+      });
       return newMats;
     });
   };
@@ -152,6 +165,10 @@ const EventDetails: FC<EventDetailsProps> = (props) => {
         (_, idx) => idx !== judgeIdx
       );
       newMats[matIdx] = { ...newMats[matIdx], judges };
+      props.updateMatRoles({
+        idx: matIdx,
+        roles: newMats[matIdx],
+      });
       return newMats;
     });
   };

@@ -30,9 +30,9 @@ function EventMatDisplay(props: {
             <div className='flex gap-2'>
               <div
                 className={`w-5 h-5 ${
-                  props.currentBout?.roundWinner[0].corner === "red"
+                  props.currentBout?.roundWinner[0]?.corner === "red"
                     ? "bg-red-500"
-                    : props.currentBout?.roundWinner[0].corner === "blue"
+                    : props.currentBout?.roundWinner[0]?.corner === "blue"
                     ? "bg-blue-500"
                     : "border-2 border-gray-300"
                 }`}></div>

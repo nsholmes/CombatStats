@@ -712,8 +712,8 @@ function IKFManagement(props: IKFManagementProps) {
             label="FSI Access Token"
             value={newToken}
             onChange={(e) => setNewToken(e.target.value)}
-            placeholder="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-            helperText="Enter the full Bearer token from FSI API"
+            placeholder="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... or just the token without 'Bearer '"
+            helperText="Enter the access token from FSI API (Bearer prefix is optional, will be added automatically)"
             multiline
             rows={3}
             sx={{

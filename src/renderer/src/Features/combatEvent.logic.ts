@@ -22,6 +22,7 @@ import {
   setSelectedBracketId,
   updateBracketOrder,
   updateMatBouts,
+  updateMatRoles,
 } from "./combatEvent.slice";
 
 const syncCombatEvent = createLogic({
@@ -46,6 +47,37 @@ const syncCombatEvent = createLogic({
   },
 });
 
+const updateMatRolesLogic = createLogic({
+  type: updateMatRoles,
+  async process({ action }, dispatch, done) {
+    void dispatch;
+    try {
+      // write Mat roles to FB Realtime DB
+      if (
+        action.payload == null ||
+        action.payload.idx == null ||
+        action.payload.roles == null
+      ) {
+        console.error("Invalid payload for updating mat roles.");
+        done();
+        return;
+      }
+      const db = ikfpkbDB();
+      const matRolesRef = ref(
+        db,
+        `combatEvent/mats/${action.payload.idx}/roles`
+      );
+      await set(matRolesRef, action.payload.roles);
+      console.log(
+        `Mat ${action.payload.idx} roles successfully updated in Firebase`
+      );
+    } catch (error) {
+      console.error("Error updating mat roles in Firebase: ", error);
+    }
+    done();
+  },
+});
+
 const updateMatLogic = createLogic({
   type: updateMatBouts,
   async process({ action }, dispatch, done) {
@@ -58,10 +90,11 @@ const updateMatLogic = createLogic({
         action.payload == null ||
         action.payload.matId == null ||
         action.payload.currentBoutId == null ||
-        action.payload.onDeckBoutId == null ||
-        action.payload.inHoleBoutId == null
+        action.payload.onDeckBoutId == null
+        // Note: inHoleBoutId can be null when there are no more pending bouts
       ) {
         console.error("Invalid payload for updating mat currentBout.");
+        console.error("Payload:", action.payload);
         done();
         return;
       }
@@ -105,18 +138,18 @@ const updateMatLogic = createLogic({
             matId: action.payload.matId,
           },
         ];
-        fetch(
-          "http://127.0.0.1:5002/ikfpkb-midwest/us-central1/updateCurrentBoutStatus",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              boutData: updateBoutStatus,
-            }),
-          }
-        );
+        // fetch(
+        //   "http://127.0.0.1:5002/ikfpkb-midwest/us-central1/updateCurrentBoutStatus",
+        //   {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //       boutData: updateBoutStatus,
+        //     }),
+        //   }
+        // );
       });
     } catch (error) {
       console.error("Error updating mat currentBout: ", error);
@@ -235,46 +268,58 @@ const updateMatBoutsLogic = createLogic({
         return;
       } else {
         const boutsData = boutsSnapshot.val();
-        const bouts: CSBout[] = Object.values(boutsData);
-        const currentBoutIndex = bouts.findIndex(
-          (bout) => bout.boutId === currentBoutId
+        // Firebase stores bouts as an object with keys, not an array
+        const boutEntries = Object.entries(boutsData);
+        
+        // Find current bout
+        const currentBoutEntry = boutEntries.find(
+          ([_, bout]: [string, any]) => bout.boutId === currentBoutId
         );
-        if (currentBoutIndex === -1) {
+        if (!currentBoutEntry) {
           console.error("Current Bout not found in the bouts data.");
           done();
           return;
         }
+        const [currentBoutKey] = currentBoutEntry;
         const currentBoutRef = ref(
           db,
-          `combatEvent/bouts/${currentBoutIndex}/status/state`
+          `combatEvent/bouts/${currentBoutKey}/status/state`
         );
         set(currentBoutRef, "inProgress");
-        const onDeckBoutIndex = bouts.findIndex(
-          (bout) => bout.boutId === onDeckBoutId
+        
+        // Find onDeck bout
+        const onDeckBoutEntry = boutEntries.find(
+          ([_, bout]: [string, any]) => bout.boutId === onDeckBoutId
         );
-        if (onDeckBoutIndex === -1) {
+        if (!onDeckBoutEntry) {
           console.error("OnDeck Bout not found in the bouts data.");
           done();
           return;
         }
+        const [onDeckBoutKey] = onDeckBoutEntry;
         const onDeckBoutRef = ref(
           db,
-          `combatEvent/bouts/${onDeckBoutIndex}/status/state`
+          `combatEvent/bouts/${onDeckBoutKey}/status/state`
         );
         set(onDeckBoutRef, "onDeck");
-        const inHoleBoutIndex = bouts.findIndex(
-          (bout) => bout.boutId === inHoleBoutId
-        );
-        if (inHoleBoutIndex === -1) {
-          console.error("InHole Bout not found in the bouts data.");
-          done();
-          return;
+        
+        // Find inHole bout (may be null)
+        if (inHoleBoutId) {
+          const inHoleBoutEntry = boutEntries.find(
+            ([_, bout]: [string, any]) => bout.boutId === inHoleBoutId
+          );
+          if (!inHoleBoutEntry) {
+            console.error("InHole Bout not found in the bouts data.");
+            done();
+            return;
+          }
+          const [inHoleBoutKey] = inHoleBoutEntry;
+          const inHoleBoutRef = ref(
+            db,
+            `combatEvent/bouts/${inHoleBoutKey}/status/state`
+          );
+          set(inHoleBoutRef, "inHole");
         }
-        const inHoleBoutRef = ref(
-          db,
-          `combatEvent/bouts/${inHoleBoutIndex}/status/state`
-        );
-        set(inHoleBoutRef, "inHole");
       }
     } catch (error) {
       console.error("Error updating mat bouts in Firebase: ", error);
@@ -440,21 +485,25 @@ const approveBoutResultsLogic = createLogic({
       return;
     }
 
-    const boutIndex = boutDataRef.findIndex((bout: CSBout) => {
-      if (bout.boutId === boutId) {
-        console.log("Approveing Bout: ", bout.boutId);
-      }
-      return bout.boutId === boutId;
-    });
-    if (boutIndex === -1) {
+    // Firebase stores bouts as an object with keys, not an array
+    const boutEntries = Object.entries(boutDataRef);
+    const boutEntry = boutEntries.find(
+      ([_, bout]: [string, any]) => bout.boutId === boutId
+    );
+    
+    if (!boutEntry) {
       console.error("Bout to be approved not found");
       return;
     }
+    
+    const [boutKey, boutData] = boutEntry;
+    console.log("Approving Bout: ", boutData.boutId);
+    
     try {
       // Update the bout status to "approved"
-      const selectedBoutRef = ref(db, `combatEvent/bouts/${boutIndex}`);
+      const selectedBoutRef = ref(db, `combatEvent/bouts/${boutKey}`);
       await set(selectedBoutRef, {
-        ...boutDataRef[boutIndex],
+        ...boutData,
         status: { state: "completed" },
         isResultApproved: true,
       });
@@ -464,19 +513,42 @@ const approveBoutResultsLogic = createLogic({
     }
 
     try {
-      // Update the mat status to reflect the approved bout
-      const matId = boutDataRef[boutIndex].matId;
+      // Find which mat has this bout as current
+      const matsEntries = Object.entries(matsDataRef);
+      const matEntry = matsEntries.find(
+        ([_, mat]: [string, any]) => mat.currentBoutId === boutId
+      );
+      
+      if (!matEntry) {
+        console.error(`No mat found with bout ${boutId} as current bout`);
+        done();
+        return;
+      }
+      
+      const [matKey, matData] = matEntry;
+      const matId = matData.id !== undefined ? matData.id : parseInt(matKey);
+      console.log("Found mat:", matId, "with bout:", boutId);
 
-      const nextBoutId = boutDataRef.find(
-        (bout: CSBout) => bout.status.state === "notStarted"
+      // Find next bout with status "pending"
+      const allBouts = Object.values(boutDataRef) as CSBout[];
+      const nextBoutId = allBouts.find(
+        (bout: CSBout) => bout.status.state === "pending"
       )?.boutId;
-      const currentBoutId = matsDataRef[matId].onDeckBoutId;
-      const onDeckBoutId = matsDataRef[matId].inHoleBoutId;
+      
+      const currentBoutId = matData.onDeckBoutId;
+      const onDeckBoutId = matData.inHoleBoutId;
       const inHoleBoutId = nextBoutId || null;
 
-      const selectedMatRef = ref(db, `combatEvent/mats/${matId}`);
+      console.log("Bout progression:", {
+        oldCurrent: boutId,
+        newCurrent: currentBoutId,
+        newOnDeck: onDeckBoutId,
+        newInHole: inHoleBoutId,
+      });
+
+      const selectedMatRef = ref(db, `combatEvent/mats/${matKey}`);
       await set(selectedMatRef, {
-        ...matsDataRef[matId],
+        ...matData,
         currentBoutId,
         onDeckBoutId,
         inHoleBoutId,
@@ -502,6 +574,7 @@ const combatEventLogic = [
   addBracketLogic,
   setSelectedBracketIdLogic,
   updateMatLogic,
+  updateMatRolesLogic,
   ResetCombatEventLogic,
   updateBracketOrderLogic,
   updateMatBoutsLogic,

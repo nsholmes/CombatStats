@@ -74,15 +74,19 @@ export const CombatEventSlice = createSlice({
       state.mats = mats ? mats : [];
 
       const db = ikfpkbDB();
-      set(ref(db, "combatEvent"), state)
-        .then(() => {
-          console.log(
-            "CombatEvent data successfully written to database. Show in Success Snack Bar"
-          );
-        })
-        .catch((error) => {
-          console.log("Error writing CombatEvent data to database:", error);
-        });
+      try {        
+        set(ref(db, "combatEvent"), state)
+          .then(() => {
+            console.log(
+              "CombatEvent data successfully written to database. Show in Success Snack Bar"
+            );
+          })
+          .catch((error) => {
+            console.log("Error writing CombatEvent data to database:", error);
+          });
+      } catch (error) {
+        console.error("Error hydrating combat event state:", error);
+      }
     },
     setSelectedEvent(state, action: PayloadAction<IKFEvent>) {
       state.selectedEvent = action.payload;

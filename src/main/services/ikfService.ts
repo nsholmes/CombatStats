@@ -63,12 +63,16 @@ export class IKFService {
   private saveToken(token: string): void {
     // Save token to a file for persistence
     const tokenFilePath = path.join(this.dataPath, '.fsi_token');
-    fs.writeFileSync(tokenFilePath, token, 'utf8');
+    // Ensure token has Bearer prefix
+    const tokenToSave = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+    fs.writeFileSync(tokenFilePath, tokenToSave, 'utf8');
   }
 
   public updateAccessToken(token: string): void {
-    this.accessToken = token;
-    this.saveToken(token);
+    // Ensure token has Bearer prefix
+    const normalizedToken = token.trim().startsWith('Bearer ') ? token.trim() : `Bearer ${token.trim()}`;
+    this.accessToken = normalizedToken;
+    this.saveToken(normalizedToken);
     console.log('Access token updated and saved');
   }
 
@@ -108,19 +112,38 @@ export class IKFService {
     const promoterIds = JSON.stringify(IKF_CONFIG.PROMOTER_IDS);
     const url = `${IKF_CONFIG.FSI_BASE_URL}events?count=${IKF_CONFIG.RESPONSE_COUNT}&promoter_ids=${promoterIds}&date_from=${IKF_CONFIG.DATE_FROM}&is_draft=${IKF_CONFIG.IS_DRAFT}`;
 
-    const response = await fetch(url, {
-      ...getOptions,
-      headers: {
-        ...getOptions.headers,
-        Authorization: this.accessToken,
-      },
-    });
+    console.log('=== FETCH EVENTS FROM FSI ===');
+    console.log('URL:', url);
+    console.log('Token (first 20 chars):', this.accessToken.substring(0, 20) + '...');
+    
+    let response;
+    try {      
+      response = await fetch(url, {
+        ...getOptions,
+        headers: {
+          ...getOptions.headers,
+          Authorization: this.accessToken,
+        },
+      });
+    } catch (error: any) {
+      console.error('Error fetching events from FSI:', error);
+      throw new Error(`Failed to fetch events: ${error.message}`);
+    }
+
+    console.log('Response status:', response.status, response.statusText);
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch events: ${response.statusText}`);
+      console.error('Fetch events failed:', response.status, response.statusText);
+      if (response.status === 401) {
+        throw new Error(`Authentication failed (401): Token is invalid or expired. Please update your FSI access token.`);
+      }
+      throw new Error(`Failed to fetch events (${response.status}): ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('Raw response data:', JSON.stringify(data, null, 2));
+    console.log('Number of sporting_events in response:', data.sporting_events?.length || 0);
+    
     const events: IKFEvent[] = data.sporting_events
       .filter((sEvent: any) => sEvent.promoter?.id && sEvent.id)
       .map((sEvent: any) => ({
@@ -135,11 +158,17 @@ export class IKFService {
         eventUid: sEvent.uid,
       }));
 
+    console.log('Parsed events count:', events.length);
+    console.log('Parsed events:', JSON.stringify(events, null, 2));
+
     // Write to file
     fs.writeFileSync(
       path.join(this.dataPath, 'eventsSummary'),
       JSON.stringify(events, null, 2)
     );
+
+    console.log('Events saved to file');
+    console.log('=== END FETCH EVENTS ===');
 
     return events;
   }
@@ -178,7 +207,10 @@ export class IKFService {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch participants: ${response.statusText}`);
+      if (response.status === 401) {
+        throw new Error(`Authentication failed (401): Token is invalid or expired. Please update your FSI access token.`);
+      }
+      throw new Error(`Failed to fetch participants (${response.status}): ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -344,7 +376,10 @@ export class IKFService {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch brackets: ${response.statusText}`);
+      if (response.status === 401) {
+        throw new Error(`Authentication failed (401): Token is invalid or expired. Please update your FSI access token.`);
+      }
+      throw new Error(`Failed to fetch brackets (${response.status}): ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -551,6 +586,11 @@ export class IKFService {
       });
 
       if (response.status === 204) {
+        return null;
+      }
+
+      if (response.status === 401) {
+        console.error('Authentication failed: Token is invalid or expired');
         return null;
       }
 
